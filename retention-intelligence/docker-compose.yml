@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: production
+      HOST: 0.0.0.0
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    volumes:
+      - warehouse:/app/data/processed
+      - models:/app/models
+    restart: unless-stopped
+
+volumes:
+  warehouse:
+  models:
