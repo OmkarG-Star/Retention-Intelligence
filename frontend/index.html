@@ -1,1 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retention Intelligence</title>
+<meta name="description" content="Attrition early warning for EPC workforces">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231E2761'/><path d='M8 22 L14 12 L19 18 L24 9' stroke='%23E0A526' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="/assets/styles.css">
+<script>
+  /* Applied before the body renders so the page never flashes the other ground. */
+  try {
+    var t = localStorage.getItem('ri-theme');
+    if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  } catch (e) { }
+</script>
+</head>
+<body>
 
+<!-- sign in -->
+<div id="gate" class="gate" hidden>
+  <div class="gate-panel">
+    <div class="gate-mark">
+      <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#1E2761"></rect>
+        <path d="M8 22 L14 12 L19 18 L24 9" stroke="#E0A526" stroke-width="2.6" fill="none"
+              stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <div>
+        <h1>Retention Intelligence</h1>
+        <p>Attrition early warning for site and corporate teams</p>
+      </div>
+    </div>
+    <form id="login-form" autocomplete="on">
+      <label for="username">Username</label>
+      <input id="username" name="username" autocomplete="username" required value="hr.manager">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required
+             value="HrManager@2026">
+      <p id="login-error" class="form-error" role="alert" hidden></p>
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+    </form>
+    <div class="gate-accounts">
+      <p>Demo accounts</p>
+      <button class="chip" data-user="admin" data-pass="Admin@2026">admin — full access</button>
+      <button class="chip" data-user="hr.manager" data-pass="HrManager@2026">hr.manager — can log actions</button>
+      <button class="chip" data-user="viewer" data-pass="Viewer@2026">viewer — read only</button>
+    </div>
+  </div>
+</div>
+
+<!-- app -->
+<div id="app" class="app" hidden>
+  <nav class="rail" aria-label="Sections">
+    <div class="rail-mark">
+      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#1E2761"></rect>
+        <path d="M8 22 L14 12 L19 18 L24 9" stroke="#E0A526" stroke-width="2.8" fill="none"
+              stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <span>Retention<br>Intelligence</span>
+    </div>
+    <ul id="nav"></ul>
+    <div class="rail-foot">
+      <div id="rail-user"></div>
+      <button id="logout" class="btn btn-ghost btn-sm">Sign out</button>
+    </div>
+  </nav>
+
+  <main class="main">
+    <header class="topbar">
+      <div id="crumb" class="crumb"></div>
+      <div class="topbar-meta">
+        <span id="meta-asof" class="meta"></span>
+        <span id="meta-model" class="meta"></span>
+        <button id="rescore" class="btn btn-sm" hidden>Run scoring</button>
+        <button id="theme" class="btn btn-sm btn-ghost" aria-pressed="false"
+                title="Switch between the light and dark ground">Dark</button>
+      </div>
+    </header>
+    <div id="view" class="view" tabindex="-1"></div>
+  </main>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="/assets/charts.js"></script>
+<script src="/assets/views.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>
