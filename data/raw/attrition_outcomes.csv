@@ -1,0 +1,1928 @@
+EmployeeID,ExitDate,ExitType,ExitReason,TenureDaysAtExit
+EMP10001,2023-10-19,Resignation,Salary,465
+EMP10002,2024-04-26,Resignation,Personal / Family,34
+EMP10004,2026-08-25,Resignation,Manager Relationship,1186
+EMP10005,2023-05-21,Resignation,Better Offer,1207
+EMP10006,2024-05-06,End of Contract,Project Demobilisation,268
+EMP10007,2026-03-13,Resignation,Manager Relationship,27
+EMP10008,2026-09-15,Resignation,Better Offer,472
+EMP10011,2024-01-29,Absconding,Site Conditions,30
+EMP10012,2024-05-26,Resignation,Manager Relationship,407
+EMP10013,2024-07-04,Resignation,Career Growth,12
+EMP10014,2024-10-19,Termination,Attendance,1255
+EMP10015,2026-08-30,Resignation,Personal / Family,2448
+EMP10016,2025-12-07,Resignation,Work Conditions,2044
+EMP10017,2024-03-21,Resignation,Relocation,208
+EMP10019,2023-08-04,Resignation,Manager Relationship,1298
+EMP10022,2023-09-24,Absconding,Wage Dispute,15
+EMP10023,2025-12-21,Resignation,Relocation,351
+EMP10024,2024-01-01,Resignation,Better Offer,23
+EMP10025,2023-05-11,Resignation,Relocation,19
+EMP10027,2024-03-24,Resignation,Career Growth,1391
+EMP10028,2025-10-28,Resignation,Salary,500
+EMP10030,2023-04-22,Resignation,Work Conditions,21
+EMP10031,2024-08-06,Resignation,Salary,325
+EMP10034,2023-12-11,Resignation,Manager Relationship,1366
+EMP10035,2025-08-16,Resignation,Better Offer,231
+EMP10036,2024-12-04,Termination,Attendance,487
+EMP10037,2025-11-07,Resignation,Work Conditions,223
+EMP10038,2024-04-02,Resignation,Personal / Family,1691
+EMP10039,2026-03-12,Resignation,Manager Relationship,1589
+EMP10041,2023-07-16,Resignation,Relocation,1315
+EMP10042,2023-12-06,Resignation,Salary,60
+EMP10043,2026-04-08,Resignation,Better Offer,1819
+EMP10045,2024-03-22,Resignation,Personal / Family,950
+EMP10048,2024-01-26,Resignation,Personal / Family,664
+EMP10049,2025-10-27,Resignation,Manager Relationship,758
+EMP10050,2025-10-07,Resignation,Manager Relationship,87
+EMP10051,2024-03-25,Resignation,Personal / Family,1348
+EMP10052,2024-10-15,Resignation,Work Conditions,241
+EMP10054,2026-09-03,Resignation,Better Offer,313
+EMP10057,2023-08-16,Resignation,Career Growth,1258
+EMP10058,2024-11-02,End of Contract,Contract Not Renewed,217
+EMP10060,2025-05-16,Resignation,Personal / Family,903
+EMP10062,2026-04-08,Absconding,Wage Dispute,11
+EMP10063,2023-07-05,Resignation,Salary,1378
+EMP10064,2026-08-28,Resignation,Manager Relationship,2027
+EMP10067,2026-03-30,Resignation,Career Growth,618
+EMP10068,2024-11-07,End of Contract,Project Demobilisation,1632
+EMP10070,2025-05-10,Resignation,Career Growth,161
+EMP10076,2024-05-28,Resignation,Better Offer,45
+EMP10078,2024-05-11,Resignation,Better Offer,126
+EMP10079,2024-04-29,Resignation,Career Growth,1030
+EMP10080,2024-08-12,Resignation,Career Growth,30
+EMP10082,2025-09-11,Resignation,Better Offer,740
+EMP10083,2026-06-26,Resignation,Better Offer,160
+EMP10085,2025-05-02,Resignation,Manager Relationship,1337
+EMP10086,2025-07-20,Resignation,Personal / Family,64
+EMP10087,2023-05-24,Resignation,Salary,1017
+EMP10088,2023-08-07,Resignation,Manager Relationship,786
+EMP10089,2024-04-12,Resignation,Better Offer,293
+EMP10091,2025-04-13,Absconding,No Intimation,1
+EMP10092,2024-05-27,Resignation,Better Offer,1606
+EMP10093,2025-11-28,Resignation,Personal / Family,307
+EMP10094,2023-06-23,Resignation,Salary,13
+EMP10096,2023-08-31,Resignation,Relocation,569
+EMP10097,2023-06-03,Resignation,Career Growth,14
+EMP10098,2023-05-29,Absconding,Wage Dispute,37
+EMP10099,2026-08-17,Resignation,Personal / Family,1789
+EMP10108,2024-05-03,End of Contract,Project Demobilisation,265
+EMP10109,2024-01-18,Resignation,Personal / Family,1739
+EMP10110,2024-12-22,End of Contract,Contract Not Renewed,547
+EMP10112,2025-09-22,Termination,Attendance,30
+EMP10114,2026-06-13,Resignation,Better Offer,581
+EMP10115,2023-11-11,Resignation,Better Offer,14
+EMP10120,2026-08-06,Resignation,Personal / Family,432
+EMP10121,2024-03-16,Resignation,Relocation,1223
+EMP10122,2023-04-23,Resignation,Relocation,22
+EMP10126,2024-02-10,Resignation,Career Growth,1122
+EMP10127,2025-02-07,Absconding,Wage Dispute,20
+EMP10128,2026-08-26,Resignation,Career Growth,382
+EMP10131,2025-12-29,Absconding,Wage Dispute,44
+EMP10132,2025-04-30,Resignation,Work Conditions,116
+EMP10133,2025-04-17,Absconding,Site Conditions,40
+EMP10137,2023-05-15,Absconding,No Intimation,30
+EMP10139,2023-09-17,Resignation,Relocation,1
+EMP10140,2024-10-11,Resignation,Relocation,111
+EMP10143,2023-11-12,Resignation,Relocation,1717
+EMP10145,2023-11-21,Resignation,Relocation,17
+EMP10146,2023-05-13,Resignation,Salary,605
+EMP10147,2024-03-31,Resignation,Salary,733
+EMP10148,2025-11-12,Resignation,Manager Relationship,2308
+EMP10149,2024-09-18,Resignation,Manager Relationship,452
+EMP10151,2026-02-07,Absconding,No Intimation,42
+EMP10152,2026-09-14,End of Contract,Project Demobilisation,44
+EMP10153,2026-08-25,Resignation,Career Growth,73
+EMP10154,2026-07-04,Resignation,Personal / Family,1099
+EMP10155,2024-01-22,Resignation,Better Offer,16
+EMP10156,2026-01-11,Resignation,Work Conditions,183
+EMP10158,2025-11-06,Resignation,Career Growth,1727
+EMP10160,2026-05-02,Resignation,Salary,196
+EMP10161,2025-09-03,Resignation,Relocation,417
+EMP10162,2024-12-21,Resignation,Personal / Family,7
+EMP10163,2026-08-07,Resignation,Relocation,34
+EMP10165,2024-03-30,End of Contract,Contract Not Renewed,231
+EMP10166,2024-03-12,Resignation,Work Conditions,1803
+EMP10167,2026-04-01,Resignation,Work Conditions,1261
+EMP10169,2026-08-20,Resignation,Work Conditions,33
+EMP10171,2025-05-05,Absconding,Site Conditions,44
+EMP10172,2025-09-21,Resignation,Relocation,309
+EMP10174,2025-11-24,Resignation,Personal / Family,366
+EMP10177,2026-03-15,Resignation,Relocation,946
+EMP10178,2024-06-22,Absconding,Wage Dispute,21
+EMP10179,2025-10-02,Resignation,Career Growth,236
+EMP10180,2025-09-27,Resignation,Personal / Family,168
+EMP10181,2023-10-09,Resignation,Career Growth,970
+EMP10182,2026-06-15,Resignation,Relocation,807
+EMP10184,2023-12-11,Resignation,Manager Relationship,219
+EMP10185,2026-07-04,Resignation,Personal / Family,231
+EMP10188,2023-12-15,Resignation,Personal / Family,1528
+EMP10190,2023-10-11,Resignation,Personal / Family,130
+EMP10191,2024-11-04,Absconding,No Intimation,2
+EMP10193,2026-04-05,Resignation,Work Conditions,2570
+EMP10195,2023-10-27,Termination,Performance,83
+EMP10197,2026-09-15,Resignation,Relocation,1032
+EMP10199,2024-08-09,End of Contract,Contract Not Renewed,62
+EMP10200,2026-02-21,End of Contract,Contract Not Renewed,28
+EMP10203,2024-07-21,Resignation,Salary,36
+EMP10204,2025-09-21,Resignation,Manager Relationship,666
+EMP10206,2023-12-19,Resignation,Better Offer,1262
+EMP10207,2024-06-03,Resignation,Work Conditions,1738
+EMP10208,2025-01-26,Resignation,Work Conditions,1956
+EMP10210,2025-05-21,Resignation,Manager Relationship,263
+EMP10212,2026-06-04,Resignation,Work Conditions,467
+EMP10214,2024-06-11,Resignation,Personal / Family,1752
+EMP10215,2025-01-26,Resignation,Better Offer,43
+EMP10216,2023-06-04,Resignation,Personal / Family,1544
+EMP10217,2023-12-19,Absconding,Site Conditions,38
+EMP10219,2026-03-28,Resignation,Personal / Family,7
+EMP10220,2025-01-01,Resignation,Relocation,193
+EMP10223,2026-02-28,Resignation,Personal / Family,980
+EMP10224,2023-09-13,Resignation,Manager Relationship,299
+EMP10225,2024-10-10,Resignation,Personal / Family,194
+EMP10226,2024-04-01,Resignation,Salary,261
+EMP10227,2024-12-16,Resignation,Relocation,23
+EMP10228,2023-08-27,Resignation,Manager Relationship,1319
+EMP10229,2025-08-15,Termination,Disciplinary,959
+EMP10230,2026-02-15,Resignation,Manager Relationship,1156
+EMP10234,2026-08-15,Resignation,Work Conditions,126
+EMP10235,2026-05-07,Resignation,Personal / Family,537
+EMP10236,2024-06-01,Resignation,Manager Relationship,1688
+EMP10237,2025-11-16,Resignation,Personal / Family,218
+EMP10238,2025-08-15,Resignation,Manager Relationship,286
+EMP10240,2023-06-26,Resignation,Relocation,901
+EMP10242,2025-10-20,Resignation,Work Conditions,289
+EMP10243,2024-10-20,Resignation,Salary,1945
+EMP10244,2024-02-03,Resignation,Career Growth,1762
+EMP10248,2024-03-02,Resignation,Relocation,21
+EMP10249,2026-07-05,Resignation,Career Growth,15
+EMP10250,2024-07-20,Resignation,Better Offer,7
+EMP10252,2026-06-10,Resignation,Relocation,123
+EMP10253,2026-03-12,Termination,Disciplinary,782
+EMP10257,2024-12-03,Resignation,Career Growth,542
+EMP10258,2025-08-15,Resignation,Manager Relationship,34
+EMP10259,2024-08-31,Resignation,Career Growth,182
+EMP10260,2025-12-21,Resignation,Salary,295
+EMP10262,2024-10-05,Absconding,Site Conditions,21
+EMP10263,2024-08-05,Resignation,Salary,1198
+EMP10265,2023-06-01,Resignation,Personal / Family,756
+EMP10266,2023-09-05,Resignation,Manager Relationship,1407
+EMP10269,2025-05-09,Resignation,Salary,2267
+EMP10271,2023-05-09,Absconding,Wage Dispute,10
+EMP10272,2024-02-22,Resignation,Work Conditions,858
+EMP10273,2025-05-17,Resignation,Manager Relationship,14
+EMP10275,2025-06-29,Resignation,Salary,2175
+EMP10276,2024-04-10,Resignation,Career Growth,312
+EMP10278,2026-05-15,Resignation,Work Conditions,202
+EMP10281,2026-06-29,Resignation,Career Growth,23
+EMP10283,2025-11-22,Absconding,No Intimation,28
+EMP10284,2026-09-11,Resignation,Career Growth,139
+EMP10288,2025-02-17,End of Contract,Project Demobilisation,359
+EMP10289,2026-06-15,End of Contract,Contract Not Renewed,2088
+EMP10290,2025-09-24,Resignation,Salary,277
+EMP10291,2024-03-30,Absconding,Site Conditions,14
+EMP10293,2026-01-18,Resignation,Personal / Family,344
+EMP10294,2026-06-13,Resignation,Work Conditions,112
+EMP10295,2024-01-03,Resignation,Manager Relationship,684
+EMP10296,2024-11-23,Resignation,Salary,14
+EMP10297,2023-05-28,Resignation,Manager Relationship,43
+EMP10298,2023-06-16,Resignation,Manager Relationship,1284
+EMP10300,2026-08-20,Resignation,Work Conditions,2452
+EMP10301,2025-01-30,Resignation,Manager Relationship,376
+EMP10302,2023-08-03,Resignation,Work Conditions,931
+EMP10305,2024-10-28,Absconding,No Intimation,23
+EMP10307,2023-08-09,Resignation,Salary,1383
+EMP10308,2026-07-08,Resignation,Better Offer,186
+EMP10310,2023-05-22,Resignation,Work Conditions,1096
+EMP10312,2023-05-22,Resignation,Relocation,30
+EMP10313,2024-08-17,Resignation,Work Conditions,625
+EMP10314,2025-01-20,Resignation,Salary,723
+EMP10316,2026-06-06,Resignation,Better Offer,1022
+EMP10317,2024-07-19,Resignation,Salary,419
+EMP10319,2025-09-15,Resignation,Relocation,282
+EMP10320,2025-10-12,Absconding,Site Conditions,43
+EMP10321,2024-05-19,Resignation,Better Offer,1624
+EMP10322,2026-06-21,Resignation,Personal / Family,2261
+EMP10323,2025-01-02,Resignation,Career Growth,166
+EMP10324,2026-08-29,Resignation,Work Conditions,770
+EMP10325,2025-08-11,Resignation,Salary,30
+EMP10326,2025-06-05,Resignation,Manager Relationship,1551
+EMP10328,2023-08-07,Resignation,Manager Relationship,159
+EMP10331,2025-09-01,Absconding,Site Conditions,2
+EMP10334,2023-06-02,Resignation,Relocation,1164
+EMP10335,2023-10-02,Absconding,No Intimation,2
+EMP10337,2026-01-21,End of Contract,Project Demobilisation,1838
+EMP10339,2024-08-15,Resignation,Career Growth,1752
+EMP10340,2025-11-19,Resignation,Better Offer,25
+EMP10342,2023-09-20,Resignation,Relocation,1530
+EMP10343,2025-10-31,Resignation,Manager Relationship,216
+EMP10344,2023-12-31,Resignation,Better Offer,8
+EMP10345,2025-12-20,Resignation,Relocation,791
+EMP10346,2026-03-02,Absconding,Wage Dispute,9
+EMP10347,2024-03-03,Resignation,Work Conditions,378
+EMP10349,2024-02-25,Resignation,Relocation,1259
+EMP10350,2024-05-19,Resignation,Salary,656
+EMP10352,2024-08-23,Resignation,Salary,6
+EMP10353,2023-05-10,Resignation,Better Offer,1430
+EMP10355,2025-08-02,Resignation,Manager Relationship,2009
+EMP10357,2026-05-25,Resignation,Work Conditions,555
+EMP10361,2023-10-02,Resignation,Manager Relationship,1493
+EMP10362,2025-06-14,Resignation,Career Growth,0
+EMP10363,2024-10-20,Resignation,Career Growth,204
+EMP10364,2023-07-04,Resignation,Salary,10
+EMP10366,2024-08-31,Absconding,Site Conditions,7
+EMP10368,2024-09-27,Resignation,Better Offer,597
+EMP10370,2023-08-14,Resignation,Relocation,1324
+EMP10371,2024-04-07,Resignation,Manager Relationship,1443
+EMP10373,2026-06-10,Resignation,Manager Relationship,417
+EMP10376,2023-09-09,Resignation,Personal / Family,7
+EMP10379,2023-08-26,Resignation,Salary,1434
+EMP10381,2025-12-15,Resignation,Better Offer,23
+EMP10382,2026-08-28,Resignation,Manager Relationship,1348
+EMP10383,2023-05-26,Resignation,Relocation,1039
+EMP10389,2026-07-11,End of Contract,Project Demobilisation,21
+EMP10391,2026-07-05,Resignation,Personal / Family,29
+EMP10392,2024-09-28,Termination,Performance,112
+EMP10394,2024-07-06,Absconding,No Intimation,0
+EMP10395,2026-09-04,Resignation,Manager Relationship,62
+EMP10398,2024-04-02,Resignation,Salary,24
+EMP10399,2023-07-02,Resignation,Personal / Family,550
+EMP10400,2025-10-15,Resignation,Career Growth,214
+EMP10401,2024-12-14,Resignation,Better Offer,189
+EMP10402,2024-03-16,Resignation,Career Growth,693
+EMP10403,2025-08-01,Resignation,Personal / Family,1211
+EMP10407,2024-09-05,Absconding,Wage Dispute,12
+EMP10408,2023-06-13,Resignation,Work Conditions,1513
+EMP10409,2025-06-07,Resignation,Relocation,231
+EMP10410,2023-05-22,Resignation,Relocation,783
+EMP10412,2026-04-05,Resignation,Salary,2460
+EMP10413,2024-10-03,Resignation,Manager Relationship,1722
+EMP10415,2026-04-12,Resignation,Better Offer,918
+EMP10417,2025-05-17,Resignation,Career Growth,427
+EMP10419,2025-08-11,Absconding,Site Conditions,30
+EMP10420,2023-09-29,Resignation,Career Growth,1006
+EMP10421,2025-03-09,Absconding,No Intimation,15
+EMP10422,2024-02-23,Absconding,No Intimation,6
+EMP10423,2024-01-26,Resignation,Personal / Family,1628
+EMP10424,2026-01-08,Absconding,Site Conditions,19
+EMP10428,2023-06-05,Resignation,Relocation,1045
+EMP10429,2023-09-29,Resignation,Work Conditions,693
+EMP10430,2023-09-25,Resignation,Personal / Family,1409
+EMP10431,2025-07-27,Resignation,Career Growth,8
+EMP10432,2023-10-06,Resignation,Career Growth,1040
+EMP10433,2023-10-02,Resignation,Manager Relationship,614
+EMP10436,2023-08-27,Resignation,Manager Relationship,441
+EMP10437,2026-03-11,Resignation,Relocation,802
+EMP10438,2023-11-26,Resignation,Relocation,15
+EMP10441,2024-11-23,Resignation,Salary,539
+EMP10442,2024-06-25,Resignation,Personal / Family,687
+EMP10444,2023-04-30,Resignation,Manager Relationship,29
+EMP10445,2024-09-13,End of Contract,Project Demobilisation,13
+EMP10446,2026-09-07,Resignation,Relocation,1227
+EMP10448,2026-07-23,End of Contract,Contract Not Renewed,453
+EMP10452,2025-07-07,Resignation,Better Offer,23
+EMP10454,2024-06-30,Resignation,Career Growth,8
+EMP10455,2023-07-31,Resignation,Personal / Family,65
+EMP10457,2026-07-19,Resignation,Salary,2355
+EMP10458,2024-12-07,Resignation,Salary,602
+EMP10459,2023-05-29,Resignation,Salary,240
+EMP10461,2026-03-22,Resignation,Personal / Family,15
+EMP10462,2025-01-12,Resignation,Relocation,414
+EMP10463,2023-12-02,Termination,Attendance,1653
+EMP10464,2026-05-17,Resignation,Relocation,148
+EMP10467,2023-08-25,Resignation,Personal / Family,13
+EMP10469,2024-09-25,Resignation,Work Conditions,1198
+EMP10470,2026-05-11,Resignation,Personal / Family,338
+EMP10471,2023-05-18,Absconding,Wage Dispute,47
+EMP10472,2025-04-05,Resignation,Better Offer,364
+EMP10474,2025-07-21,Resignation,Personal / Family,1927
+EMP10475,2025-03-20,Termination,Performance,33
+EMP10476,2025-08-04,Resignation,Salary,9
+EMP10477,2024-10-03,Resignation,Relocation,1898
+EMP10478,2024-04-24,Resignation,Better Offer,1392
+EMP10480,2026-01-20,Resignation,Career Growth,374
+EMP10482,2024-03-17,Resignation,Manager Relationship,8
+EMP10483,2026-06-23,Resignation,Relocation,1462
+EMP10484,2023-09-08,Resignation,Relocation,1631
+EMP10485,2023-05-14,Resignation,Relocation,531
+EMP10486,2023-10-15,Resignation,Manager Relationship,1665
+EMP10487,2024-07-31,Resignation,Personal / Family,886
+EMP10490,2025-02-25,End of Contract,Project Demobilisation,367
+EMP10496,2024-11-08,Absconding,No Intimation,41
+EMP10497,2025-10-25,Absconding,Site Conditions,0
+EMP10499,2026-05-19,Resignation,Career Growth,10
+EMP10500,2023-09-27,Resignation,Salary,886
+EMP10501,2024-01-13,Resignation,Manager Relationship,1718
+EMP10502,2025-07-21,Resignation,Better Offer,950
+EMP10503,2023-10-12,Resignation,Manager Relationship,1120
+EMP10504,2025-06-14,Resignation,Salary,21
+EMP10506,2025-10-15,Resignation,Work Conditions,851
+EMP10509,2025-09-10,Resignation,Personal / Family,634
+EMP10510,2024-06-30,Resignation,Personal / Family,1484
+EMP10511,2025-01-30,Resignation,Salary,26
+EMP10512,2024-06-20,Resignation,Manager Relationship,1141
+EMP10513,2024-05-22,Resignation,Better Offer,382
+EMP10516,2023-06-14,Absconding,Wage Dispute,11
+EMP10519,2026-05-16,Absconding,Wage Dispute,7
+EMP10520,2024-04-20,Resignation,Personal / Family,1147
+EMP10522,2024-05-10,Resignation,Salary,923
+EMP10523,2026-03-09,Resignation,Relocation,688
+EMP10527,2024-12-31,Resignation,Manager Relationship,790
+EMP10528,2026-07-08,Resignation,Manager Relationship,431
+EMP10530,2024-12-01,Resignation,Salary,540
+EMP10532,2024-11-10,End of Contract,Project Demobilisation,134
+EMP10533,2025-07-08,Resignation,Better Offer,297
+EMP10534,2025-09-25,Resignation,Better Offer,313
+EMP10535,2025-08-31,Resignation,Career Growth,491
+EMP10536,2024-01-21,Resignation,Salary,295
+EMP10537,2025-02-02,Resignation,Work Conditions,744
+EMP10538,2023-04-17,Resignation,Manager Relationship,1059
+EMP10540,2026-06-08,Absconding,No Intimation,16
+EMP10543,2023-04-15,Termination,Attendance,1280
+EMP10544,2025-01-01,Resignation,Salary,494
+EMP10547,2024-01-27,Resignation,Relocation,84
+EMP10548,2024-12-25,Resignation,Career Growth,1116
+EMP10550,2024-05-12,Resignation,Personal / Family,407
+EMP10551,2024-03-28,Resignation,Manager Relationship,1500
+EMP10552,2024-01-31,Resignation,Work Conditions,277
+EMP10553,2026-01-22,Resignation,Personal / Family,103
+EMP10555,2023-06-05,Resignation,Manager Relationship,1466
+EMP10556,2026-08-17,Resignation,Work Conditions,373
+EMP10557,2026-06-20,Resignation,Personal / Family,2476
+EMP10558,2024-06-13,Resignation,Career Growth,26
+EMP10561,2026-08-31,Resignation,Work Conditions,2120
+EMP10563,2023-09-06,Resignation,Better Offer,1178
+EMP10564,2023-04-25,Resignation,Manager Relationship,1099
+EMP10565,2026-01-07,Resignation,Personal / Family,963
+EMP10567,2026-04-18,Resignation,Relocation,189
+EMP10568,2023-05-15,Resignation,Relocation,1074
+EMP10569,2024-03-30,Resignation,Career Growth,224
+EMP10573,2024-05-27,Resignation,Work Conditions,1595
+EMP10574,2025-03-14,Resignation,Career Growth,657
+EMP10575,2025-11-05,Resignation,Manager Relationship,452
+EMP10577,2026-05-31,Resignation,Personal / Family,365
+EMP10579,2025-12-08,Absconding,Wage Dispute,30
+EMP10582,2023-08-06,Resignation,Relocation,1614
+EMP10583,2026-01-11,Resignation,Manager Relationship,1911
+EMP10584,2023-05-06,Resignation,Relocation,823
+EMP10587,2024-09-08,Resignation,Work Conditions,36
+EMP10588,2025-09-30,Absconding,Wage Dispute,38
+EMP10589,2023-07-09,Resignation,Career Growth,22
+EMP10590,2024-08-28,Resignation,Personal / Family,11
+EMP10591,2024-06-28,Resignation,Personal / Family,516
+EMP10592,2023-10-21,Resignation,Salary,1566
+EMP10594,2024-12-23,Resignation,Relocation,135
+EMP10596,2024-04-28,End of Contract,Contract Not Renewed,309
+EMP10597,2025-08-19,Resignation,Manager Relationship,10
+EMP10599,2024-10-31,Resignation,Work Conditions,1344
+EMP10600,2026-06-03,Resignation,Relocation,641
+EMP10601,2024-10-23,Resignation,Better Offer,305
+EMP10602,2025-10-30,Resignation,Manager Relationship,33
+EMP10603,2026-01-10,Resignation,Personal / Family,623
+EMP10606,2024-12-16,Resignation,Better Offer,9
+EMP10608,2026-03-04,Resignation,Work Conditions,1114
+EMP10609,2023-04-21,Resignation,Manager Relationship,1152
+EMP10610,2024-07-27,Resignation,Salary,528
+EMP10612,2024-04-23,Resignation,Salary,129
+EMP10618,2023-05-08,Resignation,Career Growth,1301
+EMP10619,2026-07-10,Resignation,Career Growth,909
+EMP10621,2025-12-14,Resignation,Manager Relationship,22
+EMP10622,2024-01-28,Resignation,Relocation,1200
+EMP10625,2025-08-05,Resignation,Better Offer,1191
+EMP10626,2023-10-16,Resignation,Work Conditions,1548
+EMP10627,2025-10-19,Resignation,Salary,197
+EMP10628,2025-01-02,Resignation,Salary,40
+EMP10629,2023-10-16,Resignation,Career Growth,493
+EMP10630,2026-02-05,Resignation,Personal / Family,2313
+EMP10631,2023-08-12,Resignation,Salary,298
+EMP10633,2024-07-16,Resignation,Relocation,94
+EMP10634,2024-01-20,Resignation,Work Conditions,1793
+EMP10636,2023-09-10,Resignation,Personal / Family,917
+EMP10637,2025-02-18,Resignation,Relocation,1382
+EMP10638,2025-07-28,Resignation,Career Growth,205
+EMP10641,2026-05-10,Resignation,Work Conditions,2068
+EMP10644,2024-05-16,Resignation,Manager Relationship,75
+EMP10645,2026-06-29,Absconding,Site Conditions,16
+EMP10648,2023-09-19,Resignation,Personal / Family,1368
+EMP10649,2026-01-02,Resignation,Salary,671
+EMP10650,2023-09-15,Resignation,Work Conditions,324
+EMP10651,2026-06-30,Resignation,Manager Relationship,10
+EMP10652,2023-05-09,Resignation,Relocation,1430
+EMP10654,2024-05-25,Resignation,Better Offer,287
+EMP10655,2024-10-13,Resignation,Personal / Family,113
+EMP10656,2024-12-24,Resignation,Personal / Family,730
+EMP10657,2024-07-07,Resignation,Work Conditions,127
+EMP10658,2023-07-26,Resignation,Better Offer,208
+EMP10659,2024-05-04,Absconding,Site Conditions,42
+EMP10660,2024-06-22,Absconding,Wage Dispute,0
+EMP10661,2025-12-04,Resignation,Salary,82
+EMP10664,2026-09-17,Resignation,Manager Relationship,229
+EMP10665,2025-10-23,Resignation,Salary,89
+EMP10666,2023-08-15,Resignation,Relocation,1188
+EMP10667,2024-12-10,End of Contract,Contract Not Renewed,10
+EMP10669,2024-11-15,Resignation,Manager Relationship,1488
+EMP10670,2023-05-08,Absconding,No Intimation,23
+EMP10672,2025-09-07,Resignation,Relocation,2024
+EMP10675,2024-10-13,End of Contract,Project Demobilisation,22
+EMP10676,2023-12-15,Resignation,Personal / Family,352
+EMP10677,2026-06-26,Resignation,Manager Relationship,1734
+EMP10678,2023-09-19,Resignation,Salary,1389
+EMP10679,2024-11-19,Resignation,Work Conditions,108
+EMP10680,2023-12-17,Resignation,Personal / Family,29
+EMP10682,2023-11-26,Resignation,Salary,8
+EMP10683,2025-02-14,Resignation,Personal / Family,335
+EMP10684,2024-09-07,Resignation,Salary,406
+EMP10687,2024-07-08,Resignation,Better Offer,415
+EMP10688,2024-08-22,Resignation,Career Growth,1029
+EMP10689,2024-10-15,Resignation,Salary,1551
+EMP10694,2025-12-25,Resignation,Salary,1981
+EMP10695,2023-07-24,Resignation,Salary,1019
+EMP10697,2023-12-22,Resignation,Personal / Family,48
+EMP10698,2024-12-14,Resignation,Better Offer,1871
+EMP10700,2025-10-31,Resignation,Manager Relationship,272
+EMP10701,2025-04-27,Resignation,Manager Relationship,1440
+EMP10703,2023-12-06,Resignation,Career Growth,1176
+EMP10704,2024-06-05,Resignation,Work Conditions,1700
+EMP10705,2024-07-14,Resignation,Career Growth,1790
+EMP10706,2025-01-18,End of Contract,Project Demobilisation,7
+EMP10707,2023-06-13,Resignation,Relocation,1330
+EMP10710,2025-12-05,Resignation,Manager Relationship,426
+EMP10713,2025-04-12,Resignation,Relocation,42
+EMP10715,2025-01-03,End of Contract,Project Demobilisation,160
+EMP10716,2024-07-21,Resignation,Career Growth,1842
+EMP10718,2024-11-21,Resignation,Personal / Family,334
+EMP10719,2025-03-14,Resignation,Salary,41
+EMP10720,2023-04-24,Resignation,Work Conditions,1147
+EMP10722,2026-03-27,Resignation,Better Offer,1513
+EMP10724,2024-03-31,Resignation,Better Offer,57
+EMP10725,2026-02-02,Resignation,Salary,618
+EMP10726,2023-12-17,Resignation,Salary,22
+EMP10727,2023-11-25,Resignation,Better Offer,49
+EMP10730,2025-11-12,Resignation,Manager Relationship,2163
+EMP10731,2024-02-26,End of Contract,Contract Not Renewed,1763
+EMP10734,2026-08-25,Resignation,Career Growth,2700
+EMP10735,2023-10-13,Resignation,Relocation,1688
+EMP10736,2026-02-22,End of Contract,Project Demobilisation,22
+EMP10739,2025-08-27,Resignation,Salary,305
+EMP10740,2024-04-25,Resignation,Career Growth,1657
+EMP10744,2026-08-03,Resignation,Relocation,44
+EMP10745,2023-06-29,Resignation,Relocation,1359
+EMP10747,2024-06-12,Resignation,Personal / Family,214
+EMP10748,2026-04-17,Resignation,Work Conditions,440
+EMP10754,2023-09-16,Resignation,Better Offer,1242
+EMP10755,2025-01-05,Resignation,Relocation,85
+EMP10756,2023-08-15,Resignation,Relocation,472
+EMP10757,2026-03-04,Resignation,Work Conditions,2471
+EMP10759,2024-05-23,Resignation,Better Offer,1378
+EMP10762,2024-04-09,Resignation,Career Growth,24
+EMP10764,2025-08-21,Resignation,Career Growth,2237
+EMP10766,2024-11-03,Resignation,Personal / Family,731
+EMP10769,2024-11-17,Resignation,Manager Relationship,505
+EMP10770,2026-05-17,Resignation,Career Growth,918
+EMP10771,2025-10-18,Resignation,Better Offer,588
+EMP10772,2024-05-26,Absconding,No Intimation,15
+EMP10774,2026-07-08,Resignation,Salary,2263
+EMP10777,2023-06-09,Resignation,Salary,1493
+EMP10779,2024-01-14,Absconding,Wage Dispute,15
+EMP10781,2023-11-28,Resignation,Salary,1045
+EMP10782,2026-08-16,Absconding,Wage Dispute,8
+EMP10783,2024-07-05,Absconding,Wage Dispute,20
+EMP10784,2025-11-19,Resignation,Work Conditions,753
+EMP10785,2025-07-03,Absconding,Site Conditions,26
+EMP10788,2024-11-11,Resignation,Salary,1707
+EMP10789,2025-09-15,Resignation,Personal / Family,338
+EMP10790,2023-10-13,Resignation,Career Growth,1359
+EMP10791,2024-03-09,Absconding,No Intimation,7
+EMP10793,2025-03-04,Resignation,Career Growth,360
+EMP10795,2026-08-05,Resignation,Salary,25
+EMP10796,2024-03-07,Resignation,Better Offer,587
+EMP10797,2024-02-19,Absconding,Wage Dispute,9
+EMP10800,2026-07-24,Absconding,No Intimation,27
+EMP10802,2026-02-17,Resignation,Personal / Family,710
+EMP10804,2023-10-02,Resignation,Personal / Family,1399
+EMP10806,2024-09-07,Resignation,Manager Relationship,14
+EMP10808,2023-06-25,Resignation,Better Offer,658
+EMP10809,2023-06-30,Resignation,Work Conditions,1374
+EMP10810,2025-12-02,Resignation,Work Conditions,1719
+EMP10812,2026-08-25,Resignation,Salary,31
+EMP10813,2024-12-07,Absconding,Site Conditions,14
+EMP10814,2023-08-07,Resignation,Manager Relationship,795
+EMP10815,2023-04-23,Resignation,Career Growth,612
+EMP10817,2023-08-26,Resignation,Personal / Family,589
+EMP10819,2025-04-27,Resignation,Better Offer,22
+EMP10821,2023-07-15,Resignation,Relocation,1529
+EMP10823,2023-05-02,Absconding,Wage Dispute,17
+EMP10824,2023-10-06,Absconding,Site Conditions,6
+EMP10825,2023-12-17,Resignation,Better Offer,1233
+EMP10826,2024-03-30,Absconding,No Intimation,0
+EMP10827,2024-09-08,Resignation,Better Offer,22
+EMP10831,2025-08-11,Resignation,Better Offer,16
+EMP10833,2024-09-08,Resignation,Work Conditions,337
+EMP10837,2024-11-13,Resignation,Personal / Family,263
+EMP10838,2024-08-07,Resignation,Personal / Family,1195
+EMP10839,2026-07-25,Resignation,Relocation,1036
+EMP10840,2024-08-23,Absconding,No Intimation,6
+EMP10841,2023-08-06,Resignation,Better Offer,22
+EMP10842,2024-12-12,Resignation,Relocation,187
+EMP10844,2024-03-23,Resignation,Personal / Family,812
+EMP10845,2024-05-07,Resignation,Career Growth,976
+EMP10846,2023-09-02,Resignation,Career Growth,849
+EMP10847,2026-01-12,Absconding,Site Conditions,30
+EMP10848,2025-02-08,Resignation,Personal / Family,189
+EMP10849,2024-09-12,Resignation,Manager Relationship,1290
+EMP10850,2025-05-25,Resignation,Career Growth,211
+EMP10853,2026-05-04,Absconding,Wage Dispute,37
+EMP10854,2024-04-08,Resignation,Personal / Family,254
+EMP10855,2023-07-30,Resignation,Salary,1020
+EMP10856,2025-02-09,Resignation,Manager Relationship,837
+EMP10857,2023-06-17,Resignation,Salary,1316
+EMP10858,2025-02-03,Absconding,Site Conditions,16
+EMP10859,2025-08-07,Resignation,Personal / Family,47
+EMP10861,2025-07-25,Resignation,Salary,489
+EMP10863,2023-05-23,Resignation,Salary,668
+EMP10864,2024-06-25,Resignation,Personal / Family,388
+EMP10866,2026-03-11,Absconding,No Intimation,25
+EMP10867,2024-03-01,Resignation,Manager Relationship,251
+EMP10868,2024-09-14,Resignation,Manager Relationship,266
+EMP10869,2023-12-20,Resignation,Personal / Family,881
+EMP10871,2025-05-20,Resignation,Better Offer,752
+EMP10872,2024-12-16,Resignation,Personal / Family,946
+EMP10873,2025-04-03,Absconding,No Intimation,19
+EMP10874,2023-05-07,Resignation,Work Conditions,860
+EMP10876,2024-04-02,Resignation,Work Conditions,24
+EMP10877,2025-02-23,Resignation,Salary,2155
+EMP10879,2026-04-29,Resignation,Better Offer,1434
+EMP10882,2023-12-16,Resignation,Personal / Family,1178
+EMP10883,2025-03-01,End of Contract,Project Demobilisation,1485
+EMP10884,2025-10-18,Resignation,Career Growth,7
+EMP10885,2026-06-23,Resignation,Work Conditions,871
+EMP10886,2026-08-11,Resignation,Salary,143
+EMP10889,2023-09-30,Resignation,Career Growth,1029
+EMP10892,2024-09-07,Resignation,Salary,469
+EMP10894,2025-07-20,Resignation,Manager Relationship,400
+EMP10898,2025-06-21,Resignation,Better Offer,49
+EMP10902,2025-09-21,Absconding,No Intimation,8
+EMP10903,2024-02-06,Resignation,Salary,845
+EMP10904,2023-05-14,Resignation,Career Growth,83
+EMP10906,2026-07-21,Resignation,Work Conditions,535
+EMP10907,2024-06-03,Resignation,Relocation,465
+EMP10909,2025-05-18,Resignation,Better Offer,15
+EMP10910,2026-06-04,Resignation,Career Growth,215
+EMP10911,2026-04-10,Resignation,Better Offer,1525
+EMP10915,2024-08-05,Resignation,Better Offer,1077
+EMP10918,2023-10-26,Absconding,Wage Dispute,19
+EMP10920,2024-11-09,Resignation,Work Conditions,546
+EMP10921,2025-09-20,Termination,Attendance,196
+EMP10924,2024-10-24,Resignation,Salary,903
+EMP10925,2026-08-22,End of Contract,Project Demobilisation,28
+EMP10926,2024-10-27,Resignation,Salary,8
+EMP10928,2024-12-05,End of Contract,Contract Not Renewed,1997
+EMP10930,2025-04-24,Resignation,Manager Relationship,621
+EMP10931,2026-01-07,Resignation,Personal / Family,32
+EMP10934,2026-06-16,Resignation,Manager Relationship,1109
+EMP10935,2023-07-11,Termination,Disciplinary,888
+EMP10936,2024-09-15,Absconding,Wage Dispute,22
+EMP10938,2026-06-01,Resignation,Career Growth,23
+EMP10939,2025-09-27,Resignation,Manager Relationship,28
+EMP10940,2024-03-03,Absconding,Wage Dispute,43
+EMP10941,2024-05-14,Absconding,Site Conditions,31
+EMP10942,2023-10-16,Resignation,Better Offer,1358
+EMP10946,2024-02-20,End of Contract,Project Demobilisation,1537
+EMP10949,2024-09-16,Resignation,Work Conditions,373
+EMP10951,2024-04-23,Resignation,Salary,136
+EMP10952,2024-11-01,Resignation,Personal / Family,111
+EMP10953,2026-03-17,Resignation,Career Growth,836
+EMP10954,2026-04-02,Resignation,Salary,635
+EMP10955,2026-03-01,Resignation,Personal / Family,2078
+EMP10956,2024-08-31,Resignation,Personal / Family,161
+EMP10957,2024-10-07,Resignation,Work Conditions,1634
+EMP10958,2024-07-25,End of Contract,Contract Not Renewed,1155
+EMP10959,2024-05-09,End of Contract,Contract Not Renewed,313
+EMP10960,2024-09-08,Absconding,No Intimation,29
+EMP10961,2026-06-26,Resignation,Work Conditions,1745
+EMP10963,2023-11-23,Resignation,Career Growth,12
+EMP10964,2023-07-01,Resignation,Salary,70
+EMP10965,2024-04-15,Resignation,Work Conditions,1664
+EMP10966,2025-06-07,Absconding,Site Conditions,35
+EMP10967,2026-05-04,Resignation,Personal / Family,331
+EMP10968,2023-10-08,Resignation,Manager Relationship,1126
+EMP10969,2026-05-27,Resignation,Work Conditions,816
+EMP10970,2023-07-23,Resignation,Career Growth,1225
+EMP10971,2024-09-02,Resignation,Career Growth,499
+EMP10972,2023-07-04,Resignation,Better Offer,1062
+EMP10974,2024-07-21,End of Contract,Project Demobilisation,1117
+EMP10975,2025-07-27,Absconding,No Intimation,22
+EMP10976,2023-07-09,Resignation,Career Growth,1424
+EMP10978,2023-10-16,Resignation,Better Offer,1660
+EMP10979,2025-05-29,Resignation,Personal / Family,1499
+EMP10980,2023-08-16,Termination,Attendance,441
+EMP10982,2025-11-05,Resignation,Relocation,18
+EMP10984,2026-08-28,Resignation,Salary,2407
+EMP10986,2025-01-30,Resignation,Salary,26
+EMP10989,2023-12-17,Termination,Performance,232
+EMP10992,2025-03-19,Resignation,Personal / Family,207
+EMP10995,2023-12-07,Resignation,Relocation,12
+EMP10996,2025-04-16,Absconding,Site Conditions,11
+EMP11000,2024-06-10,Resignation,Better Offer,679
+EMP11002,2026-04-17,Resignation,Work Conditions,167
+EMP11003,2025-08-21,Absconding,Site Conditions,12
+EMP11004,2025-05-27,Resignation,Better Offer,290
+EMP11005,2023-07-14,Resignation,Better Offer,1201
+EMP11008,2024-07-31,Resignation,Personal / Family,712
+EMP11010,2025-06-11,Resignation,Better Offer,144
+EMP11011,2023-09-14,Resignation,Manager Relationship,637
+EMP11013,2023-12-03,End of Contract,Project Demobilisation,29
+EMP11015,2023-11-19,Absconding,Site Conditions,29
+EMP11016,2025-04-13,End of Contract,Project Demobilisation,204
+EMP11017,2024-03-02,Absconding,Site Conditions,28
+EMP11019,2025-12-07,Resignation,Relocation,358
+EMP11020,2026-05-23,Resignation,Salary,7
+EMP11023,2023-09-26,Resignation,Relocation,681
+EMP11024,2024-10-01,Resignation,Better Offer,1815
+EMP11030,2024-09-25,Resignation,Personal / Family,249
+EMP11031,2025-06-02,Resignation,Better Offer,135
+EMP11032,2026-07-03,Absconding,No Intimation,20
+EMP11033,2025-08-30,Termination,Performance,329
+EMP11034,2025-12-28,Resignation,Better Offer,1782
+EMP11036,2023-07-15,Resignation,Work Conditions,846
+EMP11037,2025-10-08,Resignation,Salary,2160
+EMP11038,2023-12-09,Resignation,Salary,1639
+EMP11042,2025-07-10,Resignation,Work Conditions,726
+EMP11043,2024-01-04,Resignation,Career Growth,166
+EMP11044,2025-09-27,Resignation,Work Conditions,77
+EMP11046,2024-06-05,Absconding,No Intimation,25
+EMP11047,2026-06-15,Absconding,Wage Dispute,30
+EMP11048,2023-10-28,Resignation,Personal / Family,7
+EMP11049,2023-12-25,Resignation,Manager Relationship,1543
+EMP11051,2025-09-30,Resignation,Manager Relationship,598
+EMP11053,2023-12-28,Resignation,Personal / Family,12
+EMP11054,2024-07-28,Resignation,Better Offer,421
+EMP11055,2024-12-16,Resignation,Better Offer,9
+EMP11057,2023-10-12,Resignation,Personal / Family,1080
+EMP11058,2024-04-15,Resignation,Work Conditions,373
+EMP11059,2024-04-07,End of Contract,Project Demobilisation,15
+EMP11061,2026-06-29,Resignation,Personal / Family,2
+EMP11065,2023-10-29,Resignation,Relocation,355
+EMP11066,2026-06-13,Resignation,Relocation,560
+EMP11069,2024-02-25,Resignation,Manager Relationship,211
+EMP11073,2023-09-10,Resignation,Manager Relationship,899
+EMP11075,2026-01-21,Resignation,Salary,11
+EMP11076,2024-05-10,Resignation,Salary,307
+EMP11079,2024-02-13,Resignation,Manager Relationship,658
+EMP11083,2023-05-21,Termination,Performance,1108
+EMP11084,2023-11-04,Absconding,Wage Dispute,21
+EMP11085,2024-11-09,Absconding,No Intimation,7
+EMP11088,2026-04-08,Resignation,Better Offer,361
+EMP11090,2024-01-14,Resignation,Personal / Family,366
+EMP11091,2023-12-10,Resignation,Relocation,57
+EMP11092,2026-07-30,Resignation,Better Offer,999
+EMP11093,2025-02-16,Resignation,Personal / Family,36
+EMP11095,2024-07-21,Resignation,Salary,36
+EMP11096,2024-03-03,Resignation,Work Conditions,692
+EMP11097,2024-05-16,Resignation,Career Growth,669
+EMP11100,2024-05-12,Termination,Performance,211
+EMP11101,2026-06-05,Resignation,Better Offer,363
+EMP11102,2024-11-15,Resignation,Relocation,6
+EMP11104,2023-09-25,Resignation,Better Offer,1280
+EMP11107,2025-04-17,Resignation,Career Growth,840
+EMP11108,2024-05-15,Termination,Performance,88
+EMP11109,2024-02-20,End of Contract,Contract Not Renewed,3
+EMP11110,2024-10-07,Resignation,Manager Relationship,2
+EMP11111,2023-09-14,Resignation,Relocation,1401
+EMP11112,2026-07-27,Absconding,Wage Dispute,37
+EMP11113,2025-02-03,Resignation,Relocation,275
+EMP11116,2024-03-28,Resignation,Personal / Family,1373
+EMP11117,2025-04-08,Resignation,Manager Relationship,185
+EMP11118,2024-11-26,Resignation,Personal / Family,24
+EMP11119,2024-02-01,Resignation,Relocation,861
+EMP11120,2025-04-17,Resignation,Better Offer,1355
+EMP11122,2023-10-23,Absconding,No Intimation,30
+EMP11125,2026-06-16,End of Contract,Contract Not Renewed,857
+EMP11126,2023-12-11,Resignation,Relocation,16
+EMP11127,2024-08-10,Resignation,Salary,252
+EMP11128,2023-07-22,Absconding,Wage Dispute,28
+EMP11129,2023-10-16,Resignation,Manager Relationship,390
+EMP11132,2026-01-29,Absconding,No Intimation,19
+EMP11133,2026-01-22,Resignation,Relocation,2025
+EMP11136,2026-02-08,Resignation,Manager Relationship,169
+EMP11139,2024-07-15,Resignation,Career Growth,44
+EMP11140,2024-11-13,Resignation,Work Conditions,798
+EMP11142,2023-08-19,Absconding,Wage Dispute,14
+EMP11147,2025-09-04,Resignation,Salary,2196
+EMP11148,2023-06-24,Resignation,Relocation,991
+EMP11152,2024-05-16,Resignation,Better Offer,906
+EMP11153,2026-06-14,Absconding,Wage Dispute,15
+EMP11154,2026-01-04,Resignation,Manager Relationship,22
+EMP11155,2025-05-09,Resignation,Career Growth,1433
+EMP11156,2023-07-22,Resignation,Relocation,42
+EMP11157,2026-01-17,Resignation,Better Offer,161
+EMP11159,2024-08-02,Absconding,No Intimation,20
+EMP11161,2024-01-09,Termination,Attendance,1539
+EMP11162,2024-09-21,Resignation,Manager Relationship,657
+EMP11165,2023-11-27,Resignation,Career Growth,23
+EMP11167,2025-07-16,Absconding,No Intimation,4
+EMP11168,2024-02-16,End of Contract,Contract Not Renewed,899
+EMP11169,2023-07-29,Resignation,Work Conditions,1558
+EMP11170,2024-10-24,Resignation,Manager Relationship,1336
+EMP11171,2024-01-13,Resignation,Career Growth,450
+EMP11175,2026-06-04,Resignation,Work Conditions,761
+EMP11178,2026-04-16,Resignation,Work Conditions,1069
+EMP11179,2025-11-29,Resignation,Relocation,7
+EMP11180,2023-12-28,Absconding,Site Conditions,5
+EMP11181,2024-12-08,Resignation,Better Offer,29
+EMP11183,2026-06-25,Resignation,Work Conditions,460
+EMP11185,2023-06-24,Resignation,Manager Relationship,461
+EMP11186,2023-11-07,Resignation,Personal / Family,958
+EMP11187,2026-04-18,Resignation,Manager Relationship,329
+EMP11188,2024-01-01,Resignation,Salary,1262
+EMP11189,2025-09-18,Absconding,No Intimation,5
+EMP11190,2023-08-27,Resignation,Relocation,134
+EMP11191,2025-09-21,Resignation,Relocation,127
+EMP11192,2026-08-26,Resignation,Relocation,102
+EMP11193,2023-09-18,Resignation,Work Conditions,1628
+EMP11194,2026-07-05,Resignation,Work Conditions,736
+EMP11195,2023-11-23,Resignation,Salary,705
+EMP11196,2024-11-30,Resignation,Relocation,2047
+EMP11197,2023-10-02,Resignation,Personal / Family,448
+EMP11198,2025-07-31,Resignation,Work Conditions,530
+EMP11199,2024-11-24,Resignation,Career Growth,211
+EMP11200,2024-03-29,Resignation,Manager Relationship,716
+EMP11201,2026-08-15,Resignation,Personal / Family,2688
+EMP11202,2024-04-19,Absconding,No Intimation,20
+EMP11203,2025-10-03,Resignation,Better Offer,1564
+EMP11204,2026-09-09,Resignation,Better Offer,417
+EMP11205,2023-10-02,Absconding,Wage Dispute,23
+EMP11208,2024-02-11,End of Contract,Project Demobilisation,8
+EMP11210,2026-04-23,Resignation,Manager Relationship,1525
+EMP11211,2026-04-20,Resignation,Relocation,191
+EMP11213,2023-11-07,Absconding,Site Conditions,10
+EMP11214,2026-04-30,Resignation,Relocation,250
+EMP11215,2024-01-09,Resignation,Relocation,439
+EMP11216,2024-08-02,Resignation,Work Conditions,1106
+EMP11217,2026-03-14,Resignation,Manager Relationship,28
+EMP11218,2024-06-13,Resignation,Manager Relationship,166
+EMP11222,2024-01-23,Resignation,Work Conditions,392
+EMP11223,2025-05-19,Absconding,Site Conditions,9
+EMP11224,2024-12-16,Absconding,Wage Dispute,16
+EMP11225,2026-02-14,Resignation,Relocation,189
+EMP11230,2025-12-17,Resignation,Salary,718
+EMP11233,2024-10-23,Resignation,Better Offer,1753
+EMP11235,2025-07-03,Resignation,Manager Relationship,460
+EMP11236,2026-09-13,Resignation,Personal / Family,694
+EMP11237,2025-04-04,Resignation,Personal / Family,1863
+EMP11238,2025-03-20,Resignation,Work Conditions,502
+EMP11239,2024-12-23,Absconding,Wage Dispute,51
+EMP11241,2023-04-29,Resignation,Work Conditions,1190
+EMP11242,2024-04-28,Resignation,Salary,1062
+EMP11243,2024-10-03,Resignation,Relocation,313
+EMP11244,2026-04-20,Absconding,No Intimation,30
+EMP11245,2025-05-27,Resignation,Career Growth,171
+EMP11246,2024-02-18,Resignation,Relocation,1619
+EMP11247,2024-11-12,Resignation,Better Offer,115
+EMP11248,2023-12-02,Resignation,Manager Relationship,1213
+EMP11252,2023-06-09,Absconding,Wage Dispute,6
+EMP11255,2024-09-11,Resignation,Better Offer,1316
+EMP11256,2026-08-06,Resignation,Relocation,229
+EMP11257,2023-12-01,Resignation,Better Offer,20
+EMP11258,2024-08-31,Resignation,Relocation,1546
+EMP11261,2024-05-07,Resignation,Manager Relationship,220
+EMP11266,2023-07-30,Resignation,Relocation,1336
+EMP11267,2023-08-23,Resignation,Salary,898
+EMP11268,2024-01-09,Resignation,Career Growth,409
+EMP11272,2025-01-05,Resignation,Personal / Family,610
+EMP11273,2025-04-28,Resignation,Work Conditions,1876
+EMP11274,2026-09-12,Resignation,Manager Relationship,196
+EMP11275,2025-09-08,Resignation,Better Offer,51
+EMP11276,2025-01-13,Resignation,Work Conditions,9
+EMP11279,2024-04-03,Resignation,Work Conditions,25
+EMP11280,2024-08-15,Resignation,Career Growth,19
+EMP11281,2026-04-23,Resignation,Manager Relationship,2322
+EMP11282,2024-02-27,Resignation,Manager Relationship,887
+EMP11287,2026-06-05,Resignation,Relocation,2050
+EMP11288,2024-11-27,Absconding,Wage Dispute,32
+EMP11289,2026-03-04,Resignation,Work Conditions,2141
+EMP11290,2025-09-07,Resignation,Work Conditions,1
+EMP11296,2025-03-30,Resignation,Career Growth,2117
+EMP11297,2023-10-17,Resignation,Work Conditions,876
+EMP11298,2024-11-27,Resignation,Career Growth,536
+EMP11300,2024-09-16,Resignation,Career Growth,37
+EMP11302,2025-09-15,Resignation,Personal / Family,44
+EMP11305,2023-11-04,Resignation,Relocation,919
+EMP11308,2024-02-02,Resignation,Salary,6
+EMP11309,2023-05-27,Resignation,Manager Relationship,821
+EMP11312,2024-10-17,Resignation,Relocation,537
+EMP11315,2024-11-10,Resignation,Manager Relationship,810
+EMP11316,2024-03-28,End of Contract,Project Demobilisation,442
+EMP11317,2024-01-01,Resignation,Career Growth,44
+EMP11318,2024-02-02,Resignation,Personal / Family,774
+EMP11320,2024-03-28,Absconding,No Intimation,26
+EMP11322,2024-04-30,Resignation,Salary,73
+EMP11326,2024-04-11,Resignation,Manager Relationship,159
+EMP11327,2023-05-01,Absconding,Wage Dispute,9
+EMP11328,2024-07-13,Absconding,Site Conditions,21
+EMP11330,2026-06-22,Resignation,Career Growth,219
+EMP11337,2024-05-30,Resignation,Relocation,1415
+EMP11338,2023-04-16,Resignation,Better Offer,430
+EMP11339,2024-12-14,Resignation,Manager Relationship,1882
+EMP11340,2024-03-21,Resignation,Personal / Family,588
+EMP11341,2026-07-28,Resignation,Better Offer,339
+EMP11344,2024-06-10,Resignation,Work Conditions,741
+EMP11345,2023-07-08,Resignation,Salary,1388
+EMP11346,2025-10-23,Resignation,Career Growth,2203
+EMP11347,2023-12-15,Absconding,Wage Dispute,20
+EMP11348,2026-04-04,Resignation,Career Growth,1297
+EMP11349,2026-03-23,Resignation,Personal / Family,1567
+EMP11352,2025-12-23,Resignation,Salary,1181
+EMP11355,2023-12-22,Resignation,Better Offer,1518
+EMP11356,2026-07-17,Resignation,Manager Relationship,944
+EMP11357,2026-08-23,Resignation,Relocation,2536
+EMP11358,2026-05-24,Resignation,Career Growth,302
+EMP11360,2025-11-28,Resignation,Manager Relationship,356
+EMP11363,2025-08-23,Resignation,Career Growth,140
+EMP11364,2023-06-11,Resignation,Relocation,744
+EMP11365,2025-01-04,Resignation,Better Offer,887
+EMP11366,2025-07-16,Absconding,Wage Dispute,18
+EMP11368,2025-11-09,Absconding,No Intimation,8
+EMP11369,2024-04-30,Absconding,Site Conditions,3
+EMP11372,2025-01-26,Resignation,Salary,568
+EMP11373,2024-10-08,Resignation,Relocation,1625
+EMP11374,2023-12-30,Absconding,Wage Dispute,14
+EMP11375,2026-01-11,Resignation,Work Conditions,1002
+EMP11378,2025-02-21,Resignation,Salary,594
+EMP11379,2026-09-01,Resignation,Salary,346
+EMP11380,2023-09-20,Resignation,Better Offer,1344
+EMP11381,2026-05-21,Resignation,Work Conditions,152
+EMP11382,2023-08-24,Resignation,Manager Relationship,1353
+EMP11386,2023-05-22,Resignation,Personal / Family,1122
+EMP11387,2025-03-29,Resignation,Career Growth,476
+EMP11388,2025-03-10,Absconding,Site Conditions,2
+EMP11389,2023-04-07,Resignation,Personal / Family,161
+EMP11390,2025-11-20,Absconding,Wage Dispute,33
+EMP11391,2024-02-10,Resignation,Relocation,1491
+EMP11393,2025-05-15,Absconding,No Intimation,12
+EMP11394,2023-07-29,Resignation,Manager Relationship,63
+EMP11396,2026-01-11,Resignation,Salary,71
+EMP11397,2023-04-17,Resignation,Salary,713
+EMP11398,2024-04-06,Resignation,Better Offer,985
+EMP11400,2026-05-15,Resignation,Relocation,2096
+EMP11401,2026-01-21,Resignation,Relocation,1755
+EMP11402,2023-11-07,Resignation,Manager Relationship,314
+EMP11405,2026-02-08,Resignation,Salary,1631
+EMP11408,2024-01-18,Resignation,Better Offer,1194
+EMP11411,2024-05-31,Resignation,Manager Relationship,139
+EMP11413,2026-02-28,Resignation,Work Conditions,336
+EMP11414,2024-05-14,Resignation,Work Conditions,276
+EMP11415,2025-09-21,Resignation,Work Conditions,393
+EMP11416,2026-01-08,Absconding,Wage Dispute,12
+EMP11419,2023-08-29,Resignation,Salary,305
+EMP11421,2024-09-19,Resignation,Career Growth,33
+EMP11423,2025-08-18,Resignation,Better Offer,51
+EMP11424,2026-08-11,Resignation,Career Growth,290
+EMP11429,2023-12-18,Absconding,Site Conditions,30
+EMP11433,2024-09-17,Resignation,Relocation,1059
+EMP11434,2024-06-19,Resignation,Manager Relationship,594
+EMP11436,2023-08-25,Resignation,Salary,251
+EMP11437,2026-05-05,Resignation,Manager Relationship,10
+EMP11438,2024-12-30,Resignation,Salary,394
+EMP11443,2026-07-17,Resignation,Relocation,846
+EMP11444,2025-06-03,Resignation,Relocation,1559
+EMP11445,2026-08-01,Resignation,Career Growth,28
+EMP11447,2026-02-06,Resignation,Better Offer,1308
+EMP11448,2024-01-14,Resignation,Better Offer,1130
+EMP11449,2026-03-12,Resignation,Work Conditions,348
+EMP11452,2024-11-15,Resignation,Better Offer,461
+EMP11453,2024-05-19,Resignation,Salary,400
+EMP11454,2024-09-22,Resignation,Better Offer,1541
+EMP11455,2025-07-08,Resignation,Relocation,689
+EMP11456,2025-01-15,Resignation,Manager Relationship,158
+EMP11461,2026-04-29,Resignation,Better Offer,74
+EMP11462,2023-10-04,Resignation,Career Growth,1009
+EMP11465,2023-10-19,Resignation,Personal / Family,425
+EMP11468,2023-12-09,Absconding,No Intimation,21
+EMP11469,2025-11-23,Resignation,Work Conditions,78
+EMP11470,2024-03-17,Resignation,Manager Relationship,330
+EMP11471,2024-08-11,Absconding,No Intimation,15
+EMP11472,2025-09-19,Resignation,Relocation,811
+EMP11473,2026-07-20,End of Contract,Contract Not Renewed,1283
+EMP11477,2024-10-05,End of Contract,Contract Not Renewed,21
+EMP11478,2025-03-05,Termination,Performance,109
+EMP11479,2025-07-20,Resignation,Better Offer,2066
+EMP11480,2023-12-29,Resignation,Personal / Family,1239
+EMP11481,2023-06-19,Resignation,Salary,607
+EMP11482,2024-08-05,Resignation,Career Growth,1293
+EMP11483,2023-10-15,Resignation,Career Growth,635
+EMP11484,2026-01-04,Resignation,Personal / Family,785
+EMP11485,2025-04-15,Resignation,Salary,1159
+EMP11486,2024-03-23,Resignation,Better Offer,1005
+EMP11490,2026-06-28,Resignation,Career Growth,22
+EMP11492,2024-07-28,Resignation,Relocation,29
+EMP11493,2024-11-04,Resignation,Work Conditions,846
+EMP11494,2024-08-26,Resignation,Manager Relationship,556
+EMP11495,2026-02-21,Resignation,Personal / Family,147
+EMP11497,2025-07-28,Resignation,Personal / Family,1786
+EMP11498,2023-04-22,Resignation,Better Offer,962
+EMP11500,2026-04-17,Resignation,Manager Relationship,804
+EMP11502,2025-08-24,Resignation,Salary,50
+EMP11505,2025-02-14,Resignation,Manager Relationship,20
+EMP11507,2024-01-25,Resignation,Work Conditions,1771
+EMP11508,2024-05-31,Resignation,Career Growth,1882
+EMP11509,2023-06-21,Resignation,Career Growth,1009
+EMP11515,2024-09-04,Resignation,Manager Relationship,4
+EMP11517,2024-12-26,Resignation,Manager Relationship,572
+EMP11518,2024-05-29,Resignation,Career Growth,4
+EMP11520,2025-01-01,Resignation,Work Conditions,743
+EMP11521,2024-02-12,Resignation,Personal / Family,1232
+EMP11523,2025-11-02,Resignation,Better Offer,505
+EMP11524,2025-11-19,Resignation,Work Conditions,249
+EMP11525,2024-03-19,Resignation,Salary,892
+EMP11528,2024-02-10,Resignation,Career Growth,1610
+EMP11529,2024-03-27,Resignation,Work Conditions,1637
+EMP11530,2025-03-16,Resignation,Better Offer,477
+EMP11531,2026-05-28,Resignation,Work Conditions,5
+EMP11532,2025-10-03,Resignation,Personal / Family,1329
+EMP11533,2023-06-09,Absconding,Wage Dispute,20
+EMP11535,2024-05-09,Absconding,Wage Dispute,26
+EMP11537,2023-08-12,Absconding,Wage Dispute,7
+EMP11538,2024-06-14,Resignation,Personal / Family,774
+EMP11540,2026-04-01,Resignation,Salary,697
+EMP11541,2025-04-15,Resignation,Work Conditions,3
+EMP11542,2023-08-28,Resignation,Better Offer,1372
+EMP11543,2025-09-04,Resignation,Work Conditions,824
+EMP11547,2025-03-13,Resignation,Career Growth,271
+EMP11548,2023-11-06,Resignation,Better Offer,576
+EMP11551,2024-04-30,Resignation,Career Growth,1176
+EMP11552,2024-01-29,Resignation,Career Growth,135
+EMP11555,2023-06-27,Resignation,Manager Relationship,1468
+EMP11556,2024-11-19,Resignation,Better Offer,346
+EMP11558,2024-09-14,Resignation,Work Conditions,673
+EMP11559,2026-01-18,End of Contract,Project Demobilisation,197
+EMP11561,2026-05-18,Resignation,Salary,226
+EMP11562,2025-08-28,Resignation,Relocation,982
+EMP11564,2024-01-11,Resignation,Work Conditions,598
+EMP11565,2023-10-30,Resignation,Relocation,1606
+EMP11567,2023-07-12,Resignation,Personal / Family,538
+EMP11568,2023-10-16,Resignation,Work Conditions,393
+EMP11571,2024-03-07,Resignation,Personal / Family,1635
+EMP11572,2025-01-21,Termination,Disciplinary,52
+EMP11573,2025-09-27,Resignation,Salary,504
+EMP11574,2025-12-10,Resignation,Manager Relationship,564
+EMP11576,2023-12-12,Resignation,Manager Relationship,10
+EMP11578,2024-01-13,Resignation,Salary,1135
+EMP11579,2023-07-05,Resignation,Better Offer,541
+EMP11580,2026-05-29,Resignation,Salary,209
+EMP11582,2026-07-19,Resignation,Salary,43
+EMP11583,2024-10-24,Resignation,Relocation,1784
+EMP11584,2024-08-25,Resignation,Personal / Family,15
+EMP11586,2025-07-07,Resignation,Better Offer,226
+EMP11587,2023-08-15,Absconding,No Intimation,17
+EMP11588,2024-12-10,Resignation,Career Growth,31
+EMP11590,2023-07-01,Resignation,Salary,499
+EMP11591,2024-12-04,Termination,Performance,606
+EMP11592,2026-08-22,Termination,Performance,693
+EMP11593,2026-08-31,Resignation,Manager Relationship,625
+EMP11594,2024-03-13,Resignation,Personal / Family,385
+EMP11595,2025-04-16,Termination,Performance,1646
+EMP11598,2024-06-01,Resignation,Relocation,343
+EMP11599,2024-04-08,Resignation,Personal / Family,859
+EMP11600,2024-07-16,Resignation,Better Offer,880
+EMP11601,2024-09-30,Resignation,Personal / Family,212
+EMP11602,2025-09-12,Resignation,Manager Relationship,1792
+EMP11604,2025-03-03,Resignation,Personal / Family,520
+EMP11605,2025-05-14,Resignation,Work Conditions,291
+EMP11607,2025-02-10,End of Contract,Project Demobilisation,23
+EMP11608,2023-07-21,Resignation,Better Offer,330
+EMP11609,2026-05-13,Resignation,Career Growth,648
+EMP11612,2024-07-15,Resignation,Salary,107
+EMP11613,2025-04-01,Resignation,Career Growth,1686
+EMP11614,2026-09-18,Resignation,Personal / Family,1987
+EMP11615,2026-09-01,Resignation,Career Growth,696
+EMP11616,2024-04-11,Resignation,Relocation,1291
+EMP11617,2025-10-14,Resignation,Manager Relationship,136
+EMP11619,2024-07-22,Resignation,Manager Relationship,953
+EMP11620,2025-09-05,Resignation,Career Growth,1328
+EMP11622,2023-08-28,Resignation,Manager Relationship,1438
+EMP11623,2024-03-12,Termination,Disciplinary,992
+EMP11624,2024-11-09,Resignation,Personal / Family,14
+EMP11627,2026-04-09,Resignation,Salary,19
+EMP11628,2023-07-21,Resignation,Relocation,20
+EMP11629,2024-05-26,Resignation,Salary,8
+EMP11630,2023-10-19,Resignation,Better Offer,12
+EMP11631,2024-11-10,Resignation,Better Offer,2078
+EMP11633,2024-01-23,Resignation,Manager Relationship,10
+EMP11634,2026-05-04,Resignation,Better Offer,975
+EMP11635,2025-09-22,Resignation,Better Offer,37
+EMP11636,2024-02-07,Resignation,Salary,1220
+EMP11637,2024-04-24,Resignation,Personal / Family,1549
+EMP11639,2025-11-12,Resignation,Work Conditions,25
+EMP11640,2025-03-08,Resignation,Relocation,21
+EMP11642,2025-06-10,Absconding,Site Conditions,10
+EMP11643,2024-04-08,Resignation,Salary,30
+EMP11644,2023-10-31,Resignation,Career Growth,798
+EMP11646,2023-07-14,Resignation,Better Offer,753
+EMP11648,2026-04-30,Resignation,Manager Relationship,901
+EMP11649,2025-04-25,Resignation,Manager Relationship,111
+EMP11650,2024-09-06,Resignation,Career Growth,447
+EMP11652,2023-11-15,Resignation,Relocation,838
+EMP11654,2026-02-12,Resignation,Salary,579
+EMP11656,2024-12-22,Resignation,Career Growth,758
+EMP11657,2024-08-11,Absconding,No Intimation,15
+EMP11658,2025-04-29,Resignation,Manager Relationship,2194
+EMP11659,2024-04-15,End of Contract,Project Demobilisation,1727
+EMP11660,2025-12-21,Resignation,Manager Relationship,197
+EMP11664,2023-06-30,Resignation,Relocation,253
+EMP11666,2023-08-01,Resignation,Personal / Family,1167
+EMP11669,2025-12-08,Resignation,Work Conditions,51
+EMP11670,2024-11-03,Resignation,Manager Relationship,1729
+EMP11671,2024-09-07,Resignation,Relocation,739
+EMP11673,2024-08-05,Resignation,Better Offer,9
+EMP11674,2026-01-27,Absconding,Wage Dispute,45
+EMP11676,2024-02-05,Resignation,Personal / Family,1078
+EMP11678,2024-11-13,Absconding,No Intimation,11
+EMP11679,2023-08-31,Resignation,Relocation,1375
+EMP11682,2026-04-07,Resignation,Personal / Family,206
+EMP11683,2023-07-16,Absconding,Site Conditions,29
+EMP11686,2025-07-10,Resignation,Better Offer,376
+EMP11687,2023-10-12,Resignation,Salary,1483
+EMP11689,2024-12-13,Resignation,Personal / Family,826
+EMP11690,2026-05-04,Resignation,Personal / Family,2
+EMP11693,2025-11-01,Resignation,Manager Relationship,77
+EMP11696,2024-05-20,Resignation,Relocation,959
+EMP11697,2024-08-22,Termination,Disciplinary,75
+EMP11698,2024-10-05,Absconding,Wage Dispute,21
+EMP11700,2026-07-03,Absconding,Site Conditions,20
+EMP11701,2026-04-06,Resignation,Personal / Family,23
+EMP11702,2025-02-17,Resignation,Relocation,9
+EMP11704,2026-05-19,Resignation,Manager Relationship,773
+EMP11706,2026-01-10,Absconding,No Intimation,14
+EMP11708,2023-12-03,Absconding,Wage Dispute,22
+EMP11710,2024-07-01,Resignation,Better Offer,23
+EMP11711,2024-12-27,Resignation,Better Offer,1756
+EMP11712,2025-08-18,Resignation,Career Growth,296
+EMP11713,2026-04-29,Resignation,Relocation,1324
+EMP11715,2024-12-18,Resignation,Manager Relationship,1222
+EMP11716,2024-06-08,Absconding,Site Conditions,28
+EMP11717,2026-09-07,Resignation,Career Growth,2082
+EMP11718,2023-06-08,Resignation,Salary,33
+EMP11720,2024-12-17,Resignation,Salary,52
+EMP11723,2025-06-17,Resignation,Salary,101
+EMP11727,2026-01-12,Resignation,Manager Relationship,1992
+EMP11728,2024-02-05,Resignation,Relocation,9
+EMP11729,2024-09-29,Resignation,Work Conditions,477
+EMP11732,2025-10-16,Resignation,Career Growth,635
+EMP11734,2023-05-01,Resignation,Manager Relationship,325
+EMP11735,2023-11-27,Resignation,Work Conditions,9
+EMP11737,2026-01-22,Termination,Performance,285
+EMP11739,2026-02-08,Resignation,Better Offer,43
+EMP11740,2024-12-08,Resignation,Work Conditions,8
+EMP11741,2026-06-15,Absconding,No Intimation,9
+EMP11742,2023-07-02,Absconding,No Intimation,29
+EMP11744,2023-04-29,Absconding,Site Conditions,14
+EMP11746,2025-04-01,Absconding,Wage Dispute,45
+EMP11747,2026-09-12,Resignation,Better Offer,196
+EMP11748,2024-09-21,Resignation,Career Growth,14
+EMP11749,2026-08-30,Resignation,Career Growth,288
+EMP11753,2024-02-11,Resignation,Salary,1412
+EMP11754,2025-11-13,Resignation,Personal / Family,33
+EMP11758,2023-05-03,Resignation,Personal / Family,4
+EMP11760,2023-07-17,Resignation,Salary,65
+EMP11762,2024-12-30,Resignation,Salary,37
+EMP11764,2025-10-30,Resignation,Relocation,432
+EMP11765,2025-01-20,Resignation,Career Growth,296
+EMP11766,2026-06-29,Termination,Performance,268
+EMP11767,2025-01-13,Resignation,Personal / Family,1299
+EMP11768,2025-08-15,Resignation,Personal / Family,230
+EMP11769,2026-05-17,Resignation,Personal / Family,708
+EMP11773,2024-11-05,Resignation,Salary,1195
+EMP11774,2023-06-15,Resignation,Work Conditions,1208
+EMP11775,2025-05-22,Absconding,Wage Dispute,26
+EMP11776,2026-01-12,Absconding,Wage Dispute,37
+EMP11777,2023-12-10,Resignation,Manager Relationship,803
+EMP11778,2024-05-02,Resignation,Career Growth,829
+EMP11780,2025-01-06,Resignation,Better Offer,478
+EMP11783,2026-05-29,Resignation,Work Conditions,776
+EMP11784,2026-05-03,Resignation,Manager Relationship,792
+EMP11785,2026-05-23,Resignation,Personal / Family,917
+EMP11787,2026-03-22,Resignation,Work Conditions,1716
+EMP11790,2026-08-05,Resignation,Career Growth,1082
+EMP11791,2025-08-08,Resignation,Career Growth,1519
+EMP11792,2025-01-15,End of Contract,Project Demobilisation,1314
+EMP11793,2025-02-18,Resignation,Manager Relationship,108
+EMP11795,2023-11-26,Resignation,Salary,50
+EMP11796,2023-12-25,Resignation,Relocation,205
+EMP11797,2023-04-06,Resignation,Relocation,5
+EMP11798,2024-01-07,Resignation,Better Offer,120
+EMP11801,2023-10-16,Resignation,Work Conditions,390
+EMP11802,2024-03-07,Absconding,Site Conditions,5
+EMP11803,2023-11-26,Resignation,Personal / Family,1104
+EMP11806,2026-08-13,Resignation,Manager Relationship,2212
+EMP11807,2024-05-21,Resignation,Relocation,1788
+EMP11808,2024-06-02,Resignation,Better Offer,1253
+EMP11813,2024-02-07,End of Contract,Contract Not Renewed,458
+EMP11814,2025-06-04,Resignation,Personal / Family,1203
+EMP11815,2024-10-16,Resignation,Salary,368
+EMP11816,2025-02-16,Resignation,Manager Relationship,1471
+EMP11818,2024-09-21,Resignation,Career Growth,56
+EMP11820,2025-04-12,End of Contract,Contract Not Renewed,98
+EMP11821,2025-05-14,Resignation,Work Conditions,1498
+EMP11822,2024-02-19,Resignation,Career Growth,177
+EMP11824,2026-04-12,Resignation,Relocation,197
+EMP11825,2023-08-14,Resignation,Work Conditions,1256
+EMP11827,2026-01-12,Absconding,No Intimation,16
+EMP11828,2025-10-25,Absconding,No Intimation,14
+EMP11829,2025-01-03,Resignation,Salary,1746
+EMP11831,2025-01-20,Resignation,Work Conditions,23
+EMP11835,2023-07-20,Resignation,Salary,888
+EMP11836,2026-09-02,Resignation,Career Growth,256
+EMP11838,2026-03-11,Resignation,Relocation,956
+EMP11839,2025-08-09,Absconding,No Intimation,21
+EMP11840,2026-07-04,Resignation,Salary,728
+EMP11842,2024-10-30,Resignation,Better Offer,1280
+EMP11843,2023-10-15,Resignation,Better Offer,183
+EMP11844,2025-06-28,Resignation,Career Growth,357
+EMP11845,2023-06-24,Resignation,Better Offer,657
+EMP11847,2026-08-15,Resignation,Career Growth,49
+EMP11848,2026-09-12,Resignation,Career Growth,1893
+EMP11850,2023-11-29,Absconding,No Intimation,18
+EMP11853,2025-06-28,Resignation,Personal / Family,14
+EMP11855,2024-03-12,Resignation,Better Offer,816
+EMP11857,2023-11-18,Resignation,Relocation,331
+EMP11858,2024-01-11,Resignation,Better Offer,558
+EMP11859,2024-10-24,Resignation,Personal / Family,194
+EMP11863,2025-04-14,Resignation,Work Conditions,37
+EMP11865,2026-09-03,Resignation,Relocation,425
+EMP11867,2024-05-24,Resignation,Career Growth,761
+EMP11869,2023-07-01,Absconding,Site Conditions,21
+EMP11872,2026-03-09,Resignation,Better Offer,618
+EMP11877,2023-06-17,Resignation,Salary,315
+EMP11878,2024-07-14,Resignation,Relocation,29
+EMP11879,2023-10-29,Resignation,Relocation,643
+EMP11883,2023-12-16,Resignation,Career Growth,14
+EMP11884,2024-01-06,End of Contract,Project Demobilisation,1189
+EMP11885,2024-05-22,Resignation,Relocation,1052
+EMP11886,2024-03-22,Resignation,Better Offer,34
+EMP11887,2024-11-29,Resignation,Salary,1855
+EMP11888,2024-01-06,Resignation,Career Growth,7
+EMP11889,2026-07-05,End of Contract,Project Demobilisation,1530
+EMP11890,2024-12-04,End of Contract,Contract Not Renewed,312
+EMP11892,2025-04-27,Resignation,Personal / Family,442
+EMP11893,2025-12-20,Resignation,Salary,525
+EMP11894,2026-03-26,Absconding,Wage Dispute,26
+EMP11895,2026-01-17,Resignation,Personal / Family,329
+EMP11900,2024-02-01,Resignation,Better Offer,19
+EMP11901,2025-02-28,Resignation,Personal / Family,2080
+EMP11903,2023-09-25,Resignation,Personal / Family,9
+EMP11904,2024-05-25,Absconding,Site Conditions,42
+EMP11905,2025-09-08,Resignation,Relocation,37
+EMP11908,2026-08-03,Resignation,Better Offer,37
+EMP11910,2024-09-21,Resignation,Better Offer,1397
+EMP11912,2024-12-26,Resignation,Work Conditions,891
+EMP11913,2024-05-18,Resignation,Relocation,224
+EMP11914,2025-09-29,Resignation,Relocation,835
+EMP11915,2024-12-31,Resignation,Career Growth,395
+EMP11917,2025-02-07,Resignation,Personal / Family,237
+EMP11919,2024-03-12,Absconding,Wage Dispute,17
+EMP11920,2024-06-04,Resignation,Personal / Family,1795
+EMP11921,2025-08-04,Absconding,No Intimation,16
+EMP11923,2024-10-23,Resignation,Career Growth,389
+EMP11924,2026-06-30,Resignation,Work Conditions,206
+EMP11925,2024-11-07,Resignation,Work Conditions,523
+EMP11926,2024-10-29,Resignation,Work Conditions,1611
+EMP11927,2026-08-23,Resignation,Work Conditions,400
+EMP11928,2024-01-08,Resignation,Better Offer,1449
+EMP11929,2026-03-02,Resignation,Better Offer,2312
+EMP11930,2023-12-26,Resignation,Personal / Family,803
+EMP11932,2024-03-10,Resignation,Work Conditions,253
+EMP11933,2025-10-12,Absconding,No Intimation,8
+EMP11934,2025-09-07,Resignation,Work Conditions,337
+EMP11935,2026-08-14,Resignation,Work Conditions,797
+EMP11936,2024-04-20,Resignation,Work Conditions,357
+EMP11939,2026-05-01,End of Contract,Contract Not Renewed,27
+EMP11942,2024-02-04,Absconding,Site Conditions,43
+EMP11943,2025-06-19,Resignation,Manager Relationship,537
+EMP11944,2025-09-22,Resignation,Personal / Family,373
+EMP11946,2024-07-08,End of Contract,Contract Not Renewed,1348
+EMP11947,2023-05-23,Resignation,Personal / Family,52
+EMP11948,2026-06-15,Resignation,Career Growth,870
+EMP11949,2023-07-23,Resignation,Manager Relationship,1317
+EMP11950,2026-05-02,Resignation,Career Growth,1362
+EMP11951,2023-07-19,Resignation,Relocation,351
+EMP11954,2023-04-03,Resignation,Better Offer,1362
+EMP11955,2026-04-20,Absconding,Site Conditions,23
+EMP11962,2024-06-25,Resignation,Career Growth,1682
+EMP11964,2023-08-12,Resignation,Manager Relationship,362
+EMP11965,2024-04-22,Resignation,Salary,1023
+EMP11966,2023-11-20,Resignation,Career Growth,1098
+EMP11967,2026-08-26,End of Contract,Project Demobilisation,753
+EMP11970,2024-10-06,Resignation,Better Offer,274
+EMP11971,2023-12-27,Resignation,Career Growth,1392
+EMP11974,2024-03-14,Resignation,Work Conditions,12
+EMP11975,2025-02-12,Resignation,Career Growth,2170
+EMP11977,2025-01-26,Resignation,Manager Relationship,414
+EMP11978,2024-10-17,Resignation,Relocation,854
+EMP11979,2023-05-19,Resignation,Manager Relationship,1533
+EMP11980,2025-06-10,Resignation,Career Growth,738
+EMP11982,2023-11-11,Absconding,Site Conditions,28
+EMP11983,2024-12-27,Resignation,Career Growth,1514
+EMP11986,2023-08-10,Resignation,Career Growth,1212
+EMP11987,2025-09-26,Resignation,Personal / Family,13
+EMP11989,2024-05-10,Termination,Attendance,34
+EMP11991,2024-03-24,Resignation,Career Growth,295
+EMP11992,2024-09-05,Resignation,Work Conditions,208
+EMP11993,2024-03-02,Resignation,Career Growth,1544
+EMP11995,2023-05-22,Resignation,Manager Relationship,1038
+EMP11998,2024-02-25,Resignation,Manager Relationship,15
+EMP11999,2024-03-25,End of Contract,Contract Not Renewed,1699
+EMP12002,2023-06-29,Resignation,Better Offer,563
+EMP12004,2026-06-20,Resignation,Manager Relationship,2170
+EMP12006,2024-12-20,Resignation,Manager Relationship,1706
+EMP12007,2023-05-29,Resignation,Salary,494
+EMP12008,2023-12-19,Resignation,Manager Relationship,512
+EMP12009,2025-09-27,Resignation,Work Conditions,231
+EMP12010,2024-09-08,Resignation,Work Conditions,92
+EMP12014,2023-09-17,Resignation,Relocation,935
+EMP12015,2025-09-04,Resignation,Personal / Family,2304
+EMP12017,2023-07-05,Resignation,Personal / Family,1405
+EMP12019,2026-07-27,Resignation,Salary,16
+EMP12020,2023-07-21,Resignation,Career Growth,734
+EMP12022,2025-05-27,Resignation,Salary,486
+EMP12023,2025-05-07,Resignation,Manager Relationship,25
+EMP12024,2024-10-14,Resignation,Better Offer,408
+EMP12025,2026-09-08,Resignation,Salary,724
+EMP12026,2024-02-02,End of Contract,Contract Not Renewed,586
+EMP12027,2025-01-23,Resignation,Work Conditions,54
+EMP12028,2025-11-04,Resignation,Better Offer,276
+EMP12030,2024-07-06,Resignation,Relocation,329
+EMP12034,2024-02-26,Resignation,Work Conditions,485
+EMP12036,2024-05-18,Resignation,Career Growth,612
+EMP12038,2024-02-05,Absconding,Wage Dispute,16
+EMP12040,2023-10-23,Resignation,Personal / Family,16
+EMP12042,2026-02-25,Resignation,Career Growth,1012
+EMP12043,2023-07-16,Resignation,Personal / Family,911
+EMP12044,2024-08-26,Resignation,Work Conditions,741
+EMP12045,2025-03-02,Resignation,Career Growth,414
+EMP12046,2026-05-07,Resignation,Work Conditions,1055
+EMP12047,2025-08-19,Resignation,Manager Relationship,17
+EMP12048,2024-02-03,Resignation,Relocation,21
+EMP12049,2024-04-18,Resignation,Manager Relationship,826
+EMP12050,2025-06-27,Resignation,Work Conditions,230
+EMP12053,2024-08-15,Absconding,Wage Dispute,19
+EMP12054,2024-07-04,Resignation,Personal / Family,614
+EMP12058,2024-07-11,End of Contract,Project Demobilisation,390
+EMP12059,2026-01-17,Resignation,Career Growth,7
+EMP12060,2024-10-04,Resignation,Manager Relationship,1121
+EMP12061,2025-10-14,Resignation,Relocation,31
+EMP12064,2024-03-30,Resignation,Relocation,685
+EMP12065,2026-05-31,Resignation,Manager Relationship,1962
+EMP12066,2024-01-10,Resignation,Relocation,1196
+EMP12076,2025-06-28,Resignation,Career Growth,112
+EMP12077,2024-01-02,Resignation,Relocation,512
+EMP12079,2024-03-05,Resignation,Career Growth,129
+EMP12080,2024-04-22,Absconding,Site Conditions,23
+EMP12082,2023-06-11,Resignation,Work Conditions,419
+EMP12083,2025-05-31,Resignation,Work Conditions,1115
+EMP12084,2026-03-17,Absconding,Site Conditions,10
+EMP12088,2024-03-03,Resignation,Manager Relationship,844
+EMP12094,2024-10-08,Resignation,Career Growth,1119
+EMP12095,2023-10-21,Resignation,Better Offer,1308
+EMP12098,2025-09-13,Absconding,No Intimation,7
+EMP12100,2024-01-20,Absconding,No Intimation,21
+EMP12102,2026-05-19,Absconding,Site Conditions,3
+EMP12107,2024-03-19,Resignation,Relocation,136
+EMP12108,2025-04-20,Resignation,Relocation,162
+EMP12109,2024-07-26,Resignation,Salary,153
+EMP12110,2025-04-06,Resignation,Salary,22
+EMP12111,2026-02-01,Resignation,Better Offer,99
+EMP12112,2025-06-07,Resignation,Salary,1378
+EMP12113,2025-06-20,Resignation,Career Growth,559
+EMP12114,2025-11-06,Resignation,Work Conditions,2241
+EMP12115,2026-07-14,Resignation,Career Growth,360
+EMP12116,2023-09-02,Absconding,No Intimation,14
+EMP12120,2025-08-20,Resignation,Career Growth,1066
+EMP12122,2024-12-17,End of Contract,Contract Not Renewed,788
+EMP12124,2024-11-20,Resignation,Better Offer,863
+EMP12126,2023-09-28,Resignation,Career Growth,1240
+EMP12128,2023-05-28,Resignation,Salary,29
+EMP12130,2024-08-05,Resignation,Work Conditions,324
+EMP12131,2023-05-13,Resignation,Salary,1118
+EMP12132,2023-07-17,Resignation,Career Growth,673
+EMP12134,2023-08-11,Resignation,Relocation,324
+EMP12136,2024-01-07,Resignation,Career Growth,1
+EMP12138,2023-09-30,Resignation,Manager Relationship,650
+EMP12139,2025-11-14,Resignation,Personal / Family,118
+EMP12140,2025-08-16,Resignation,Salary,14
+EMP12141,2026-01-01,Resignation,Salary,348
+EMP12142,2025-07-05,Resignation,Personal / Family,1142
+EMP12143,2023-08-27,Absconding,No Intimation,22
+EMP12147,2024-05-11,Resignation,Relocation,1214
+EMP12148,2023-08-25,Resignation,Personal / Family,230
+EMP12149,2024-06-17,Resignation,Relocation,618
+EMP12151,2024-07-30,Resignation,Better Offer,178
+EMP12153,2025-08-13,Resignation,Work Conditions,151
+EMP12155,2023-07-06,Resignation,Relocation,19
+EMP12156,2023-10-19,Resignation,Work Conditions,1543
+EMP12158,2025-05-16,Resignation,Personal / Family,573
+EMP12159,2023-10-15,Resignation,Work Conditions,1643
+EMP12162,2025-05-18,Resignation,Salary,1617
+EMP12163,2023-06-02,Resignation,Manager Relationship,1088
+EMP12165,2023-09-22,Resignation,Career Growth,576
+EMP12166,2025-02-15,Resignation,Better Offer,245
+EMP12167,2026-06-13,Resignation,Career Growth,2089
+EMP12170,2024-05-01,Resignation,Better Offer,235
+EMP12171,2024-11-10,End of Contract,Project Demobilisation,239
+EMP12172,2024-08-18,Resignation,Personal / Family,945
+EMP12174,2024-12-29,Absconding,Wage Dispute,36
+EMP12177,2026-08-22,Resignation,Salary,28
+EMP12178,2023-09-16,Resignation,Better Offer,1510
+EMP12179,2025-03-08,Resignation,Relocation,2095
+EMP12181,2024-04-08,Resignation,Personal / Family,728
+EMP12184,2024-08-19,Resignation,Salary,114
+EMP12185,2023-08-02,Absconding,No Intimation,4
+EMP12186,2026-04-14,Resignation,Salary,2416
+EMP12187,2025-10-07,Resignation,Salary,3
+EMP12188,2026-07-18,Resignation,Salary,224
+EMP12190,2024-03-31,Resignation,Manager Relationship,36
+EMP12191,2025-10-25,Resignation,Personal / Family,35
+EMP12192,2023-12-05,Resignation,Relocation,234
+EMP12193,2024-09-26,Resignation,Work Conditions,1172
+EMP12195,2023-12-16,Resignation,Salary,1253
+EMP12197,2024-11-13,End of Contract,Project Demobilisation,11
+EMP12198,2025-01-13,Absconding,Wage Dispute,9
+EMP12199,2024-06-04,Resignation,Better Offer,136
+EMP12200,2023-07-31,Resignation,Relocation,1530
+EMP12202,2023-12-06,Resignation,Relocation,172
+EMP12205,2023-11-06,Absconding,No Intimation,23
+EMP12207,2024-04-06,Resignation,Personal / Family,98
+EMP12208,2023-10-04,Resignation,Better Offer,1165
+EMP12209,2026-05-27,Absconding,Site Conditions,18
+EMP12211,2025-05-03,Resignation,Personal / Family,2115
+EMP12212,2024-04-25,Resignation,Salary,103
+EMP12213,2025-07-23,Resignation,Salary,270
+EMP12217,2026-04-25,Resignation,Career Growth,546
+EMP12221,2024-07-18,Resignation,Better Offer,1169
+EMP12227,2024-10-25,Resignation,Personal / Family,1017
+EMP12228,2026-07-13,Resignation,Work Conditions,23
+EMP12230,2023-04-28,Resignation,Manager Relationship,13
+EMP12231,2023-07-17,Resignation,Relocation,951
+EMP12232,2026-02-25,Resignation,Better Offer,137
+EMP12234,2026-06-15,Resignation,Career Growth,450
+EMP12235,2023-09-02,Resignation,Personal / Family,660
+EMP12238,2024-12-23,Resignation,Work Conditions,1172
+EMP12240,2024-07-10,Resignation,Salary,25
+EMP12241,2024-05-31,Resignation,Career Growth,587
+EMP12243,2025-09-07,Resignation,Salary,330
+EMP12247,2023-07-28,Resignation,Relocation,27
+EMP12250,2026-05-25,Resignation,Personal / Family,352
+EMP12251,2024-09-03,Resignation,Relocation,17
+EMP12252,2026-07-29,Absconding,No Intimation,25
+EMP12253,2025-03-30,Resignation,Manager Relationship,29
+EMP12257,2026-08-24,Resignation,Manager Relationship,37
+EMP12258,2025-12-02,Resignation,Manager Relationship,885
+EMP12260,2024-04-18,Resignation,Relocation,925
+EMP12263,2023-08-24,Resignation,Relocation,1377
+EMP12265,2025-11-14,Resignation,Salary,20
+EMP12266,2024-09-15,Resignation,Career Growth,1001
+EMP12267,2026-05-19,End of Contract,Project Demobilisation,402
+EMP12268,2025-10-22,Absconding,Site Conditions,46
+EMP12269,2023-08-10,Resignation,Personal / Family,1140
+EMP12273,2026-05-04,Resignation,Work Conditions,632
+EMP12274,2024-05-17,Resignation,Manager Relationship,20
+EMP12275,2024-08-24,Absconding,No Intimation,42
+EMP12277,2026-07-23,Resignation,Work Conditions,355
+EMP12278,2025-04-30,Absconding,Wage Dispute,4
+EMP12279,2026-07-23,Resignation,Better Offer,600
+EMP12280,2026-01-04,Resignation,Relocation,890
+EMP12282,2025-11-26,Absconding,No Intimation,32
+EMP12283,2024-08-28,Termination,Performance,480
+EMP12284,2025-10-17,Resignation,Relocation,2105
+EMP12285,2024-06-15,Resignation,Salary,1688
+EMP12287,2024-03-24,Termination,Disciplinary,274
+EMP12288,2024-01-29,Absconding,Wage Dispute,30
+EMP12289,2026-09-01,Resignation,Work Conditions,969
+EMP12292,2024-02-25,Resignation,Career Growth,22
+EMP12294,2023-08-25,Resignation,Personal / Family,1155
+EMP12295,2025-10-28,Resignation,Work Conditions,710
+EMP12296,2026-08-04,Resignation,Manager Relationship,829
+EMP12297,2024-12-21,End of Contract,Contract Not Renewed,14
+EMP12299,2025-10-10,Resignation,Better Offer,160
+EMP12300,2026-06-06,Resignation,Manager Relationship,14
+EMP12301,2026-07-09,Resignation,Relocation,1733
+EMP12303,2023-12-02,Resignation,Relocation,795
+EMP12304,2024-11-11,Resignation,Relocation,16
+EMP12305,2026-04-13,Resignation,Career Growth,2234
+EMP12307,2025-10-31,Termination,Attendance,538
+EMP12308,2023-11-25,Resignation,Career Growth,1639
+EMP12309,2026-09-10,Resignation,Relocation,187
+EMP12311,2026-05-17,Resignation,Work Conditions,414
+EMP12315,2023-09-21,Resignation,Career Growth,54
+EMP12316,2024-08-01,Resignation,Relocation,222
+EMP12317,2026-03-24,Resignation,Work Conditions,178
+EMP12318,2024-06-03,Resignation,Better Offer,1526
+EMP12320,2023-08-30,Resignation,Work Conditions,838
+EMP12321,2026-07-12,Absconding,Site Conditions,36
+EMP12322,2024-01-02,Resignation,Manager Relationship,108
+EMP12323,2024-07-21,Termination,Performance,746
+EMP12324,2026-04-20,Absconding,Site Conditions,9
+EMP12325,2025-04-18,Resignation,Manager Relationship,27
+EMP12327,2023-11-25,Resignation,Work Conditions,332
+EMP12328,2026-08-27,End of Contract,Contract Not Renewed,264
+EMP12330,2025-09-13,Resignation,Career Growth,210
+EMP12332,2023-07-21,Resignation,Personal / Family,83
+EMP12336,2024-08-30,Resignation,Salary,915
+EMP12337,2026-06-04,Resignation,Salary,19
+EMP12338,2024-01-24,Resignation,Relocation,365
+EMP12339,2024-11-05,Resignation,Work Conditions,10
+EMP12340,2023-05-09,Resignation,Salary,1056
+EMP12341,2023-06-13,Resignation,Manager Relationship,844
+EMP12342,2025-08-14,Resignation,Work Conditions,516
+EMP12343,2024-06-12,Resignation,Salary,221
+EMP12344,2023-07-26,Resignation,Manager Relationship,779
+EMP12347,2026-09-04,Resignation,Manager Relationship,1559
+EMP12348,2024-10-28,Resignation,Salary,16
+EMP12349,2023-12-04,Resignation,Better Offer,702
+EMP12350,2026-08-09,Resignation,Personal / Family,827
+EMP12351,2026-01-06,Absconding,No Intimation,3
+EMP12354,2026-08-03,Absconding,Wage Dispute,16
+EMP12355,2024-04-10,Resignation,Better Offer,1874
+EMP12358,2023-06-02,Resignation,Personal / Family,1390
+EMP12360,2023-08-27,Resignation,Personal / Family,407
+EMP12361,2023-09-26,Resignation,Work Conditions,1148
+EMP12362,2025-01-18,Resignation,Personal / Family,35
+EMP12363,2025-03-29,Resignation,Career Growth,7
+EMP12365,2026-06-21,Resignation,Career Growth,337
+EMP12366,2026-04-20,Resignation,Personal / Family,30
+EMP12369,2026-02-07,Resignation,Better Offer,973
+EMP12372,2023-04-27,Resignation,Work Conditions,5
+EMP12375,2024-02-02,Resignation,Personal / Family,560
+EMP12377,2024-02-24,Resignation,Salary,846
+EMP12378,2023-05-20,Resignation,Relocation,436
+EMP12379,2024-05-29,Absconding,Site Conditions,4
+EMP12383,2023-05-23,Resignation,Salary,1548
+EMP12384,2023-12-11,Resignation,Work Conditions,412
+EMP12385,2024-04-19,Resignation,Manager Relationship,363
+EMP12386,2025-09-09,Resignation,Career Growth,164
+EMP12387,2023-09-25,Resignation,Career Growth,1072
+EMP12388,2023-10-23,Resignation,Work Conditions,1208
+EMP12389,2026-03-04,End of Contract,Project Demobilisation,683
+EMP12390,2024-05-11,Absconding,Wage Dispute,7
+EMP12392,2026-07-29,Resignation,Work Conditions,109
+EMP12394,2025-11-02,Absconding,Site Conditions,15
+EMP12396,2024-11-20,Resignation,Relocation,74
+EMP12400,2025-05-11,Resignation,Work Conditions,22
+EMP12401,2024-11-09,End of Contract,Project Demobilisation,7
+EMP12402,2026-07-27,Resignation,Work Conditions,401
+EMP12403,2025-06-10,Resignation,Better Offer,157
+EMP12404,2026-02-16,End of Contract,Project Demobilisation,16
+EMP12405,2023-04-01,Resignation,Salary,840
+EMP12406,2026-09-16,Resignation,Salary,1685
+EMP12407,2025-11-26,Absconding,No Intimation,4
+EMP12408,2024-10-21,Absconding,No Intimation,16
+EMP12411,2026-07-29,Resignation,Personal / Family,704
+EMP12412,2025-06-02,Resignation,Manager Relationship,681
+EMP12414,2024-06-09,Absconding,Site Conditions,1
+EMP12416,2023-07-27,Resignation,Salary,838
+EMP12417,2024-12-03,Resignation,Relocation,269
+EMP12421,2026-02-13,Absconding,Wage Dispute,6
+EMP12423,2026-04-22,Resignation,Personal / Family,2115
+EMP12425,2023-12-20,Resignation,Manager Relationship,507
+EMP12427,2026-01-28,Absconding,Wage Dispute,25
+EMP12428,2025-03-15,Resignation,Better Offer,7
+EMP12429,2025-02-23,Resignation,Salary,526
+EMP12433,2024-09-13,Resignation,Better Offer,244
+EMP12435,2024-06-19,Resignation,Relocation,501
+EMP12438,2025-07-21,Absconding,Wage Dispute,2
+EMP12439,2024-06-28,Resignation,Salary,754
+EMP12440,2024-03-12,Resignation,Better Offer,1514
+EMP12441,2025-12-21,Absconding,Wage Dispute,15
+EMP12442,2025-09-16,Resignation,Career Growth,787
+EMP12446,2025-06-16,Absconding,No Intimation,30
+EMP12448,2023-05-16,Resignation,Better Offer,1077
+EMP12450,2024-11-20,Termination,Attendance,249
+EMP12452,2026-07-01,Resignation,Manager Relationship,2677
+EMP12454,2024-08-19,Resignation,Manager Relationship,1958
+EMP12455,2023-06-28,Resignation,Better Offer,954
+EMP12457,2025-08-27,Resignation,Salary,249
+EMP12458,2024-07-20,Resignation,Personal / Family,21
+EMP12459,2023-08-10,Resignation,Better Offer,262
+EMP12460,2024-01-08,Resignation,Manager Relationship,1567
+EMP12461,2024-11-14,Absconding,Site Conditions,33
+EMP12462,2026-07-26,Resignation,Work Conditions,386
+EMP12464,2024-10-01,Resignation,Career Growth,1975
+EMP12465,2024-12-02,Resignation,Relocation,1876
+EMP12466,2023-10-16,Resignation,Personal / Family,23
+EMP12467,2024-05-26,Resignation,Better Offer,729
+EMP12468,2023-07-31,Absconding,Wage Dispute,30
+EMP12470,2023-05-12,Resignation,Personal / Family,863
+EMP12472,2025-03-30,Absconding,No Intimation,15
+EMP12473,2023-12-09,Resignation,Salary,91
+EMP12478,2026-03-22,Resignation,Relocation,393
+EMP12479,2025-04-09,Resignation,Manager Relationship,2165
+EMP12480,2023-10-31,Resignation,Salary,1172
+EMP12482,2025-11-22,Absconding,No Intimation,14
+EMP12483,2025-05-22,Resignation,Work Conditions,460
+EMP12485,2025-01-06,End of Contract,Project Demobilisation,352
+EMP12487,2024-01-04,Resignation,Work Conditions,556
+EMP12488,2025-01-10,Resignation,Salary,1584
+EMP12490,2023-07-05,Resignation,Relocation,765
+EMP12494,2026-04-17,Resignation,Better Offer,13
+EMP12495,2023-08-25,Resignation,Career Growth,904
+EMP12498,2025-10-06,Absconding,Wage Dispute,16
+EMP12499,2025-10-30,Resignation,Career Growth,1090
+EMP12500,2023-09-09,Resignation,Relocation,668
+EMP12501,2024-06-18,Resignation,Work Conditions,1210
+EMP12502,2025-11-27,Resignation,Salary,1623
+EMP12503,2024-12-25,End of Contract,Contract Not Renewed,32
+EMP12504,2025-04-09,Resignation,Salary,4
+EMP12506,2023-11-26,Termination,Disciplinary,558
+EMP12507,2026-08-16,Resignation,Personal / Family,127
+EMP12508,2026-05-09,Resignation,Personal / Family,21
+EMP12509,2025-10-19,Resignation,Career Growth,36
+EMP12512,2025-02-07,Resignation,Personal / Family,6
+EMP12515,2024-03-18,Resignation,Salary,776
+EMP12523,2023-10-14,Resignation,Better Offer,1204
+EMP12524,2025-03-18,Resignation,Work Conditions,1719
+EMP12525,2023-08-09,Resignation,Career Growth,1491
+EMP12526,2023-06-18,Resignation,Salary,15
+EMP12527,2026-09-05,Resignation,Relocation,532
+EMP12532,2026-09-09,Resignation,Personal / Family,2684
+EMP12534,2025-11-27,Resignation,Personal / Family,250
+EMP12539,2023-10-29,Resignation,Personal / Family,398
+EMP12540,2025-04-20,Resignation,Work Conditions,1774
+EMP12542,2026-01-25,Resignation,Better Offer,743
+EMP12543,2024-12-06,Resignation,Better Offer,839
+EMP12546,2023-12-01,Resignation,Relocation,55
+EMP12547,2024-02-24,Resignation,Personal / Family,259
+EMP12548,2024-12-06,Resignation,Work Conditions,1966
+EMP12549,2025-12-21,Resignation,Manager Relationship,967
+EMP12550,2025-09-28,Absconding,Site Conditions,8
+EMP12551,2025-06-22,Resignation,Relocation,666
+EMP12555,2024-04-15,Resignation,Work Conditions,30
+EMP12556,2024-08-20,Absconding,Wage Dispute,24
+EMP12560,2025-02-22,Resignation,Salary,1347
+EMP12563,2024-09-29,Resignation,Manager Relationship,29
+EMP12564,2024-03-20,Resignation,Work Conditions,804
+EMP12565,2026-06-20,End of Contract,Contract Not Renewed,0
+EMP12566,2023-07-31,Termination,Performance,23
+EMP12567,2026-05-25,End of Contract,Project Demobilisation,1878
+EMP12568,2024-09-19,Resignation,Personal / Family,285
+EMP12569,2024-02-15,Resignation,Relocation,1534
+EMP12572,2025-06-11,Resignation,Personal / Family,725
+EMP12573,2026-01-06,Resignation,Better Offer,710
+EMP12574,2023-11-17,Resignation,Better Offer,848
+EMP12575,2026-07-20,Absconding,Wage Dispute,23
+EMP12577,2025-01-08,Resignation,Career Growth,403
+EMP12580,2025-07-19,Resignation,Career Growth,308
+EMP12581,2024-06-15,Resignation,Salary,565
+EMP12582,2024-10-24,Absconding,Wage Dispute,47
+EMP12587,2025-01-17,Resignation,Career Growth,20
+EMP12590,2024-08-21,Resignation,Work Conditions,256
+EMP12591,2026-07-13,Resignation,Work Conditions,408
+EMP12592,2025-06-05,Resignation,Manager Relationship,5
+EMP12593,2023-05-28,Resignation,Manager Relationship,1252
+EMP12595,2026-09-12,Resignation,Personal / Family,98
+EMP12596,2025-04-13,Resignation,Relocation,2069
+EMP12598,2026-08-13,Resignation,Salary,1006
+EMP12599,2024-01-17,Resignation,Relocation,617
+EMP12600,2026-02-03,Resignation,Salary,269
+EMP12601,2024-11-07,Resignation,Work Conditions,145
+EMP12603,2023-08-20,Resignation,Manager Relationship,312
+EMP12604,2023-11-28,Termination,Performance,52
+EMP12608,2025-11-15,Resignation,Relocation,434
+EMP12612,2025-11-23,Resignation,Career Growth,29
+EMP12613,2025-11-22,Resignation,Salary,903
+EMP12614,2026-07-07,Resignation,Career Growth,1231
+EMP12617,2024-12-18,Resignation,Salary,711
+EMP12618,2023-07-02,Resignation,Career Growth,1430
+EMP12619,2026-07-25,Absconding,Wage Dispute,7
+EMP12626,2023-06-15,Resignation,Personal / Family,1014
+EMP12627,2023-11-23,Resignation,Work Conditions,5
+EMP12628,2025-03-05,Resignation,Better Offer,319
+EMP12629,2026-03-31,Resignation,Personal / Family,1234
+EMP12631,2026-01-31,Resignation,Career Growth,1871
+EMP12633,2024-04-25,Resignation,Personal / Family,208
+EMP12634,2025-03-16,Resignation,Better Offer,246
+EMP12635,2024-12-22,Resignation,Salary,274
+EMP12636,2023-07-07,Resignation,Career Growth,1380
+EMP12637,2023-11-27,End of Contract,Project Demobilisation,1436
+EMP12638,2024-08-05,Resignation,Relocation,30
+EMP12639,2025-01-29,End of Contract,Contract Not Renewed,1470
+EMP12641,2023-10-09,Resignation,Career Growth,883
+EMP12642,2024-04-05,Resignation,Personal / Family,342
+EMP12644,2023-12-28,Resignation,Personal / Family,992
+EMP12645,2026-08-24,Resignation,Relocation,16
+EMP12646,2024-11-11,Resignation,Better Offer,429
+EMP12647,2023-08-13,Resignation,Work Conditions,714
+EMP12648,2023-08-06,Resignation,Manager Relationship,774
+EMP12649,2025-10-21,Resignation,Salary,374
+EMP12650,2024-10-13,Absconding,No Intimation,15
+EMP12653,2026-05-27,Resignation,Relocation,1763
+EMP12654,2023-07-07,Resignation,Relocation,430
+EMP12655,2025-03-10,Resignation,Better Offer,969
+EMP12657,2024-02-25,Resignation,Career Growth,1047
+EMP12660,2026-04-09,Resignation,Salary,495
+EMP12661,2024-08-15,Absconding,Site Conditions,5
+EMP12663,2024-11-01,End of Contract,Contract Not Renewed,62
+EMP12664,2024-01-07,Resignation,Work Conditions,239
+EMP12665,2026-02-27,Resignation,Work Conditions,937
+EMP12669,2026-03-16,Absconding,Wage Dispute,16
+EMP12671,2026-03-07,Resignation,Salary,336
+EMP12672,2023-05-13,Resignation,Career Growth,549
+EMP12673,2023-08-12,Resignation,Manager Relationship,1430
+EMP12674,2025-05-27,Resignation,Work Conditions,542
+EMP12676,2024-09-12,Resignation,Manager Relationship,1065
+EMP12677,2024-01-20,Resignation,Manager Relationship,1774
+EMP12678,2025-03-05,Resignation,Career Growth,487
+EMP12679,2024-11-29,Resignation,Manager Relationship,1378
+EMP12682,2024-01-03,Resignation,Personal / Family,402
+EMP12683,2023-06-25,Resignation,Salary,1467
+EMP12684,2024-01-04,Resignation,Better Offer,1183
+EMP12686,2023-11-30,Resignation,Better Offer,807
+EMP12687,2025-12-25,Resignation,Relocation,1950
+EMP12688,2024-12-13,Resignation,Work Conditions,272
+EMP12689,2024-10-24,Resignation,Salary,110
+EMP12690,2026-08-24,Resignation,Relocation,261
+EMP12695,2025-05-17,Resignation,Manager Relationship,266
+EMP12696,2025-11-04,Termination,Disciplinary,717
+EMP12698,2024-09-21,End of Contract,Contract Not Renewed,1009
+EMP12699,2026-01-30,Resignation,Personal / Family,153
+EMP12700,2025-02-02,Resignation,Work Conditions,512
+EMP12701,2026-07-28,Resignation,Salary,416
+EMP12702,2025-03-04,Resignation,Career Growth,1383
+EMP12704,2026-02-22,Absconding,No Intimation,1
+EMP12707,2023-08-02,Resignation,Personal / Family,1592
+EMP12708,2025-12-27,Resignation,Relocation,182
+EMP12709,2023-11-02,Resignation,Manager Relationship,827
+EMP12712,2026-01-25,Resignation,Better Offer,57
+EMP12715,2023-12-08,Resignation,Career Growth,1376
+EMP12719,2023-05-21,Absconding,No Intimation,29
+EMP12720,2023-12-17,Resignation,Personal / Family,775
+EMP12721,2024-02-19,Absconding,Site Conditions,9
+EMP12728,2026-05-01,Resignation,Personal / Family,972
+EMP12729,2024-11-03,Resignation,Manager Relationship,22
+EMP12731,2025-12-05,Absconding,Wage Dispute,48
+EMP12732,2025-08-30,Absconding,Site Conditions,14
+EMP12734,2024-04-25,Resignation,Manager Relationship,1078
+EMP12736,2024-07-07,Resignation,Manager Relationship,365
+EMP12737,2024-01-21,Resignation,Better Offer,288
+EMP12738,2023-12-11,Termination,Attendance,1698
+EMP12739,2023-05-14,Resignation,Manager Relationship,807
+EMP12740,2025-07-18,Resignation,Manager Relationship,496
+EMP12741,2026-03-26,End of Contract,Project Demobilisation,2422
+EMP12742,2026-08-30,Resignation,Salary,162
+EMP12743,2025-03-11,Resignation,Manager Relationship,1088
+EMP12744,2026-07-05,Resignation,Salary,561
+EMP12747,2026-02-22,Resignation,Better Offer,1141
+EMP12748,2023-09-10,Resignation,Career Growth,699
+EMP12749,2026-01-01,Resignation,Relocation,2369
+EMP12750,2026-03-12,Resignation,Personal / Family,971
+EMP12751,2023-10-03,Resignation,Work Conditions,449
+EMP12754,2024-09-05,Resignation,Salary,404
+EMP12755,2026-04-13,Resignation,Career Growth,730
+EMP12756,2025-03-01,Absconding,No Intimation,49
+EMP12758,2023-07-31,Resignation,Manager Relationship,800
+EMP12759,2024-03-20,Resignation,Manager Relationship,39
+EMP12760,2023-04-28,Resignation,Salary,1385
+EMP12761,2023-09-30,Resignation,Better Offer,63
+EMP12762,2024-05-17,Termination,Attendance,1275
+EMP12764,2024-01-08,Resignation,Better Offer,1755
+EMP12765,2026-09-13,Resignation,Salary,386
+EMP12766,2024-02-25,Resignation,Better Offer,1641
+EMP12769,2024-05-31,Resignation,Better Offer,223
+EMP12770,2024-08-28,Resignation,Salary,866
+EMP12771,2023-08-24,Resignation,Manager Relationship,547
+EMP12774,2026-07-02,Resignation,Manager Relationship,257
+EMP12776,2024-08-03,Absconding,No Intimation,42
+EMP12777,2023-11-20,Resignation,Salary,1397
+EMP12779,2024-06-30,Resignation,Career Growth,36
+EMP12780,2023-08-20,Resignation,Better Offer,765
+EMP12782,2025-01-23,Resignation,Career Growth,33
+EMP12783,2023-10-31,Absconding,Site Conditions,24
+EMP12784,2025-03-29,Resignation,Work Conditions,595
+EMP12787,2023-08-13,Resignation,Manager Relationship,1449
+EMP12789,2026-07-09,Absconding,No Intimation,19
+EMP12790,2026-01-13,Resignation,Salary,24
+EMP12791,2026-02-18,Resignation,Career Growth,4
+EMP12793,2023-04-10,Resignation,Relocation,9
+EMP12794,2024-01-18,Absconding,Site Conditions,12
+EMP12795,2023-05-25,Resignation,Salary,1216
+EMP12796,2024-08-25,Resignation,Salary,281
+EMP12798,2026-02-23,Resignation,Relocation,121
+EMP12799,2023-05-15,Resignation,Personal / Family,1252
+EMP12800,2025-10-24,Resignation,Salary,1896
+EMP12803,2024-02-09,Resignation,Career Growth,1609
+EMP12805,2023-10-20,Resignation,Better Offer,387
+EMP12806,2025-03-03,Resignation,Better Offer,9
+EMP12807,2025-05-19,Resignation,Career Growth,1161
+EMP12808,2025-05-07,Resignation,Salary,165
+EMP12809,2023-04-11,Resignation,Work Conditions,109
+EMP12812,2023-06-21,Resignation,Manager Relationship,4
+EMP12813,2024-03-03,Absconding,Site Conditions,43
+EMP12814,2024-03-21,Absconding,Site Conditions,19
+EMP12815,2026-02-25,Resignation,Relocation,2050
+EMP12816,2024-05-19,Absconding,No Intimation,15
+EMP12817,2023-11-27,Absconding,Wage Dispute,23
+EMP12819,2023-09-06,Resignation,Relocation,32
+EMP12820,2024-04-24,Absconding,Site Conditions,4
+EMP12824,2025-12-19,Resignation,Manager Relationship,391
+EMP12829,2024-01-10,Resignation,Relocation,207
+EMP12830,2023-06-20,Resignation,Relocation,202
+EMP12831,2024-09-24,Resignation,Work Conditions,542
+EMP12832,2026-08-24,Resignation,Work Conditions,366
+EMP12833,2025-06-16,Resignation,Career Growth,1694
+EMP12838,2025-09-07,Resignation,Personal / Family,15
+EMP12840,2024-01-13,Resignation,Personal / Family,764
+EMP12841,2026-04-12,Resignation,Work Conditions,1079
+EMP12842,2024-10-28,Resignation,Manager Relationship,114
+EMP12843,2023-10-02,Resignation,Relocation,1038
+EMP12845,2026-04-12,Resignation,Personal / Family,554
+EMP12846,2024-03-25,Resignation,Better Offer,23
+EMP12848,2026-06-08,Absconding,Wage Dispute,23
+EMP12849,2024-08-29,Resignation,Better Offer,145
+EMP12850,2023-08-29,Absconding,Wage Dispute,38
+EMP12853,2026-04-12,Resignation,Career Growth,1827
+EMP12854,2024-08-29,Resignation,Salary,12
+EMP12857,2026-05-18,Resignation,Better Offer,359
+EMP12859,2023-12-21,Resignation,Salary,707
+EMP12863,2023-10-11,Resignation,Work Conditions,408
+EMP12864,2026-07-04,Resignation,Salary,728
+EMP12865,2025-09-06,Resignation,Relocation,196
+EMP12866,2025-11-18,Termination,Performance,297
+EMP12867,2024-02-10,Resignation,Relocation,1102
+EMP12868,2023-05-21,Resignation,Career Growth,1355
+EMP12869,2024-07-02,Resignation,Relocation,633
+EMP12875,2026-08-25,Absconding,Site Conditions,31
+EMP12876,2024-01-07,Resignation,Better Offer,389
+EMP12878,2024-06-14,Resignation,Manager Relationship,419
+EMP12879,2026-03-20,Resignation,Career Growth,13
+EMP12880,2025-01-20,Resignation,Better Offer,23
+EMP12882,2025-08-31,Resignation,Salary,2381
+EMP12886,2025-10-04,Absconding,Site Conditions,0
+EMP12887,2023-10-08,Resignation,Career Growth,237
+EMP12888,2023-08-16,Resignation,Work Conditions,622
+EMP12889,2025-03-24,Resignation,Relocation,331
+EMP12890,2024-03-04,End of Contract,Contract Not Renewed,9
+EMP12891,2026-09-10,Resignation,Career Growth,236
+EMP12893,2025-04-13,Resignation,Better Offer,680
+EMP12895,2026-08-06,Resignation,Relocation,299
+EMP12896,2026-04-23,Resignation,Manager Relationship,131
+EMP12897,2024-07-23,Resignation,Career Growth,87
+EMP12900,2026-03-23,Resignation,Personal / Family,1460
+EMP12901,2023-12-28,Resignation,Relocation,1761
+EMP12902,2025-12-03,Resignation,Personal / Family,151
+EMP12903,2023-12-19,Resignation,Work Conditions,849
+EMP12904,2023-04-22,Resignation,Career Growth,493
+EMP12905,2024-04-01,Resignation,Work Conditions,813
+EMP12906,2024-01-30,Resignation,Salary,1586
+EMP12907,2024-06-21,Resignation,Personal / Family,314
+EMP12913,2025-03-28,Termination,Disciplinary,132
+EMP12914,2026-02-17,Resignation,Salary,703
+EMP12915,2025-12-31,Resignation,Better Offer,333
+EMP12917,2024-02-21,Absconding,Site Conditions,11
+EMP12919,2025-12-21,Absconding,Wage Dispute,36
+EMP12922,2025-04-20,Termination,Performance,1180
+EMP12924,2024-05-07,Resignation,Personal / Family,31
+EMP12925,2026-07-16,Resignation,Personal / Family,33
+EMP12927,2026-08-11,Resignation,Work Conditions,822
+EMP12928,2026-01-28,Resignation,Better Offer,32
+EMP12930,2025-12-21,Resignation,Manager Relationship,1693
+EMP12932,2026-05-03,Resignation,Personal / Family,15
+EMP12934,2024-11-19,Absconding,No Intimation,17
+EMP12935,2023-05-13,Resignation,Career Growth,7
+EMP12937,2023-12-29,Resignation,Better Offer,1663
+EMP12938,2023-09-27,Resignation,Career Growth,617
+EMP12939,2024-08-02,Resignation,Personal / Family,1624
+EMP12942,2026-08-03,Resignation,Salary,1587
+EMP12943,2025-10-21,Absconding,Wage Dispute,3
+EMP12944,2026-08-15,Resignation,Personal / Family,385
+EMP12945,2024-05-18,Resignation,Manager Relationship,217
+EMP12948,2024-04-15,Resignation,Manager Relationship,275
+EMP12953,2025-01-05,Resignation,Manager Relationship,92
+EMP12955,2024-07-14,Resignation,Personal / Family,15
+EMP12957,2024-11-16,Resignation,Salary,56
+EMP12958,2024-04-22,Resignation,Salary,1670
+EMP12959,2026-06-23,Resignation,Career Growth,38
+EMP12962,2023-10-15,Resignation,Personal / Family,723
+EMP12964,2023-10-21,Resignation,Relocation,1312
+EMP12965,2025-08-07,Resignation,Relocation,852
+EMP12967,2024-01-17,Resignation,Manager Relationship,11
+EMP12969,2024-11-30,Resignation,Personal / Family,35
+EMP12970,2024-05-06,Resignation,Personal / Family,543
+EMP12972,2026-06-02,Resignation,Work Conditions,829
+EMP12974,2024-10-25,Resignation,Career Growth,55
+EMP12977,2024-02-14,End of Contract,Project Demobilisation,11
+EMP12978,2023-05-21,Resignation,Career Growth,840
+EMP12979,2026-05-11,End of Contract,Project Demobilisation,387
+EMP12981,2023-07-16,Resignation,Career Growth,1008
+EMP12983,2024-07-18,Resignation,Relocation,47
+EMP12986,2023-11-15,Resignation,Personal / Family,371
+EMP12987,2026-09-06,Resignation,Relocation,638
+EMP12989,2024-11-21,Absconding,Wage Dispute,33
+EMP12990,2026-09-06,End of Contract,Contract Not Renewed,225
+EMP13001,2026-03-22,Resignation,Salary,2400
+EMP13004,2025-09-16,Resignation,Work Conditions,1152
+EMP13005,2024-04-15,Absconding,No Intimation,16
+EMP13006,2026-01-04,Resignation,Work Conditions,666
+EMP13007,2023-12-05,Resignation,Career Growth,621
+EMP13010,2026-01-24,Resignation,Relocation,238
+EMP13011,2023-09-16,Resignation,Relocation,328
+EMP13015,2024-10-12,Resignation,Career Growth,1208
+EMP13016,2026-08-07,Resignation,Work Conditions,27
+EMP13017,2024-08-04,Resignation,Personal / Family,1
+EMP13019,2025-07-15,Resignation,Better Offer,682
+EMP13020,2024-05-06,Resignation,Work Conditions,1362
+EMP13021,2025-01-11,Resignation,Personal / Family,21
+EMP13023,2026-02-15,End of Contract,Project Demobilisation,22
+EMP13026,2025-01-07,Resignation,Career Growth,171
+EMP13027,2024-03-02,Resignation,Career Growth,488
+EMP13028,2024-07-25,Resignation,Better Offer,33
+EMP13029,2026-08-13,Resignation,Personal / Family,733
+EMP13030,2023-09-23,Resignation,Relocation,802
+EMP13031,2023-08-09,Resignation,Salary,344
+EMP13032,2025-09-04,Resignation,Relocation,215
+EMP13033,2025-07-21,Resignation,Career Growth,65
+EMP13035,2026-05-01,Absconding,Site Conditions,13
+EMP13036,2023-12-13,Resignation,Manager Relationship,1254
+EMP13039,2026-04-22,Resignation,Manager Relationship,172
+EMP13041,2025-09-08,Resignation,Work Conditions,338
+EMP13042,2024-11-19,End of Contract,Contract Not Renewed,17
+EMP13044,2023-12-04,Resignation,Career Growth,1363
+EMP13045,2026-09-17,Resignation,Personal / Family,138
+EMP13048,2024-12-07,Resignation,Better Offer,518
+EMP13055,2023-05-10,Resignation,Better Offer,1023
+EMP13056,2023-12-24,Resignation,Work Conditions,1449
+EMP13060,2025-04-04,Resignation,Better Offer,349
+EMP13062,2025-10-22,Resignation,Relocation,221
+EMP13065,2023-09-02,Termination,Attendance,537
+EMP13066,2024-08-17,Resignation,Relocation,1073
+EMP13067,2025-09-08,Resignation,Manager Relationship,135
+EMP13068,2024-06-16,Resignation,Manager Relationship,1225
+EMP13070,2024-02-12,Resignation,Better Offer,412
+EMP13073,2023-12-10,Resignation,Relocation,1610
+EMP13074,2025-04-07,Absconding,No Intimation,2
+EMP13078,2026-07-18,Resignation,Work Conditions,427
+EMP13081,2025-11-24,Absconding,Site Conditions,16
+EMP13082,2024-08-27,Resignation,Salary,325
+EMP13083,2025-11-25,Resignation,Better Offer,731
+EMP13084,2026-06-06,Resignation,Salary,672
+EMP13085,2026-03-06,Absconding,No Intimation,6
+EMP13089,2026-05-03,Resignation,Work Conditions,1653
+EMP13090,2025-01-10,Absconding,Wage Dispute,13
+EMP13092,2023-10-26,Resignation,Salary,26
+EMP13093,2026-06-09,End of Contract,Project Demobilisation,31
+EMP13094,2026-08-28,Resignation,Career Growth,153
+EMP13095,2025-04-28,Resignation,Career Growth,913
+EMP13098,2026-09-01,Termination,Performance,1712
+EMP13106,2023-08-19,Resignation,Work Conditions,315
+EMP13107,2025-04-04,Resignation,Manager Relationship,1605
+EMP13109,2024-03-15,Resignation,Work Conditions,554
+EMP13110,2024-05-27,Absconding,Wage Dispute,23
+EMP13111,2023-10-02,Resignation,Personal / Family,16
+EMP13115,2024-11-23,Resignation,Work Conditions,1843
+EMP13116,2023-11-10,Resignation,Better Offer,1089
+EMP13117,2023-12-19,Resignation,Salary,157
+EMP13121,2023-07-23,Resignation,Better Offer,750
+EMP13122,2024-04-19,Resignation,Better Offer,125
+EMP13123,2025-02-05,Resignation,Better Offer,1086
+EMP13125,2023-10-18,Resignation,Relocation,1256
+EMP13126,2024-03-07,Resignation,Personal / Family,173
+EMP13128,2026-03-07,Resignation,Personal / Family,980
+EMP13132,2025-11-11,Resignation,Personal / Family,3
+EMP13135,2023-05-06,Resignation,Salary,1408
+EMP13140,2026-07-18,Resignation,Manager Relationship,21
+EMP13141,2026-03-04,Resignation,Better Offer,410
+EMP13142,2023-07-12,Resignation,Better Offer,1598
+EMP13147,2026-05-18,Resignation,Better Offer,429
+EMP13148,2023-11-12,Resignation,Work Conditions,519
+EMP13149,2024-10-13,Resignation,Work Conditions,253
+EMP13151,2026-02-22,Resignation,Personal / Family,204
+EMP13152,2025-02-09,Resignation,Relocation,908
+EMP13153,2024-02-23,Resignation,Salary,328
+EMP13154,2025-11-29,Resignation,Relocation,273
+EMP13155,2023-10-18,Resignation,Work Conditions,11
+EMP13157,2026-02-10,Resignation,Better Offer,486
+EMP13159,2023-12-20,Resignation,Work Conditions,242
+EMP13161,2024-09-22,End of Contract,Project Demobilisation,43
+EMP13163,2024-12-28,Resignation,Career Growth,203
+EMP13167,2023-12-16,Resignation,Personal / Family,401
+EMP13169,2024-10-05,Absconding,No Intimation,14
+EMP13170,2024-01-09,Resignation,Salary,1293
+EMP13171,2024-09-08,Resignation,Manager Relationship,22
+EMP13172,2023-12-07,Resignation,Work Conditions,1352
+EMP13173,2025-12-15,Resignation,Better Offer,2336
+EMP13174,2023-10-22,Resignation,Career Growth,405
+EMP13180,2025-06-12,Resignation,Career Growth,404
+EMP13181,2025-04-09,Resignation,Career Growth,1796
+EMP13182,2026-06-27,Resignation,Personal / Family,7
+EMP13183,2025-11-23,Resignation,Work Conditions,890
+EMP13186,2023-08-31,Resignation,Work Conditions,68
+EMP13187,2024-09-03,Resignation,Work Conditions,395
+EMP13188,2024-03-28,Resignation,Work Conditions,19
+EMP13189,2024-04-21,Absconding,No Intimation,29
+EMP13190,2024-01-17,Resignation,Relocation,18
+EMP13191,2023-09-09,Resignation,Salary,1395
+EMP13192,2024-04-11,Resignation,Salary,33
+EMP13193,2026-07-27,Resignation,Manager Relationship,380
+EMP13194,2024-01-18,Absconding,No Intimation,26
+EMP13195,2026-09-11,Resignation,Relocation,160
+EMP13197,2024-08-01,Absconding,Site Conditions,47
+EMP13198,2025-03-01,Resignation,Work Conditions,441
+EMP13199,2024-07-21,Resignation,Salary,197

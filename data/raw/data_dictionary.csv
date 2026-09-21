@@ -1,0 +1,28 @@
+Column,Table,Meaning,Use
+EmployeeID,employee_master,Unique employee key,Join key across all tables
+DOJ,employee_master,Date of joining,Tenure and day-0 features
+Grade,employee_master,Internal grade 1-7,"Seniority, criticality weighting"
+RecruitmentSource,employee_master,Channel the hire came through,"Early-exit driver, funnel quality"
+BusinessCriticality,employee_master,1-5 impact if the role goes vacant,Retention priority = risk x criticality
+DistanceFromSiteKm,employee_master,Home to site distance,Commute burden driver
+AccommodationProvided,employee_master,Company accommodation at site,Offsets commute burden
+SnapshotDate,employee_weekly,Week-ending observation date,"Panel time index, as-of scoring"
+OvertimeHours7D,employee_weekly,Overtime hours in the week,"Workload pressure, trend features"
+AbsenceDays7D,employee_weekly,Absent days in the week,Withdrawal behaviour
+LateCount7D,employee_weekly,Late punches in the week,Early disengagement signal
+NightShiftRatio,employee_weekly,Share of night shifts,Fatigue driver
+OnboardingCompletionPct,employee_weekly,Onboarding checklist completion,Strongest first-30-day driver
+EngagementScore,employee_weekly,Pulse survey 1-10,Sentiment level and decline
+PerformanceRating,employee_weekly,Rolling appraisal rating 1-5,Performance trend
+SalaryCreditDelayDays,employee_weekly,Days salary credited late,Site-level cash-flow shock driver
+SalaryVsRoleBenchmark,employee_weekly,Pay gap vs role median,Equity driver
+MonthsSincePromotion,employee_weekly,Months since last movement,Stagnation driver
+ManagerChangesToDate,employee_weekly,Cumulative manager changes,Supervisory churn driver
+GrievanceFlag,employee_weekly,Grievance raised that week,Acute dissatisfaction event
+ProjectPhase,employee_weekly,Mobilisation/Peak/Finishing/Demobilisation,Project lifecycle risk
+DemobilisationPressure,employee_weekly,0-1 closeout intensity,Contract-staff exit driver
+HeadcountAtSite,employee_weekly,Active headcount at the site that week,Crew thinning context
+ExitDate,attrition_outcomes,Last working day,Label construction
+ExitType,attrition_outcomes,Resignation/Absconding/Termination/End of Contract,Outcome segmentation
+TenureDaysAtExit,attrition_outcomes,Tenure at exit,Early-attrition cohorts
+EventType,employee_events,Joined/Onboarding/Training/Promotion/Grievance/Exit,Timeline and audit trail
