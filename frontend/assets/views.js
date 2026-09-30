@@ -622,7 +622,7 @@ const Views = (() => {
     const prompts = [
       'Who should I call today?',
       'Which recruitment channel has the worst early attrition?',
-      'Why is risk rising at JNPA WOLP?',
+      'Why is risk rising at Port Terminal Project?',
       'Which site needs attention this month?',
       'How accurate is the model?',
       'What are the most common risk drivers right now?'

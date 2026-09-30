@@ -7,7 +7,7 @@ manager in March can still be reproduced in September.
 
 Priority is deliberately not the raw probability. A 92% risk on a helper the
 site can replace in a day is not the same problem as 61% on the only planning
-engineer who knows the JNPA schedule.
+engineer who knows the port project schedule.
 """
 from __future__ import annotations
 

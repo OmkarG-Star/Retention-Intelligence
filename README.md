@@ -8,7 +8,13 @@
 
 I built an end-to-end ML decision-support system that transforms workforce data into explainable attrition-risk intelligence through a production-style data pipeline, machine-learning layer, API, dashboard, testing, and Docker deployment.
 
-![Model governance dashboard: performance by horizon, feature drift and calibration](docs/screenshots/governance.png)
+![Overview dashboard: risk bands, KPIs, retention priority queue and risk-vs-reality trend](docs/screenshots/overview.png)
+
+| Model governance | Segment risk |
+|---|---|
+| ![Model governance: performance by horizon, drift and calibration](docs/screenshots/governance.png) | ![Segment risk by site](docs/screenshots/segments.png) |
+
+*All employees, sites and numbers shown are synthetic demo data.*
 
 > A production-style workforce analytics and machine-learning platform designed to identify employee attrition risk, explain the drivers behind predictions, detect workforce anomalies, and provide decision-support insights through an API and analytics interface.
 

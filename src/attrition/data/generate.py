@@ -25,8 +25,8 @@ from ..config import paths, settings
 SITES = [
     # name, type, remoteness 0-1, accommodation share, project phase cycle offset (weeks)
     ("Mumbai HO", "Corporate", 0.05, 0.02, 0),
-    ("JNPA WOLP", "Port Infrastructure", 0.55, 0.65, 14),
-    ("Mantralaya Redevelopment", "Government Building", 0.15, 0.20, 40),
+    ("Port Terminal Project", "Port Infrastructure", 0.55, 0.65, 14),
+    ("Government Building Redevelopment", "Government Building", 0.15, 0.20, 40),
     ("Pune Metro Reach-3", "Metro", 0.25, 0.35, 62),
     ("Nagpur Expressway Pkg-4", "Highway", 0.85, 0.80, 8),
     ("Bengaluru Tech Park", "Commercial", 0.20, 0.25, 30),
