@@ -15,6 +15,8 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 
+from ..config import N_JOBS
+
 DELTA_FEATURES = [
     "OvertimeHours7D_delta_4w", "AbsenceDays7D_delta_4w", "EngagementScore_delta_4w",
     "LateCount7D_delta_4w", "PerformanceRating_delta_4w", "SalaryCreditDelayDays_delta_4w",
@@ -42,7 +44,7 @@ class AnomalyDetector:
             rng = np.random.default_rng(seed)
             X = X[rng.choice(len(X), sample, replace=False)]
         self.model = IsolationForest(n_estimators=250, contamination=self.contamination,
-                                     max_samples=min(4096, len(X)), random_state=seed, n_jobs=-1)
+                                     max_samples=min(4096, len(X)), random_state=seed, n_jobs=N_JOBS)
         self.model.fit(X)
         raw = -self.model.score_samples(X)
         self.lo_, self.hi_ = float(np.percentile(raw, 1)), float(np.percentile(raw, 99.5))

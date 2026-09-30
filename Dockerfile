@@ -1,6 +1,9 @@
 FROM python:3.11-slim
 
-ENV PYTHONUNBUFFERED=1 PYTHONPATH=/app/src PIP_NO_CACHE_DIR=1
+# One worker thread: cloud builders expose many cores but grant a small CPU
+# share, and multi-threaded training there becomes ~100x slower.
+ENV PYTHONUNBUFFERED=1 PYTHONPATH=/app/src PIP_NO_CACHE_DIR=1 \
+    N_JOBS=1 OMP_NUM_THREADS=1
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 \

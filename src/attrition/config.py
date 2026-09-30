@@ -110,3 +110,9 @@ class Settings:
 
 settings = Settings()
 paths = settings.paths
+
+
+# Worker threads for model training/scoring. -1 = all cores (fast on a laptop).
+# Set N_JOBS=1 on small shared hosts (e.g. free cloud builders), where -1 can
+# oversubscribe a fractional CPU and make training dramatically slower.
+N_JOBS: int = int(os.environ.get("N_JOBS", "-1"))

@@ -16,6 +16,8 @@ import pandas as pd
 from sklearn.calibration import CalibratedClassifierCV
 from sklearn.isotonic import IsotonicRegression
 
+from ..config import N_JOBS
+
 try:  # optional, strongly preferred
     import lightgbm as lgb
     HAS_LGB = True
@@ -66,7 +68,7 @@ class HorizonModel:
                 objective="binary", learning_rate=0.045, num_leaves=48, max_depth=-1,
                 min_child_samples=60, feature_fraction=0.75, bagging_fraction=0.8,
                 bagging_freq=1, lambda_l2=2.0, scale_pos_weight=min(pos_weight, 25.0),
-                n_estimators=900, verbose=-1, n_jobs=-1,
+                n_estimators=900, verbose=-1, n_jobs=N_JOBS,
             )
             params.update(self.params)
             self.model = lgb.LGBMClassifier(**params)
