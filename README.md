@@ -16,6 +16,8 @@ I built an end-to-end ML decision-support system that transforms workforce data 
 
 *All employees, sites and numbers shown are synthetic demo data.*
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/OmkarG-Star/Retention-Intelligence)
+
 > A production-style workforce analytics and machine-learning platform designed to identify employee attrition risk, explain the drivers behind predictions, detect workforce anomalies, and provide decision-support insights through an API and analytics interface.
 
 ---

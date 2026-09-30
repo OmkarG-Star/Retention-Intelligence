@@ -17,6 +17,7 @@ RUN python -m attrition.cli pipeline
 
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \
-  CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/health').status==200 else 1)"
+  CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:' + __import__('os').environ.get('PORT','8000') + '/api/health').status==200 else 1)"
 
-CMD ["uvicorn", "attrition.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Cloud hosts such as Render inject $PORT; locally it falls back to 8000.
+CMD ["sh", "-c", "uvicorn attrition.api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

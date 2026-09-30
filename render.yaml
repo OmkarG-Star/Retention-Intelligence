@@ -1,0 +1,17 @@
+# One-click deploy on Render (free plan): New > Blueprint > select this repo.
+# The Docker build generates the synthetic data, trains the models and scores
+# the workforce, so the service starts ready to serve.
+services:
+  - type: web
+    name: retention-intelligence
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: SECRET_KEY
+        generateValue: true
