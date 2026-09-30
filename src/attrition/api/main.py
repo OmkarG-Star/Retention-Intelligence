@@ -240,7 +240,10 @@ def health():
 
 # ------------------------------------------------------------------ UI
 if paths.frontend.exists():
-    app.mount("/assets", StaticFiles(directory=paths.frontend / "assets"), name="assets")
+    # Mount static assets only when the folder is present, so the API (and its
+    # tests) still start on a checkout that ships without built frontend assets.
+    if (paths.frontend / "assets").is_dir():
+        app.mount("/assets", StaticFiles(directory=paths.frontend / "assets"), name="assets")
 
     @app.get("/")
     def index():

@@ -4,7 +4,7 @@ A portfolio-grade, end-to-end machine-learning product that turns longitudinal e
 
 > **Public repository:** all included workforce data is synthetic/demo data generated for this project. It is not company data and must not be replaced with real employee data in a public repository.
 
-![Dashboard preview](docs/screenshots/overview.png)
+![Dashboard preview](screenshots/overview.png)
 
 ## Problem statement
 
@@ -169,7 +169,7 @@ The current synthetic benchmark was trained on **156,472 rows**, validated on **
 
 Short-horizon PR-AUC must be interpreted against the very low event base rate. The 7-day population has relatively few events, so PR-AUC is naturally much lower than at longer horizons.
 
-![Model governance preview](docs/screenshots/governance.png)
+![Model governance preview](screenshots/governance.png)
 
 > Metrics are from the synthetic benchmark shipped with this repository. They are **not evidence of production performance** and should not be presented as such.
 
@@ -179,13 +179,13 @@ Short-horizon PR-AUC must be interpreted against the very low event base rate. T
 
 The dashboard exposes workforce risk bands, expected exits, accelerating risk, anomalies, early attrition, priority queues, risk trends and site segmentation.
 
-![Overview dashboard](docs/screenshots/overview.png)
+![Overview dashboard](screenshots/overview.png)
 
 ### Model governance
 
 The governance view surfaces horizon metrics, calibration quality, evaluation methodology and operational governance checks.
 
-![Governance dashboard](docs/screenshots/governance.png)
+![Governance dashboard](screenshots/governance.png)
 
 ## AI / analytics features
 

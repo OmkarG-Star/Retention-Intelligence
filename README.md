@@ -649,8 +649,8 @@ Docker Desktop
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/retention-intelligence.git
-cd retention-intelligence
+git clone https://github.com/OmkarG-Star/Retention-Intelligence.git
+cd Retention-Intelligence
 ```
 
 Create a virtual environment:
@@ -693,15 +693,25 @@ Review `.env` before running the application.
 
 # 18. Run Locally
 
-Start the API/application using the provided scripts or project commands.
-
-Example:
+The quickest way is the helper scripts, which create the virtual environment, install dependencies and run the full pipeline (about 3 minutes on a laptop):
 
 ```bash
-python -m src.attrition.cli
+./scripts/setup.sh    # Windows: scripts\setup.bat
+./scripts/run.sh      # Windows: scripts\run.bat
 ```
 
-Depending on the configured application entry point, the API can then be accessed at:
+Or run the steps manually from the repository root:
+
+```bash
+pip install -r requirements.txt
+export PYTHONPATH=src            # Windows (PowerShell): $env:PYTHONPATH="src"
+python -m attrition.cli pipeline # generate data, build warehouse, features, models, scores, demo users
+python -m attrition.cli serve
+```
+
+Demo logins (synthetic data only): `admin / Admin@2026`, `hr.manager / HrManager@2026`, `viewer / Viewer@2026`.
+
+The API can then be accessed at:
 
 ```text
 http://localhost:8000
@@ -758,17 +768,16 @@ The project includes automated tests covering:
 Run:
 
 ```bash
-pytest
+PYTHONPATH=src pytest -q
 ```
 
-Current project validation:
+Current project validation (run automatically by GitHub Actions on every push):
 
 ```text
-27 tests passed
-11 tests skipped
+38 tests passed
 ```
 
-The skipped tests are environment/configuration-dependent and should be reviewed before production deployment.
+The API tests need the pipeline outputs, so CI runs `python -m attrition.cli pipeline` before `pytest`.
 
 ---
 
