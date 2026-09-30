@@ -6,6 +6,8 @@
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+**🔗 Live demo: [retention-intelligence-b3zd.onrender.com](https://retention-intelligence-b3zd.onrender.com)** — sign in with the pre-filled demo account (`hr.manager`). Hosted on Render's free plan, so the first visit after a quiet period can take ~50 seconds to wake up. All data is synthetic.
+
 I built an end-to-end ML decision-support system that transforms workforce data into explainable attrition-risk intelligence through a production-style data pipeline, machine-learning layer, API, dashboard, testing, and Docker deployment.
 
 ![Overview dashboard: risk bands, KPIs, retention priority queue and risk-vs-reality trend](docs/screenshots/overview.png)
