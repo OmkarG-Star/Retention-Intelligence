@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Retention Intelligence</title>
 <meta name="description" content="Attrition early warning for EPC workforces">
+<meta name="theme-color" content="#1E2761">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231E2761'/><path d='M8 22 L14 12 L19 18 L24 9' stroke='%23E0A526' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 <link rel="stylesheet" href="/assets/styles.css">
 <script>
@@ -21,63 +22,103 @@
 
 <!-- sign in -->
 <div id="gate" class="gate" hidden>
-  <div class="gate-panel">
-    <div class="gate-mark">
-      <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true">
-        <rect width="32" height="32" rx="7" fill="#1E2761"></rect>
-        <path d="M8 22 L14 12 L19 18 L24 9" stroke="#E0A526" stroke-width="2.6" fill="none"
-              stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-      <div>
-        <h1>Retention Intelligence</h1>
-        <p>Attrition early warning for site and corporate teams</p>
+  <div class="gate-bg" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="gate-card">
+    <aside class="gate-story">
+      <div class="brand">
+        <svg viewBox="0 0 32 32" width="36" height="36" aria-hidden="true">
+          <rect width="32" height="32" rx="8" fill="#1E2761"></rect>
+          <path class="brand-line" d="M8 22 L14 12 L19 18 L24 9" stroke="#E0A526" stroke-width="2.6" fill="none"
+                stroke-linecap="round" stroke-linejoin="round" pathLength="1"></path>
+        </svg>
+        <span>Retention<br>Intelligence</span>
       </div>
-    </div>
-    <form id="login-form" autocomplete="on">
-      <label for="username">Username</label>
-      <input id="username" name="username" autocomplete="username" required value="hr.manager">
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" autocomplete="current-password" required
-             value="HrManager@2026">
-      <p id="login-error" class="form-error" role="alert" hidden></p>
-      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-    </form>
-    <div class="gate-accounts">
-      <p>Demo accounts</p>
-      <button class="chip" data-user="admin" data-pass="Admin@2026">admin — full access</button>
-      <button class="chip" data-user="hr.manager" data-pass="HrManager@2026">hr.manager — can log actions</button>
-      <button class="chip" data-user="viewer" data-pass="Viewer@2026">viewer — read only</button>
+      <h2>See who might leave <em>before</em> they hand in notice.</h2>
+      <ul class="gate-points">
+        <li><span class="gp-ic"><i data-icon="trendUp"></i></span>
+          <div><b>Early warning</b><p>7, 30 and 90-day leaving risk for every employee, refreshed each run.</p></div></li>
+        <li><span class="gp-ic"><i data-icon="target"></i></span>
+          <div><b>Clear reasons</b><p>The factors pushing each score up or down, in plain words.</p></div></li>
+        <li><span class="gp-ic"><i data-icon="actions"></i></span>
+          <div><b>Act and track</b><p>Log a conversation, then see whether the person stayed.</p></div></li>
+      </ul>
+      <svg class="gate-chart" viewBox="0 0 320 90" aria-hidden="true">
+        <path class="gc-area" d="M0 78 L40 70 L80 72 L120 58 L160 62 L200 44 L240 48 L280 26 L320 18 L320 90 L0 90Z"></path>
+        <path class="gc-line" d="M0 78 L40 70 L80 72 L120 58 L160 62 L200 44 L240 48 L280 26 L320 18" pathLength="1"></path>
+        <circle class="gc-dot" cx="280" cy="26" r="4"></circle>
+      </svg>
+      <p class="fine"><i data-icon="lock" data-size="14"></i> Demo runs on synthetic data. No real employee records.</p>
+    </aside>
+
+    <div class="gate-panel">
+      <h1>Sign in</h1>
+      <p class="gate-sub">Pick a demo account below or use your own.</p>
+      <form id="login-form" autocomplete="on">
+        <label for="username">Username</label>
+        <div class="field"><i data-icon="user" data-size="16"></i>
+          <input id="username" name="username" autocomplete="username" required value="hr.manager"></div>
+        <label for="password">Password</label>
+        <div class="field"><i data-icon="lock" data-size="16"></i>
+          <input id="password" name="password" type="password" autocomplete="current-password" required
+                 value="HrManager@2026">
+          <button type="button" id="pw-toggle" class="field-btn" aria-label="Show password" title="Show password">
+            <i data-icon="eye" data-size="16"></i></button></div>
+        <p id="login-error" class="form-error" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary btn-block" id="login-btn">
+          <span>Sign in</span><i data-icon="arrowRight" data-size="16"></i></button>
+      </form>
+      <div class="gate-accounts">
+        <p>Demo accounts, one click</p>
+        <button class="chip" data-user="admin" data-pass="Admin@2026">
+          <span class="chip-ic"><i data-icon="shield" data-size="16"></i></span>
+          <span><b>Admin</b><small>Full access, can re-score</small></span><i data-icon="chevronRight" data-size="16"></i></button>
+        <button class="chip" data-user="hr.manager" data-pass="HrManager@2026">
+          <span class="chip-ic"><i data-icon="actions" data-size="16"></i></span>
+          <span><b>HR manager</b><small>Can log retention actions</small></span><i data-icon="chevronRight" data-size="16"></i></button>
+        <button class="chip" data-user="viewer" data-pass="Viewer@2026">
+          <span class="chip-ic"><i data-icon="eye" data-size="16"></i></span>
+          <span><b>Viewer</b><small>Read only, explore everything</small></span><i data-icon="chevronRight" data-size="16"></i></button>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- app -->
 <div id="app" class="app" hidden>
-  <nav class="rail" aria-label="Sections">
+  <nav class="rail" id="rail" aria-label="Sections">
     <div class="rail-mark">
-      <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
-        <rect width="32" height="32" rx="7" fill="#1E2761"></rect>
+      <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="#1E2761"></rect>
         <path d="M8 22 L14 12 L19 18 L24 9" stroke="#E0A526" stroke-width="2.8" fill="none"
               stroke-linecap="round" stroke-linejoin="round"></path>
       </svg>
-      <span>Retention<br>Intelligence</span>
+      <span class="rail-name">Retention<br>Intelligence</span>
+      <button id="collapse" class="icon-btn rail-collapse" title="Collapse menu" aria-label="Collapse menu">
+        <i data-icon="chevronLeft" data-size="16"></i></button>
     </div>
-    <ul id="nav"></ul>
+    <div id="nav" class="nav"></div>
     <div class="rail-foot">
-      <div id="rail-user"></div>
-      <button id="logout" class="btn btn-ghost btn-sm">Sign out</button>
+      <span class="avatar" id="avatar"></span>
+      <div id="rail-user" class="rail-user"></div>
+      <button id="logout" class="icon-btn" title="Sign out" aria-label="Sign out"><i data-icon="logout"></i></button>
     </div>
   </nav>
+  <div class="rail-scrim" id="rail-scrim"></div>
 
   <main class="main">
     <header class="topbar">
+      <button id="menu" class="icon-btn only-mobile" aria-label="Open menu"><i data-icon="menu"></i></button>
       <div id="crumb" class="crumb"></div>
+      <button id="search-open" class="search-trigger" aria-label="Find an employee or page">
+        <i data-icon="search" data-size="16"></i><span>Find employee or page</span><kbd>Ctrl K</kbd></button>
       <div class="topbar-meta">
         <span id="meta-asof" class="meta"></span>
-        <span id="meta-model" class="meta"></span>
-        <button id="rescore" class="btn btn-sm" hidden>Run scoring</button>
-        <button id="theme" class="btn btn-sm btn-ghost" aria-pressed="false"
-                title="Switch between the light and dark ground">Dark</button>
+        <button id="rescore" class="btn btn-sm" hidden title="Score everyone again with the live model">
+          <i data-icon="refresh" data-size="16"></i><span>Re-score</span></button>
+        <button id="help" class="icon-btn" title="Take the guided tour" aria-label="Take the guided tour">
+          <i data-icon="compass"></i></button>
+        <button id="theme" class="icon-btn" aria-pressed="false" title="Switch light / dark" aria-label="Switch light or dark theme">
+          <i data-icon="moon"></i></button>
       </div>
     </header>
     <div id="view" class="view" tabindex="-1"></div>
@@ -85,7 +126,9 @@
 </div>
 
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<div id="tipbox" class="tipbox" role="tooltip" hidden></div>
 
+<script src="/assets/icons.js"></script>
 <script src="/assets/charts.js"></script>
 <script src="/assets/views.js"></script>
 <script src="/assets/app.js"></script>

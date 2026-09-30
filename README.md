@@ -12,9 +12,11 @@ I built an end-to-end ML decision-support system that transforms workforce data 
 
 ![Overview dashboard: risk bands, KPIs, retention priority queue and risk-vs-reality trend](docs/screenshots/overview.png)
 
-| Model governance | Segment risk |
+| Employee record | Model health |
 |---|---|
-| ![Model governance: performance by horizon, drift and calibration](docs/screenshots/governance.png) | ![Segment risk by site](docs/screenshots/segments.png) |
+| ![Employee record: risk ring, drivers, survival curve and history](docs/screenshots/employee.png) | ![Model health: accuracy by horizon, drift and calibration](docs/screenshots/governance.png) |
+| **Segments** | **Built-in guide** |
+| ![Segment risk by site](docs/screenshots/segments.png) | ![Guide: routine, page map and glossary](docs/screenshots/guide.png) |
 
 *All employees, sites and numbers shown are synthetic demo data.*
 
@@ -174,13 +176,15 @@ The backend provides a FastAPI-based service for:
 
 ## Dashboard
 
-The frontend provides an analytics interface for exploring:
+A dependency-free single-page app (vanilla JS, hand-built SVG charts, no CDN):
 
-* Workforce overview
-* Attrition intelligence
-* Risk indicators
-* Governance information
-* Analytical insights
+* **Grouped navigation**: Monitor (Overview, Watchlist, New joiners), Analyse (Segments, Anomalies), Act (Actions, Ask), Trust (Model health, Guide)
+* **Plain-language summary** on the Overview, with (i) tooltips explaining every metric
+* **Command search** (`Ctrl K` or `/`) to jump to any employee or page
+* **Guided first-run tour** and a Guide page with a glossary and shortcuts
+* **Motion**: staggered page entrance, charts that draw in, count-up KPIs, skeleton loaders; all disabled under `prefers-reduced-motion`
+* Log a retention action and record its outcome in modals; light and dark themes; collapsible sidebar; mobile drawer
+* Original outline icon set (`frontend/assets/icons.js`), drawn for this project and MIT-licensed with the repo
 
 ---
 
