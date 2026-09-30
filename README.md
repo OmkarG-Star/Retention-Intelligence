@@ -1,14 +1,14 @@
-# Retention-Intelligence
-I built an end-to-end ML decision-support system that transforms workforce data into explainable attrition-risk intelligence through a production-style data pipeline, machine-learning layer, API, dashboard, testing, and Docker deployment.
-
 # Retention Intelligence
 
 ### AI-Powered Employee Attrition Early-Warning Platform
 
+![CI](https://github.com/OmkarG-Star/Retention-Intelligence/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
+I built an end-to-end ML decision-support system that transforms workforce data into explainable attrition-risk intelligence through a production-style data pipeline, machine-learning layer, API, dashboard, testing, and Docker deployment.
 
-
-
+![Model governance dashboard: performance by horizon, feature drift and calibration](docs/screenshots/governance.png)
 
 > A production-style workforce analytics and machine-learning platform designed to identify employee attrition risk, explain the drivers behind predictions, detect workforce anomalies, and provide decision-support insights through an API and analytics interface.
 
