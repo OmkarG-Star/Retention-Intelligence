@@ -142,3 +142,21 @@ def test_logout_invalidates_the_session(client):
     csrf = _login(client)
     assert client.post("/api/auth/logout", headers={"x-csrf-token": csrf}).status_code == 200
     assert client.get("/api/overview").status_code in (401, 403)
+
+
+def test_env_password_overrides_lock_privileged_demo_accounts(client, monkeypatch):
+    from attrition.api.security import apply_password_overrides, public_demo_accounts
+
+    monkeypatch.setenv("ADMIN_PASSWORD", "a-long-private-value-123")
+    try:
+        assert apply_password_overrides() == ["admin"]
+        assert "admin" not in public_demo_accounts()
+        assert "admin" not in client.get("/api/health").json()["demo_accounts"]
+
+        bad = client.post("/api/auth/login", json={"username": "admin", "password": "Admin@2026"})
+        assert bad.status_code == 401
+        _login(client, "admin", "a-long-private-value-123")
+    finally:
+        # restore the demo password so other tests keep working
+        monkeypatch.setenv("ADMIN_PASSWORD", "Admin@2026")
+        apply_password_overrides()

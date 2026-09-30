@@ -15,3 +15,10 @@ services:
         value: 0.0.0.0
       - key: SECRET_KEY
         generateValue: true
+      # Private passwords for the privileged accounts: visitors only get the
+      # read-only "viewer" demo login. Find these values in the Render dashboard
+      # (service > Environment) if you need admin access.
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      - key: HR_MANAGER_PASSWORD
+        generateValue: true

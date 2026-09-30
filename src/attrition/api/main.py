@@ -26,7 +26,8 @@ from ..config import paths, settings
 from ..data import warehouse
 from . import service
 from .security import (SESSION_COOKIE, authenticate, create_session, csrf_guard, current_user,
-                       destroy_session, purge_expired, require_role, seed_users)
+                       destroy_session, purge_expired, require_role, seed_users,
+                       apply_password_overrides, public_demo_accounts)
 
 app = FastAPI(title=settings.app_name, version="1.0.0",
               description="Attrition early-warning platform for EPC workforces",
@@ -43,6 +44,7 @@ def startup() -> None:
         seed_users()
     except Exception:
         pass
+    apply_password_overrides()
 
 
 def _json(payload):
@@ -235,7 +237,8 @@ def health():
     run = service.latest_run()
     return {"status": "ok", "app": settings.app_name, "env": settings.env,
             "scored_as_of": run["as_of"] if run else None,
-            "model_version": run["model_version"] if run else None}
+            "model_version": run["model_version"] if run else None,
+            "demo_accounts": public_demo_accounts()}
 
 
 # ------------------------------------------------------------------ UI

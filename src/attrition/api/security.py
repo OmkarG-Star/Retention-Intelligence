@@ -70,6 +70,31 @@ def seed_users() -> list[str]:
     return out
 
 
+# Environment variables that replace the demo passwords at startup. On a public
+# deployment set them to long random values so only the owner can use the
+# privileged accounts; locally they are unset and the demo passwords apply.
+PASSWORD_ENV = {"admin": "ADMIN_PASSWORD", "hr.manager": "HR_MANAGER_PASSWORD",
+                "viewer": "VIEWER_PASSWORD"}
+
+
+def apply_password_overrides() -> list[str]:
+    """Reset account passwords from environment variables, if provided."""
+    changed = []
+    with connect(paths.app_db) as c:
+        for username, env_key in PASSWORD_ENV.items():
+            new = os.environ.get(env_key)
+            if new:
+                c.execute("UPDATE users SET password_hash=? WHERE username=?",
+                          (hash_password(new), username))
+                changed.append(username)
+    return changed
+
+
+def public_demo_accounts() -> list[str]:
+    """Accounts whose demo password still works (safe to advertise on the login page)."""
+    return [u for u, env_key in PASSWORD_ENV.items() if not os.environ.get(env_key)]
+
+
 def get_user(username: str):
     with connect(paths.app_db) as c:
         return c.execute("SELECT * FROM users WHERE username=? AND is_active=1",

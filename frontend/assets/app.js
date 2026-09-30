@@ -256,6 +256,20 @@ const App = (() => {
         el('username').value = c.dataset.user; el('password').value = c.dataset.pass;
         signIn(c.dataset.user, c.dataset.pass);
       }));
+    // Public deployments protect some accounts with private passwords: only
+    // advertise the demo accounts the server says still use their demo password.
+    fetch('/api/health').then(r => r.json()).then(h => {
+      if (!Array.isArray(h.demo_accounts)) return;
+      const open = new Set(h.demo_accounts);
+      document.querySelectorAll('.gate-accounts .chip').forEach(c => {
+        if (!open.has(c.dataset.user)) c.hidden = true;
+      });
+      if (!open.has(el('username').value)) {
+        const first = document.querySelector('.gate-accounts .chip:not([hidden])');
+        el('username').value = first ? first.dataset.user : '';
+        el('password').value = first ? first.dataset.pass : '';
+      }
+    }).catch(() => {});
     el('theme').addEventListener('click', () => {
       const dark = document.documentElement.getAttribute('data-theme') !== 'dark';
       setTheme(dark ? 'dark' : 'light');

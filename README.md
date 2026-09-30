@@ -6,7 +6,7 @@
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-**🔗 Live demo: [retention-intelligence-b3zd.onrender.com](https://retention-intelligence-b3zd.onrender.com)** — sign in with the pre-filled demo account (`hr.manager`). Hosted on Render's free plan, so the first visit after a quiet period can take ~50 seconds to wake up. All data is synthetic.
+**🔗 Live demo: [retention-intelligence-b3zd.onrender.com](https://retention-intelligence-b3zd.onrender.com)** — sign in with the pre-filled read-only demo account (`viewer`). Hosted on Render's free plan, so the first visit after a quiet period can take ~50 seconds to wake up. All data is synthetic.
 
 I built an end-to-end ML decision-support system that transforms workforce data into explainable attrition-risk intelligence through a production-style data pipeline, machine-learning layer, API, dashboard, testing, and Docker deployment.
 
@@ -719,7 +719,7 @@ python -m attrition.cli pipeline # generate data, build warehouse, features, mod
 python -m attrition.cli serve
 ```
 
-Demo logins (synthetic data only): `admin / Admin@2026`, `hr.manager / HrManager@2026`, `viewer / Viewer@2026`.
+Demo logins (synthetic data only): `admin / Admin@2026`, `hr.manager / HrManager@2026`, `viewer / Viewer@2026`. On a public deployment, set `ADMIN_PASSWORD` and `HR_MANAGER_PASSWORD` (the Render blueprint generates random values) so visitors only get the read-only viewer account.
 
 The API can then be accessed at:
 
