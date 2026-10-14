@@ -12,6 +12,7 @@ Route map
   GET  /api/anomalies               abrupt behavioural changes
   POST /api/interventions           log a retention action
   GET  /api/governance              model registry, metrics, drift, fairness
+  GET  /api/model-lab               operating curves, importance by area, response curves
   POST /api/copilot/ask             grounded question answering
 """
 from __future__ import annotations
@@ -221,6 +222,11 @@ def close_intervention(intervention_id: int, payload: dict = Body(...),
 
 
 # ------------------------------------------------------------------ governance
+@app.get("/api/model-lab")
+def model_lab(user=Depends(current_user)):
+    return _json(service.model_lab())
+
+
 @app.get("/api/governance")
 def governance(user=Depends(current_user)):
     return _json(service.governance())

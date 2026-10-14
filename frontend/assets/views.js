@@ -26,9 +26,9 @@ const Views = (() => {
     return `<div class="panel-head"><div><h2>${title}${help ? tip(help) : ''}</h2>${desc ? `<p>${desc}</p>` : ''}</div>${right}</div>`;
   }
 
-  function stat({ k, v, s = '', help = '', href = '' }) {
+  function stat({ k, v, s = '', help = '', href = '', icon = '', tone = '' }) {
     const tag = href ? `a href="${href}"` : 'div';
-    return `<${tag} class="stat"><span class="k">${k}${help ? tip(help) : ''}</span>
+    return `<${tag} class="stat" ${tone ? `style="--tone:var(${tone})"` : ''}>${icon ? `<span class="st-ic">${I(icon, 18)}</span>` : ''}<span class="k">${k}${help ? tip(help) : ''}</span>
       <span class="v">${v}</span><span class="s">${s}</span></${href ? 'a' : 'div'}>`;
   }
 
@@ -58,7 +58,7 @@ const Views = (() => {
 
     return `
     <div class="stack">
-      <section class="briefing" id="briefing">
+      <section class="briefing hero" id="briefing">
         <p class="date">${first ? `Hello ${esc(first)}. ` : ''}Scored on ${esc(longDate(k.as_of))}</p>
         <h2><a href="#/watchlist" data-band-link="Critical">${num(k.critical)} people</a> need a conversation this week, and
           <a href="#/anomalies">${num(k.accelerating)} more</a> are rising fast. If nothing changes, expect about
@@ -70,13 +70,13 @@ const Views = (() => {
       </section>
 
       <div class="stats" style="--n:4" id="stats">
-        ${stat({ k: 'Expected resignations, 90 days', v: num(k.expected_exits_90d), s: `out of ${num(k.headcount)} on rolls`, href: '#/watchlist',
+        ${stat({ icon: 'target', tone: '--accent', k: 'Expected resignations, 90 days', v: num(k.expected_exits_90d), s: `out of ${num(k.headcount)} on rolls`, href: '#/watchlist',
           help: 'The sum of every person\'s 90-day probability. If nothing changes, this is how many resignations to expect.' })}
-        ${stat({ k: 'Rising fast', v: num(k.accelerating), s: 'up more than 5 points since last run', href: '#/anomalies',
+        ${stat({ icon: 'trendUp', tone: '--a-workload', k: 'Rising fast', v: num(k.accelerating), s: 'up more than 5 points since last run', href: '#/anomalies',
           help: 'People whose 30-day risk rose by more than 5 percentage points since the previous scoring run.' })}
-        ${stat({ k: 'Already serving notice', v: num(k.serving_notice), s: 'resigned, not yet left',
+        ${stat({ icon: 'clock', tone: '--a-attendance', k: 'Already serving notice', v: num(k.serving_notice), s: 'resigned, not yet left',
           help: 'These people have resigned but not reached their last day. HR already knows, so they are not scored.' })}
-        ${stat({ k: 'Attrition, last 12 months', v: pct(k.annualised_attrition, 1), s: `${num(k.exits_last_90d)} exits in the last quarter`, href: '#/segments',
+        ${stat({ icon: 'users', tone: '--a-career', k: 'Attrition, last 12 months', v: pct(k.annualised_attrition, 1), s: `${num(k.exits_last_90d)} exits in the last quarter`, href: '#/segments',
           help: 'Exits in the last 12 months divided by headcount plus those exits.' })}
       </div>
 

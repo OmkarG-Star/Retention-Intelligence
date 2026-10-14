@@ -84,6 +84,19 @@ def _round(m: dict) -> dict:
     return {k: (round(v, 4) if isinstance(v, float) else v) for k, v in m.items()}
 
 
+def _importance_by_area(model: HorizonModel, te: pd.DataFrame, top: int = 40) -> dict:
+    """Mean |SHAP| share per area and per feature, for the Model Lab page."""
+    imp = model.importance(te.sample(min(4000, len(te)), random_state=3))
+    imp["area"] = [explain.pretty(f)[1] for f in imp["feature"]]
+    areas = (imp.groupby("area")["importance"].sum().sort_values(ascending=False))
+    return {
+        "areas": [{"area": a, "label": explain.CATEGORY_LABEL.get(a, a), "share": round(float(v), 4)}
+                  for a, v in areas.items()],
+        "features": [{"feature": r.feature, "label": explain.pretty(r.feature)[0], "area": r.area,
+                      "share": round(float(r.importance), 4)} for r in imp.head(top).itertuples()],
+    }
+
+
 def train_all(verbose: bool = True) -> dict:
     t_start = time.time()
     df = load_features()
@@ -157,6 +170,8 @@ def train_all(verbose: bool = True) -> dict:
             "calibration": evaluate.calibration_bins(yt, p),
             "fairness": evaluate.fairness_slices(scored, y, "_p", FAIRNESS_ATTRS,
                                                  flag_percentile=FLAG_PERCENTILE),
+            "operating_curve": evaluate.operating_curve(te["SnapshotDate"], yt, p),
+            "importance": _importance_by_area(model, te),
             "top_features": [
                 {"feature": r.feature, "importance": round(float(r.importance), 4),
                  "label": explain.pretty(r.feature)[0], "category": explain.pretty(r.feature)[1]}

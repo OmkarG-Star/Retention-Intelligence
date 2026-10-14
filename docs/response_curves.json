@@ -1,0 +1,395 @@
+{
+ "model_version": "v20261014.075040",
+ "data_fingerprint": "76068ee006371fd5",
+ "champions": {
+  "7": "blend",
+  "15": "blend",
+  "30": "blend",
+  "90": "blend",
+  "180": "blend"
+ },
+ "horizon": 90,
+ "weeks": 8,
+ "people": 300,
+ "baseline": {
+  "mean": 0.0991,
+  "q1": 0.0227,
+  "median": 0.0402,
+  "q3": 0.1152
+ },
+ "levers": {
+  "overtime": {
+   "label": "Overtime",
+   "unit": "h/week",
+   "better": "down",
+   "today_median": 22.07,
+   "points": [
+    {
+     "value": 0,
+     "mean": 0.0577,
+     "q1": 0.0218,
+     "median": 0.0348,
+     "q3": 0.0829
+    },
+    {
+     "value": 10,
+     "mean": 0.0675,
+     "q1": 0.0218,
+     "median": 0.0399,
+     "q3": 0.0829
+    },
+    {
+     "value": 20,
+     "mean": 0.0808,
+     "q1": 0.0227,
+     "median": 0.0399,
+     "q3": 0.1073
+    },
+    {
+     "value": 30,
+     "mean": 0.1087,
+     "q1": 0.0399,
+     "median": 0.0829,
+     "q3": 0.122
+    },
+    {
+     "value": 40,
+     "mean": 0.1713,
+     "q1": 0.0829,
+     "median": 0.1152,
+     "q3": 0.2065
+    },
+    {
+     "value": 50,
+     "mean": 0.2242,
+     "q1": 0.1152,
+     "median": 0.1393,
+     "q3": 0.2523
+    },
+    {
+     "value": 60,
+     "mean": 0.2899,
+     "q1": 0.123,
+     "median": 0.2065,
+     "q3": 0.3994
+    }
+   ]
+  },
+  "night_shift": {
+   "label": "Night shifts",
+   "unit": "%",
+   "better": "down",
+   "today_median": 25.0,
+   "points": [
+    {
+     "value": 0,
+     "mean": 0.0986,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    },
+    {
+     "value": 20,
+     "mean": 0.0989,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    },
+    {
+     "value": 40,
+     "mean": 0.0998,
+     "q1": 0.0227,
+     "median": 0.0468,
+     "q3": 0.1152
+    },
+    {
+     "value": 60,
+     "mean": 0.0999,
+     "q1": 0.0227,
+     "median": 0.0534,
+     "q3": 0.1152
+    },
+    {
+     "value": 80,
+     "mean": 0.1004,
+     "q1": 0.0227,
+     "median": 0.0534,
+     "q3": 0.1152
+    }
+   ]
+  },
+  "absence": {
+   "label": "Absence",
+   "unit": "days/week",
+   "better": "down",
+   "today_median": 0.0,
+   "points": [
+    {
+     "value": 0,
+     "mean": 0.0905,
+     "q1": 0.0227,
+     "median": 0.0399,
+     "q3": 0.1152
+    },
+    {
+     "value": 1,
+     "mean": 0.1077,
+     "q1": 0.0364,
+     "median": 0.0622,
+     "q3": 0.1217
+    },
+    {
+     "value": 2,
+     "mean": 0.1192,
+     "q1": 0.0399,
+     "median": 0.0829,
+     "q3": 0.123
+    },
+    {
+     "value": 3,
+     "mean": 0.1307,
+     "q1": 0.0399,
+     "median": 0.0829,
+     "q3": 0.1369
+    },
+    {
+     "value": 4,
+     "mean": 0.1451,
+     "q1": 0.0501,
+     "median": 0.083,
+     "q3": 0.1773
+    }
+   ]
+  },
+  "pay_delay": {
+   "label": "Salary delay",
+   "unit": "days",
+   "better": "down",
+   "today_median": 0.0,
+   "points": [
+    {
+     "value": 0,
+     "mean": 0.0991,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    },
+    {
+     "value": 3,
+     "mean": 0.1086,
+     "q1": 0.0234,
+     "median": 0.0582,
+     "q3": 0.1217
+    },
+    {
+     "value": 6,
+     "mean": 0.1176,
+     "q1": 0.0364,
+     "median": 0.0829,
+     "q3": 0.123
+    },
+    {
+     "value": 9,
+     "mean": 0.1265,
+     "q1": 0.0399,
+     "median": 0.0829,
+     "q3": 0.1369
+    },
+    {
+     "value": 12,
+     "mean": 0.1408,
+     "q1": 0.0399,
+     "median": 0.0829,
+     "q3": 0.1393
+    },
+    {
+     "value": 15,
+     "mean": 0.1487,
+     "q1": 0.0399,
+     "median": 0.083,
+     "q3": 0.1773
+    }
+   ]
+  },
+  "engagement": {
+   "label": "Engagement",
+   "unit": "/10",
+   "better": "up",
+   "today_median": 7.83,
+   "points": [
+    {
+     "value": 2,
+     "mean": 0.2019,
+     "q1": 0.1152,
+     "median": 0.1369,
+     "q3": 0.2127
+    },
+    {
+     "value": 4,
+     "mean": 0.1621,
+     "q1": 0.0829,
+     "median": 0.1217,
+     "q3": 0.1773
+    },
+    {
+     "value": 6,
+     "mean": 0.1005,
+     "q1": 0.0399,
+     "median": 0.0829,
+     "q3": 0.1217
+    },
+    {
+     "value": 8,
+     "mean": 0.0706,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.0829
+    },
+    {
+     "value": 10,
+     "mean": 0.0578,
+     "q1": 0.0218,
+     "median": 0.0399,
+     "q3": 0.0829
+    }
+   ]
+  },
+  "raise": {
+   "label": "Pay raise",
+   "unit": "%",
+   "better": "up",
+   "today_median": null,
+   "points": [
+    {
+     "value": 0,
+     "mean": 0.0991,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    },
+    {
+     "value": 5,
+     "mean": 0.0973,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    },
+    {
+     "value": 10,
+     "mean": 0.0961,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    },
+    {
+     "value": 15,
+     "mean": 0.0952,
+     "q1": 0.0225,
+     "median": 0.04,
+     "q3": 0.1152
+    },
+    {
+     "value": 20,
+     "mean": 0.0942,
+     "q1": 0.0225,
+     "median": 0.0399,
+     "q3": 0.1152
+    },
+    {
+     "value": 25,
+     "mean": 0.0932,
+     "q1": 0.0218,
+     "median": 0.0399,
+     "q3": 0.1152
+    }
+   ]
+  },
+  "training": {
+   "label": "Training",
+   "unit": "courses",
+   "better": "up",
+   "today_median": null,
+   "points": [
+    {
+     "value": 0,
+     "mean": 0.0991,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    },
+    {
+     "value": 1,
+     "mean": 0.0949,
+     "q1": 0.0225,
+     "median": 0.0399,
+     "q3": 0.1152
+    },
+    {
+     "value": 2,
+     "mean": 0.0903,
+     "q1": 0.0218,
+     "median": 0.0399,
+     "q3": 0.1152
+    },
+    {
+     "value": 3,
+     "mean": 0.086,
+     "q1": 0.0218,
+     "median": 0.0399,
+     "q3": 0.1073
+    },
+    {
+     "value": 4,
+     "mean": 0.0819,
+     "q1": 0.0218,
+     "median": 0.0399,
+     "q3": 0.0835
+    }
+   ]
+  },
+  "promote": {
+   "label": "Promotion",
+   "unit": "",
+   "better": "up",
+   "today_median": null,
+   "points": [
+    {
+     "value": 0,
+     "mean": 0.0991,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    },
+    {
+     "value": 1,
+     "mean": 0.0946,
+     "q1": 0.0218,
+     "median": 0.0399,
+     "q3": 0.1152
+    }
+   ]
+  },
+  "accommodation": {
+   "label": "Site accommodation",
+   "unit": "",
+   "better": "up",
+   "today_median": null,
+   "points": [
+    {
+     "value": 0,
+     "mean": 0.0991,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    },
+    {
+     "value": 1,
+     "mean": 0.0961,
+     "q1": 0.0227,
+     "median": 0.0402,
+     "q3": 0.1152
+    }
+   ]
+  }
+ }
+}

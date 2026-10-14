@@ -11,10 +11,10 @@ const WhatIf = (() => {
   const I = (n, s = 16) => Icons.get(n, s);
   const HZ = [7, 15, 30, 90, 180];
   const GROUPS = [
-    ['Workload', ['overtime', 'night_shift', 'absence']],
-    ['Pay', ['raise', 'pay_delay']],
-    ['Growth', ['promote', 'training']],
-    ['Wellbeing', ['engagement', 'accommodation']],
+    ['Workload', ['overtime', 'night_shift', 'absence'], '--a-workload'],
+    ['Pay', ['raise', 'pay_delay'], '--a-pay'],
+    ['Growth', ['promote', 'training'], '--a-career'],
+    ['Wellbeing', ['engagement', 'accommodation'], '--a-sentiment'],
   ];
   // what "Suggested plan" sets, per area flagged by the person's own drivers
   const PLAN = {
@@ -89,8 +89,8 @@ const WhatIf = (() => {
       </div>
       <div class="wi-sec"><h4>What moved, in the 90-day model</h4>
         ${moved.length ? `<div class="wi-moved">${moved.slice(0, 6).map(m => `
-          <div class="mv ${m.logodds < 0 ? 'down' : 'up'}" data-tip-h="${esc(`<b>${m.area}</b><div class='t-row'><span>Change in log-odds</span><b>${m.logodds > 0 ? '+' : ''}${m.logodds.toFixed(3)}</b></div>`)}">
-            <span class="nm">${esc(m.area)}</span>
+          <div class="mv ${m.logodds < 0 ? 'down' : 'up'}" style="--tone:var(--a-${String(m.category || 'other').toLowerCase()})" data-tip-h="${esc(`<b>${m.area}</b><div class='t-row'><span>Change in log-odds</span><b>${m.logodds > 0 ? '+' : ''}${m.logodds.toFixed(3)}</b></div>`)}">
+            <span class="nm"><i class="adot"></i>${esc(m.area)}</span>
             <span class="track"><i style="width:${(Math.abs(m.logodds) / maxM) * 100}%"></i></span>
             <span class="how">${m.logodds < 0 ? 'lowers' : 'raises'} ${strength(Math.abs(m.logodds))}</span></div>`).join('')}</div>`
           : `<p class="sub">${any ? 'The model barely reacts to this change for this person.' : 'Nothing changed yet.'}</p>`}
@@ -108,7 +108,7 @@ const WhatIf = (() => {
   function paintLevers() {
     const box = st.root.querySelector('.wi-levers');
     const byKey = Object.fromEntries(st.levers.map(l => [l.key, l]));
-    box.innerHTML = GROUPS.map(([g, keys]) => `<fieldset><legend>${g}</legend>${keys.map(k => byKey[k] ? leverRow(byKey[k]) : '').join('')}</fieldset>`).join('');
+    box.innerHTML = GROUPS.map(([g, keys, tone]) => `<fieldset style="--tone:var(${tone})"><legend>${g}</legend>${keys.map(k => byKey[k] ? leverRow(byKey[k]) : '').join('')}</fieldset>`).join('');
     const n = Object.keys(changes()).length;
     st.root.querySelector('[data-wi="count"]').textContent = n ? `${n} change${n > 1 ? 's' : ''}` : 'No changes';
     st.root.querySelector('[data-wi="reset"]').disabled = !n;

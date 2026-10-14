@@ -152,14 +152,16 @@ const Chart = (() => {
     rows.forEach((d, i) => {
       const yy = 4 + i * rowH, up = d.impact_pct >= 0;
       const len = Math.max((Math.abs(d.impact_pct) / max) * half * 0.86, 2);
-      const col = up ? C.high : C.s1;
+      const col = up ? C.high : C.good;
+      const dot = getComputedStyle(document.documentElement).getPropertyValue(`--a-${String(d.category || 'other').toLowerCase()}`).trim() || C.muted;
       const val = d.value == null ? '' : typeof d.value === 'number' ? nice(d.value, Math.abs(d.value) >= 100 ? 0 : 2) : d.value;
       const sub = (d.detail || d.category) + (val !== '' ? `: ${val}` : '');
       const t = `<b>${esc(d.label)}</b>${row(up ? 'Adds to risk' : 'Takes off risk', `${Math.abs(d.impact_pct).toFixed(1)} points`)}${row('Strongest factor', d.detail || '')}${val !== '' ? row('Its value', val) : ''}${d.n_features > 1 ? row('Measures combined', d.n_features) : ''}`;
       body += `<g class="mark" ${tip(t)}><rect x="0" y="${yy - 3}" width="${w}" height="${rowH}" fill="transparent"/>
-        <text x="0" y="${yy + 11}" fill="${C.ink}" font-size="12.5">${esc(d.label.length > lblChars ? d.label.slice(0, lblChars - 1) + '…' : d.label)}</text>
-        <text x="0" y="${yy + 25}" fill="${C.muted}" font-size="11">${esc(sub.length > lblChars + 6 ? sub.slice(0, lblChars + 5) + '…' : sub)}</text>
-        <rect x="${up ? mid : mid - len}" y="${yy + 3}" width="${len}" height="12" rx="2" fill="${col}"/>
+        <circle cx="4" cy="${yy + 7}" r="4" fill="${dot}"/>
+        <text x="14" y="${yy + 11}" fill="${C.ink}" font-size="12.5">${esc(d.label.length > lblChars ? d.label.slice(0, lblChars - 1) + '…' : d.label)}</text>
+        <text x="14" y="${yy + 25}" fill="${C.muted}" font-size="11">${esc(sub.length > lblChars + 6 ? sub.slice(0, lblChars + 5) + '…' : sub)}</text>
+        <rect x="${up ? mid : mid - len}" y="${yy + 3}" width="${len}" height="12" rx="6" fill="${col}"/>
         <text x="${up ? mid + len + 6 : mid - len - 6}" y="${yy + 13}" fill="${C.ink2}" font-size="11.5" class="tnum"
           text-anchor="${up ? 'start' : 'end'}">${up ? '+' : '−'}${Math.abs(d.impact_pct).toFixed(1)}</text></g>`;
     });

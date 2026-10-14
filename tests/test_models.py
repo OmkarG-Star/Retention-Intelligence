@@ -297,3 +297,28 @@ def test_drivers_sum_correlated_features_into_one_area():
     assert eng["shap"] == pytest.approx(1.2), "area total is the exact sum of its SHAP values"
     assert eng["feature"] == "engagement_deficit", "detail names the strongest single feature"
     assert drivers[0]["category"] == "Sentiment"
+
+
+def test_operating_curve_ranks_each_week_and_grows_recall_with_list_size():
+    import numpy as np
+    import pandas as pd
+    from attrition.models.evaluate import operating_curve
+    rng = np.random.default_rng(9)
+    weeks = np.repeat(pd.date_range("2026-01-05", periods=10, freq="7D"), 500)
+    p = rng.random(len(weeks))
+    y = (rng.random(len(weeks)) < p * 0.2).astype(int)          # informative score
+    curve = operating_curve(pd.Series(weeks), y, p)
+    recalls = [c["recall"] for c in curve]
+    assert recalls == sorted(recalls), "a longer list can only catch more"
+    at15 = next(c for c in curve if c["k"] == 15)
+    assert abs(at15["flagged_rows"] - 0.15 * len(weeks)) <= 10   # 15% of every week
+    assert at15["lift"] > 1.2 and at15["recall"] > 0.15          # better than a random list
+
+
+def test_data_fingerprint_is_a_content_hash():
+    """Same data must give the same fingerprint (the old one hashed memory addresses)."""
+    import pandas as pd
+    from attrition.models.registry import data_fingerprint
+    a = pd.DataFrame({"EmployeeID": ["E1", "E2"], "Site": ["Pune", "Mumbai"], "x": [1.0, 2.0]})
+    assert data_fingerprint(a) == data_fingerprint(a.copy(deep=True))
+    assert data_fingerprint(a) != data_fingerprint(a.assign(x=[1.0, 2.5]))

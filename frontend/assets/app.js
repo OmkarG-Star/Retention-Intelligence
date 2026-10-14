@@ -18,30 +18,32 @@ const App = (() => {
   };
 
   const ROUTES = [
-    { path: '/', icon: 'overview', label: 'Overview', title: 'Overview', sub: 'Where the workforce stands this week',
+    { path: '/', tone: '--accent', icon: 'overview', label: 'Overview', title: 'Overview', sub: 'Where the workforce stands this week',
       help: 'This week in one sentence, everyone on one strip, and who to call first.' },
-    { path: '/watchlist', icon: 'watchlist', label: 'Watchlist', title: 'Watchlist', sub: 'Everyone, ranked by who needs a conversation first',
+    { path: '/watchlist', tone: '--a-workload', icon: 'watchlist', label: 'Watchlist', title: 'Watchlist', sub: 'Everyone, ranked by who needs a conversation first',
       help: 'Filter, search, sort any column and take a quick look at anyone.' },
-    { path: '/early', icon: 'newjoiner', label: 'New joiners', title: 'New joiners', sub: 'The first 30 days and the hiring channels behind them',
+    { path: '/early', tone: '--a-onboarding', icon: 'newjoiner', label: 'New joiners', title: 'New joiners', sub: 'The first 30 days and the hiring channels behind them',
       help: 'Where new hires are lost, and which hiring channels keep people.' },
-    { path: '/segments', icon: 'segments', label: 'Compare groups', title: 'Compare groups', sub: 'Risk by site, department, channel and tenure',
+    { path: '/segments', tone: '--a-career', icon: 'segments', label: 'Compare groups', title: 'Compare groups', sub: 'Risk by site, department, channel and tenure',
       help: 'Compare sites, departments, roles and tenure groups side by side.' },
-    { path: '/anomalies', icon: 'anomaly', label: 'Unusual change', title: 'Unusual change', sub: 'Sudden behaviour change and fast-rising risk',
+    { path: '/anomalies', tone: '--a-attendance', icon: 'anomaly', label: 'Unusual change', title: 'Unusual change', sub: 'Sudden behaviour change and fast-rising risk',
       help: 'People whose behaviour suddenly changed or whose risk jumped.' },
-    { path: '/interventions', icon: 'actions', label: 'Actions', title: 'Retention actions', sub: 'What was tried, and what followed',
+    { path: '/interventions', tone: '--a-pay', icon: 'actions', label: 'Actions', title: 'Retention actions', sub: 'What was tried, and what followed',
       help: 'Every logged conversation, its outcome, and which actions work.' },
-    { path: '/governance', icon: 'shield', label: 'Model health', title: 'Model health', sub: 'How far to trust the scores, and where not to',
+    { path: '/lab', tone: '--a-sentiment', icon: 'flask', label: 'Model lab', title: 'Model lab', sub: 'Play with the model: list size, what it relies on, how it responds',
+      help: 'Drag the call-list size, explore what the model relies on, and see how risk responds to each lever.' },
+    { path: '/governance', tone: '--a-logistics', icon: 'shield', label: 'Model health', title: 'Model health', sub: 'How far to trust the scores, and where not to',
       help: 'Lead time, accuracy with intervals, honesty of the percentages, fairness and drift.' },
-    { path: '/copilot', icon: 'chat', label: 'Ask', title: 'Ask', sub: 'Questions answered from the scored data',
+    { path: '/copilot', tone: '--a-supervision', icon: 'chat', label: 'Ask', title: 'Ask', sub: 'Questions answered from the scored data',
       help: 'Ask in plain English and get answers built from live data.' },
-    { path: '/help', icon: 'book', label: 'Guide', title: 'Guide', sub: 'How to use this in ten minutes a week',
+    { path: '/help', tone: '--a-contract', icon: 'book', label: 'Guide', title: 'Guide', sub: 'How to use this in ten minutes a week',
       help: 'The weekly routine, what every page is for, and the words used.' },
   ];
   const GROUPS = [
     { name: 'Monitor', items: ['/', '/watchlist', '/early'] },
     { name: 'Analyse', items: ['/segments', '/anomalies'] },
     { name: 'Act', items: ['/interventions', '/copilot'] },
-    { name: 'Trust', items: ['/governance', '/help'] },
+    { name: 'Model', items: ['/lab', '/governance', '/help'] },
   ];
 
   /* ------------------------------------------------------------- fetching */
@@ -129,7 +131,7 @@ const App = (() => {
   function renderNav() {
     el('nav').innerHTML = GROUPS.map(g => `<div class="nav-group"><span>${g.name}</span>${g.items.map(p => {
       const r = ROUTES.find(x => x.path === p);
-      return `<a href="#${r.path}" data-path="${r.path}" title="${esc(r.label)}">${I(r.icon, 17)}<span>${esc(r.label)}</span>
+      return `<a href="#${r.path}" data-path="${r.path}" title="${esc(r.label)}" style="--tone:var(${r.tone || '--accent'})"><span class="n-ic">${I(r.icon, 15)}</span><span>${esc(r.label)}</span>
         <span class="count" data-count="${r.path}"></span></a>`;
     }).join('')}</div>`).join('');
   }
@@ -174,7 +176,7 @@ const App = (() => {
     const hash = location.hash.replace(/^#/, '') || '/';
     const empMatch = hash.match(/^\/employee\/(.+)$/);
     const def = ROUTES.find(r => r.path === hash) || ROUTES[0];
-    hideTip(); closeDrawer(); WhatIf.unmount();
+    hideTip(); closeDrawer(); WhatIf.unmount(); Lab.unmount();
 
     if (empMatch) {
       setChrome({ path: '/watchlist', title: 'Employee', sub: 'Risk, reasons, history and actions' });
@@ -196,6 +198,7 @@ const App = (() => {
         case '/segments': await showSegments(state.segBy); break;
         case '/anomalies': render(Views.anomalies(await api('/api/anomalies'))); break;
         case '/interventions': render(Views.interventions(await api('/api/interventions'), canAct())); break;
+        case '/lab': Lab.mount(view(), await api('/api/model-lab'), kpis); break;
         case '/governance': govCache = await api('/api/governance'); render(Views.governance(govCache, state)); break;
         case '/copilot': render(Views.copilot()); break;
         case '/help': render(Views.help(ROUTES, GROUPS)); break;

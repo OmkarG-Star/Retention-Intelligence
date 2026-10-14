@@ -179,3 +179,15 @@ def test_whatif_rejects_bad_input_and_unknown_people(client):
     emp = client.get("/api/watchlist", params={"limit": 1}).json()[0]["EmployeeID"]
     assert client.post(f"/api/employees/{emp}/whatif", json={"changes": {"overtime": "lots"}}).status_code == 422
     assert client.post("/api/employees/NOPE/whatif", json={}).status_code == 404
+
+
+@pytest.mark.parametrize("changes", [{}, {"overtime": 12, "promote": 1}, {"accommodation": 1, "raise": 8}])
+def test_batched_projection_matches_one_person_at_a_time(synthetic_panel, changes):
+    weekly, master, _ = synthetic_panel
+    many = whatif.project_many(weekly, master, changes).set_index("EmployeeID")
+    num, _ = feature_columns(many.reset_index())
+    for emp in ("E9001", "E9002"):
+        _, one = whatif.project(weekly[weekly.EmployeeID == emp], master[master.EmployeeID == emp], changes)
+        a = many.loc[emp, num].to_numpy(float)
+        b = one.iloc[0][num].to_numpy(float)
+        assert np.allclose(a, b, atol=1e-6, equal_nan=True), emp

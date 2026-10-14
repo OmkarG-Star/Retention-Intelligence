@@ -226,6 +226,32 @@ def lead_time_curve(scored: pd.DataFrame, notice: pd.Series, p_col: str, weeks: 
             "window": [str(pd.Timestamp(start).date()), str(pd.Timestamp(end).date())]}
 
 
+OPERATING_KS = (1, 2, 3, 5, 7.5, 10, 12.5, 15, 17.5, 20, 25, 30, 35, 40, 50)
+
+
+def operating_curve(snap: pd.Series, y: np.ndarray, p: np.ndarray,
+                    ks: tuple[float, ...] = OPERATING_KS) -> list[dict]:
+    """Precision, recall and lift for every call-list size, ranked week by week.
+
+    The live list is cut each week from that week's scores, so each test week
+    is ranked on its own (as `lead_time_curve` does) and the hits are pooled.
+    Only the ranking matters here, which isotonic calibration preserves.
+    """
+    df = pd.DataFrame({"d": pd.to_datetime(snap).to_numpy(), "y": np.asarray(y), "p": np.asarray(p)})
+    df["pct"] = df.groupby("d")["p"].rank(pct=True, method="first")
+    base = float(df["y"].mean()) or 1e-9
+    total = int(df["y"].sum())
+    out = []
+    for k in ks:
+        flag = df["pct"] > 1 - k / 100
+        tp = int(df.loc[flag, "y"].sum())
+        n = int(flag.sum())
+        prec = tp / n if n else 0.0
+        out.append({"k": k, "precision": round(prec, 4), "recall": round(tp / total, 4) if total else 0.0,
+                    "lift": round(prec / base, 2), "flagged_rows": n, "caught": tp})
+    return out
+
+
 def psi(baseline: np.ndarray, current: np.ndarray, bins: int = 10) -> float:
     """Population Stability Index. >0.25 means the input distribution has moved
     enough that the model should be retrained before it is trusted."""

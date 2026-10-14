@@ -90,17 +90,18 @@ def current_values(last_week: pd.Series, master_row: pd.Series) -> dict[str, flo
 
 
 def _future_weeks(hist: pd.DataFrame, weeks: int) -> pd.DataFrame:
-    last = hist.iloc[-1]
-    rows = []
-    for k in range(1, weeks + 1):
-        r = last.copy()
-        r["SnapshotDate"] = last["SnapshotDate"] + pd.Timedelta(weeks=k)
-        r["TenureDays"] = last["TenureDays"] + 7 * k
-        r["TenureMonths"] = r["TenureDays"] / 30.44
-        r["MonthsSincePromotion"] = last["MonthsSincePromotion"] + 7 * k / 30.44
-        r["GrievanceFlag"] = 0
-        rows.append(r)
-    return pd.DataFrame(rows)
+    """`weeks` copies of each person's last real week, aged week by week.
+    Works for one person or many (one block per EmployeeID)."""
+    last = hist.sort_values("SnapshotDate").groupby("EmployeeID", sort=False).tail(1)
+    k = np.repeat(np.arange(1, weeks + 1), len(last))
+    fut = pd.concat([last] * weeks, ignore_index=True)
+    fut["SnapshotDate"] = fut["SnapshotDate"] + pd.to_timedelta(7 * k, unit="D")
+    fut["TenureDays"] = fut["TenureDays"] + 7 * k
+    fut["TenureMonths"] = fut["TenureDays"] / 30.44
+    fut["MonthsSincePromotion"] = fut["MonthsSincePromotion"] + 7 * k / 30.44
+    fut["GrievanceFlag"] = 0
+    fut["_k"] = k
+    return fut.sort_values(["EmployeeID", "_k"]).drop(columns="_k").reset_index(drop=True)
 
 
 def _apply(future: pd.DataFrame, master: pd.DataFrame, changes: dict[str, float]) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -108,6 +109,13 @@ def _apply(future: pd.DataFrame, master: pd.DataFrame, changes: dict[str, float]
     for key, value in changes.items():
         lv = LEVER_BY_KEY.get(key)
         if lv is None or value is None:
+            continue
+        if isinstance(value, (pd.Series, dict)):
+            # per-person settings (batched audits): only level levers vary by person
+            if lv.kind != "level":
+                raise ValueError(f"per-person values are only supported for level levers, not {key}")
+            per = future["EmployeeID"].map(pd.Series(value)).astype(float).clip(lv.lo, lv.hi)
+            future[lv.column] = per / 100 if key == "night_shift" else per
             continue
         v = float(np.clip(float(value), lv.lo, lv.hi))
         if lv.kind == "level":
@@ -119,17 +127,20 @@ def _apply(future: pd.DataFrame, master: pd.DataFrame, changes: dict[str, float]
             # LastHikePct is left alone: overwriting it would read a 10% raise
             # after last year's 14% hike as a step down.
         elif lv.kind == "promote" and v >= 1:
-            future["MonthsSincePromotion"] = np.arange(1, len(future) + 1) * 7 / 30.44
+            future["MonthsSincePromotion"] = (future.groupby("EmployeeID").cumcount() + 1) * 7 / 30.44
         elif lv.kind == "training" and v > 0:
             future["TrainingCountToDate"] = future["TrainingCountToDate"] + int(v)
         elif lv.kind == "toggle" and lv.key == "accommodation":
-            if v >= 0.5 and int(master[lv.column].iloc[0]) == 0:
+            if v >= 0.5:
                 # Accommodated staff live at or near the site camp. The data
                 # records that as a short distance, so the lever does the same
                 # (the generator uses 12% of the home distance, 0.5 to 25 km).
+                # People already accommodated keep their recorded distance.
+                new = master[lv.column].astype(int) == 0
+                master.loc[new, "DistanceFromSiteKm"] = np.clip(
+                    master.loc[new, "DistanceFromSiteKm"] * 0.12, 0.5, 25)
                 master[lv.column] = 1
-                master["DistanceFromSiteKm"] = np.clip(master["DistanceFromSiteKm"] * 0.12, 0.5, 25)
-            elif v < 0.5:
+            else:
                 master[lv.column] = 0
     return future, master
 
@@ -155,6 +166,86 @@ def project(hist: pd.DataFrame, master_row: pd.DataFrame, changes: dict[str, flo
     for row in (base, scen):
         row["weeks_observed"] = row["weeks_observed"] + dropped
     return base.reset_index(drop=True), scen.reset_index(drop=True)
+
+
+def project_many(weekly: pd.DataFrame, master: pd.DataFrame, changes: dict[str, float],
+                 weeks: int = DEFAULT_WEEKS) -> pd.DataFrame:
+    """The same projection for many people at once, one feature row each.
+
+    One `build_features` call over everyone is about 25x faster than a call per
+    person, which is what makes population response curves affordable."""
+    weekly = weekly.copy()
+    weekly["SnapshotDate"] = pd.to_datetime(weekly["SnapshotDate"])
+    weekly = weekly.sort_values(["EmployeeID", "SnapshotDate"])
+    first = weekly.groupby("EmployeeID").cumcount()
+    total = weekly.groupby("EmployeeID")["EmployeeID"].transform("size")
+    dropped = (total - KEEP_WEEKS).clip(lower=0).groupby(weekly["EmployeeID"]).first()
+    weekly = weekly[first >= total - KEEP_WEEKS]
+    future, master_c = _apply(_future_weeks(weekly, weeks), master, changes)
+    feats = build_features(pd.concat([weekly, future], ignore_index=True), master_c)
+    out = feats.sort_values("SnapshotDate").groupby("EmployeeID").tail(1).reset_index(drop=True).copy()
+    out["weeks_observed"] = out["weeks_observed"] + out["EmployeeID"].map(dropped).fillna(0).astype(int)
+    return out
+
+
+# Lever grids for the population response curves (absolute settings).
+CURVE_GRID = {
+    "overtime": [0, 10, 20, 30, 40, 50, 60],
+    "night_shift": [0, 20, 40, 60, 80],
+    "absence": [0, 1, 2, 3, 4],
+    "pay_delay": [0, 3, 6, 9, 12, 15],
+    "engagement": [2, 4, 6, 8, 10],
+    "raise": [0, 5, 10, 15, 20, 25],
+    "training": [0, 1, 2, 3, 4],
+}
+
+
+def response_curves(bundle: dict, n: int = 300, weeks: int = DEFAULT_WEEKS, horizon: int = 90,
+                    seed: int = 7) -> dict:
+    """How the live model's risk responds across each lever's range.
+
+    A sample of active employees is projected `weeks` ahead with the lever set
+    to each grid value for everyone (everything else held at each person's own
+    latest week). The mean (expected resignations per person) and quartiles of
+    the projected risk are reported, next to the "if this week repeats"
+    reference. The UI draws the mean: calibrated scores are a step function, so
+    a median sits on one step and makes smooth responses look flat. This is the model's response
+    surface, an individual-conditional-expectation summary, not a causal claim.
+    """
+    from ..scoring.score import latest_snapshots
+    snap = latest_snapshots()
+    ids = snap["EmployeeID"].sample(min(n, len(snap)), random_state=seed).tolist()
+    weekly = warehouse.query("SELECT * FROM employee_weekly")
+    master = warehouse.query("SELECT * FROM employee_master")
+    weekly, master = weekly[weekly["EmployeeID"].isin(ids)], master[master["EmployeeID"].isin(ids)]
+    model = bundle["horizons"][horizon]
+
+    def summary(rows):
+        p = model.predict_proba(rows)
+        q = np.percentile(p, [25, 50, 75])
+        return {"mean": round(float(p.mean()), 4), "q1": round(float(q[0]), 4),
+                "median": round(float(q[1]), 4), "q3": round(float(q[2]), 4)}
+
+    base = summary(project_many(weekly, master, {}, weeks))
+    last = weekly.assign(SnapshotDate=pd.to_datetime(weekly["SnapshotDate"])) \
+        .sort_values("SnapshotDate").groupby("EmployeeID").tail(1)
+    out = {"model_version": bundle["version"], "data_fingerprint": bundle["record"].get("data_fingerprint"),
+           "champions": bundle["record"].get("champions"), "horizon": horizon, "weeks": weeks,
+           "people": len(ids), "baseline": base, "levers": {}}
+    for key, grid in CURVE_GRID.items():
+        lv = LEVER_BY_KEY[key]
+        col = last[lv.column] * (100 if key == "night_shift" else 1) if lv.column else None
+        out["levers"][key] = {
+            "label": lv.label, "unit": lv.unit, "better": lv.better,
+            "today_median": None if col is None else round(float(col.median()), 2),
+            "points": [{"value": v, **summary(project_many(weekly, master, {key: v}, weeks))} for v in grid],
+        }
+    for key in ("promote", "accommodation"):
+        lv = LEVER_BY_KEY[key]
+        out["levers"][key] = {"label": lv.label, "unit": "", "better": lv.better, "today_median": None,
+                              "points": [{"value": 0, **base},
+                                         {"value": 1, **summary(project_many(weekly, master, {key: 1}, weeks))}]}
+    return out
 
 
 def _area_totals(model, row: pd.DataFrame) -> dict[str, float]:

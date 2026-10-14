@@ -415,6 +415,40 @@ It shows what the model expects, not a causal promise. On the demo data the
 directions are verified against known causes; on real data they are domain
 assumptions that should be reviewed with HR.
 
+### 10.1 Model Lab
+
+The Model Lab page shows three views of the live model. All three are computed
+outside the browser.
+
+- **Operating curve** (`evaluate.operating_curve`, stored per horizon in the
+  registry). The test window is ranked *week by week*, as the live list is cut,
+  and precision, recall and lift are pooled for list sizes from 1% to 50%. At
+  the live 15% cut, the 90-day model catches 51% of resignations with a 29% hit
+  rate (3.4× the 8.5% base rate). Only the ranking matters here, which isotonic
+  calibration preserves.
+- **Importance by area.** Mean |SHAP| share on 4,000 held-out rows, summed per
+  area. Tenure stage (15%) and engagement (14%) lead. Tenure is large because
+  the simulator's baseline hazard is bathtub-shaped in tenure.
+- **Response curves** (`whatif.response_curves`, `docs/response_curves.json`).
+  300 active employees are projected 8 weeks ahead with one lever set to each
+  grid value for everyone, using a batched version of the what-if projection
+  (`project_many`, tested equal to the per-person one, about 25× faster).
+  The page draws the **mean** risk, because calibrated scores form a step
+  function: a median sits on one step and made, for example, absence of 2, 3
+  and 4 days per week all read exactly 8.29%. The means are smooth and point
+  the way the audit expects. Raising overtime from 0 to 60 hours a week takes
+  average 90-day risk from 5.8% to 29.0%, and raising engagement from 2 to 10
+  takes it from 20.2% to 5.8%. Night shifts move it by under 0.2 points,
+  consistent with their weak SHAP share (section 7.2).
+
+### 10.2 Plumbing bugs found along the way
+
+| Bug | Effect | Fix |
+|---|---|---|
+| The registry's data fingerprint hashed `to_numpy().tobytes()` of mixed-type frames, which for text columns is a list of memory addresses | Changed on every run, so it could never say "same data" | Content hash (`pd.util.hash_pandas_object`), with a test |
+| Re-scoring a week (admin button or retrain) added a second run for the same date | Trend chart points doubled; velocity could compare against the other model's run | One run per date (the latest) in every trend query |
+| `.gitignore` had `models/`, which also matched `src/attrition/models/` | `backtest.py` was never committed; the next deploy would have crashed on import | Patterns anchored to the repository root |
+
 ## 11. Experiments tried and rejected
 
 | Idea | Result | Decision |

@@ -10,6 +10,10 @@ Resignation early warning for a construction and EPC workforce: who is likely to
 
 ![Overview: a one-sentence briefing, key numbers, and every employee as one square sorted by risk](docs/screenshots/overview.png)
 
+**Model lab.** Drag the call-list size, click into what the model relies on, and see how risk responds to each lever:
+
+![Model lab: call-list slider with recall and hit rate, an importance treemap by area, and lever response curves](docs/screenshots/model-lab.png)
+
 **What-if simulator.** Move a lever, see how the model expects this person's risk to respond:
 
 ![What-if simulator: levers for workload, pay, growth and wellbeing, with 90-day risk before and after and what moved](docs/screenshots/whatif.png)
@@ -65,7 +69,7 @@ data/raw CSVs ─► SQLite warehouse ─► leakage-safe weekly features (106 n
 | Scoring | `src/attrition/scoring/score.py` | Weekly run, priority = risk percentile × role criticality |
 | API | `src/attrition/api/` | FastAPI, sessions, roles (viewer, HR manager, admin), CSRF, audit log |
 | Ask | `src/attrition/copilot/assistant.py` | Answers from live queries; an LLM only rephrases retrieved facts, if configured |
-| Dashboard | `frontend/` | Static HTML, CSS and JS with hand-built SVG charts; no CDN, works behind a site proxy |
+| Dashboard | `frontend/` | Static HTML, CSS and JS with hand-built SVG charts; light, colourful theme with one colour per area; no CDN, works behind a site proxy |
 
 ## Using the dashboard
 
@@ -73,6 +77,7 @@ data/raw CSVs ─► SQLite warehouse ─► leakage-safe weekly features (106 n
 - **Watchlist**: sort any column, filter by band, site, department or text. Click a row (or press Enter) for a quick look; `j` and `k` move through people, `Esc` closes.
 - **Employee**: risk at five horizons, a six-month retention curve built from the same numbers, the reasons grouped by area, weekly behaviour, history and logged actions.
 - **What-if** (on every employee page, or "What-if" in the quick look): drag overtime, night shifts, pay, promotion, training and more; the risk at every horizon and the areas that moved update as you go. "Suggested plan" fills the levers from the person's own risk drivers.
+- **Model lab**: drag the call-list size (1% to 50%) and watch people-to-call, resignations caught, calls per leaver and lift update from the held-out window; click a treemap tile to see the measures behind an area; pick a lever to see the live model's response across its range for 300 real employees.
 - **Model health**: lead time, accuracy with intervals, the rolling backtest, the lever audit, the three candidate models, calibration, the SHAP check, fairness by group, drift.
 - `Ctrl K` finds any person or page.
 
@@ -90,7 +95,8 @@ Optional checks, written to `docs/` and shown on the Model health page:
 
 ```bash
 PYTHONPATH=src python -m attrition.cli backtest       # rolling-origin backtest (about 3 min)
-PYTHONPATH=src python -m attrition.cli audit-levers   # what-if direction audit (about 9 min)
+PYTHONPATH=src python -m attrition.cli audit-levers   # what-if direction audit (under a minute)
+PYTHONPATH=src python -m attrition.cli response-curves  # Model lab response curves (about 2 min)
 ```
 
 Or `make pipeline && make serve`, or `scripts/setup.sh` then `scripts/run.sh` (`.bat` versions for Windows).
@@ -108,7 +114,7 @@ The image builds the data and trains the models during the build, so the contain
 **Tests**
 
 ```bash
-PYTHONPATH=src python -m pytest -q    # 81 tests; API tests need the pipeline to have run
+PYTHONPATH=src python -m pytest -q    # 87 tests; API tests need the pipeline to have run
 ```
 
 The tests pin the properties that matter most: features never use the future, labels respect censoring, every split has its embargo, horizon risks never decrease with the horizon, the curve matches the headline numbers, sign bounds hold even against the data, a what-if lever moves its whole feature family together, cutting overtime never raises a high-risk person's 90-day risk, protected routes refuse anonymous access, and viewers cannot log actions.
@@ -130,6 +136,6 @@ This is decision support for retention conversations. Do not use it to terminate
 
 ## Licence and author
 
-MIT, see [LICENSE](LICENSE). IBM Plex fonts under the SIL Open Font License (`frontend/assets/fonts/OFL.txt`).
+MIT, see [LICENSE](LICENSE). Inter and IBM Plex Mono fonts under the SIL Open Font License (`frontend/assets/fonts/OFL.txt`).
 
 Omkar Gadhave: [LinkedIn](https://www.linkedin.com/in/omkar-gadhave-data/), omkarg3737@gmail.com

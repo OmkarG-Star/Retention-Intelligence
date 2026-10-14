@@ -214,3 +214,17 @@ def test_trend_has_one_point_per_scoring_date(client):
     assert dates and len(dates) == len(set(dates))
     runs = client.get("/api/governance").json()["runs"]
     assert len({r["as_of"] for r in runs}) == len(runs)
+
+
+def test_model_lab_carries_curves_importance_and_valid_responses(client):
+    _login(client, "viewer", "Viewer@2026")
+    d = client.get("/api/model-lab").json()
+    assert d["status"] == "ok" and d["headcount"] > 0
+    h = d["horizons"][str(d["band_horizon"])]
+    ks = [c["k"] for c in h["operating_curve"]]
+    assert 15 in ks and ks == sorted(ks)
+    shares = [a["share"] for a in h["importance"]["areas"]]
+    assert abs(sum(shares) - 1) < 0.02 and shares == sorted(shares, reverse=True)
+    if d["response_curves"]:                       # only shown when it describes the live model
+        ot = [p["mean"] for p in d["response_curves"]["levers"]["overtime"]["points"]]
+        assert ot == sorted(ot), "more overtime never lowers average risk"

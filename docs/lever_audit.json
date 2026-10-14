@@ -1,6 +1,6 @@
 {
- "model_version": "v20261014.070616",
- "data_fingerprint": "0e520ca637c98ed9",
+ "model_version": "v20261014.075040",
+ "data_fingerprint": "76068ee006371fd5",
  "champions": {
   "7": "blend",
   "15": "blend",
@@ -582,5 +582,5 @@
    ]
   }
  },
- "seconds": 474.1
+ "seconds": 30.7
 }

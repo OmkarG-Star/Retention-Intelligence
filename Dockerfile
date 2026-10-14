@@ -15,8 +15,12 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Build data, features, model and the first scoring run at image build time so
-# the container starts ready to serve.
-RUN python -m attrition.cli pipeline
+# the container starts ready to serve. The lever audit and the Model lab
+# response curves are recomputed for the model this build just trained (about
+# 3 minutes together), so the pages never show results from another model.
+RUN python -m attrition.cli pipeline \
+ && python -m attrition.cli audit-levers \
+ && python -m attrition.cli response-curves
 
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \

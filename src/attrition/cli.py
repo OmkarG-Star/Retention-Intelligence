@@ -73,6 +73,17 @@ def cmd_audit_levers(args):
     run_audit(n=args.people)
 
 
+def cmd_response_curves(args):
+    import json
+    from .config import paths
+    from .models.train import load_bundle
+    from .scoring.whatif import response_curves
+    out = response_curves(load_bundle(), n=args.people)
+    f = paths.root / "docs" / "response_curves.json"
+    f.write_text(json.dumps(out, indent=1))
+    print(f"Response curves for {out['people']} people written to {f.relative_to(paths.root)}")
+
+
 def cmd_seed_users(args):
     from .api.security import seed_users
     for line in seed_users():
@@ -113,6 +124,8 @@ def main(argv=None):
     p.add_argument("--origins", type=int, default=4); p.set_defaults(func=cmd_backtest)
     p = sub.add_parser("audit-levers", help="check what-if levers move risk the expected way, writes docs/lever_audit.json")
     p.add_argument("--people", type=int, default=200); p.set_defaults(func=cmd_audit_levers)
+    p = sub.add_parser("response-curves", help="model response across each lever's range, writes docs/response_curves.json")
+    p.add_argument("--people", type=int, default=300); p.set_defaults(func=cmd_response_curves)
     p = sub.add_parser("pipeline")
     p.add_argument("--runs", type=int, default=12)
     p.add_argument("--force", action="store_true",

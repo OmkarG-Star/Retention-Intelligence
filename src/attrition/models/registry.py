@@ -30,11 +30,18 @@ def artefact_dir(version: str) -> Path:
 
 
 def data_fingerprint(*frames) -> str:
+    """Content hash of the training data: same data, same fingerprint.
+
+    The earlier version hashed `to_numpy().tobytes()` of mixed-type frames,
+    which for object columns is a list of memory addresses, so it changed on
+    every run and could never say "this is the same data"."""
+    import pandas as pd
     h = hashlib.sha256()
     for f in frames:
         h.update(str(f.shape).encode())
         h.update(",".join(map(str, f.columns)).encode())
-        h.update(str(f.iloc[:50].to_numpy().tobytes() if len(f) else b"").encode()[:4096])
+        if len(f):
+            h.update(pd.util.hash_pandas_object(f, index=False).to_numpy().tobytes())
     return h.hexdigest()[:16]
 
 

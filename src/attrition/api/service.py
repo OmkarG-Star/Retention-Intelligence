@@ -385,18 +385,48 @@ def governance() -> dict:
     }
 
 
+def _describes_live_model(doc: dict | None, record: dict) -> bool:
+    """A docs/*.json result describes the live model if it was run on the same
+    version, or on a deterministic retrain of it (same data, same champions)."""
+    if not doc:
+        return False
+    return doc.get("model_version") == record["version"] or (
+        doc.get("data_fingerprint") == record.get("data_fingerprint")
+        and doc.get("champions") == {str(k): v for k, v in (record.get("champions") or {}).items()})
+
+
+def model_lab() -> dict:
+    """Everything the Model Lab page needs, from the registry and docs/."""
+    from ..config import paths
+    try:
+        record = registry.get()
+    except FileNotFoundError:
+        return {"status": "no_model"}
+    try:
+        curves = json.loads((paths.root / "docs" / "response_curves.json").read_text())
+    except Exception:
+        curves = None
+    k = kpis()
+    horizons = {}
+    for h, m in (record.get("metrics") or {}).items():
+        horizons[h] = {key: m.get(key) for key in (
+            "champion", "pr_auc", "pr_auc_ci", "roc_auc", "base_rate", "positives",
+            "recall_at_15", "precision_at_15", "operating_curve", "importance", "windows")}
+    return {
+        "status": "ok", "version": record["version"], "band_horizon": record.get("band_horizon", 90),
+        "flag_percentile": record.get("flag_percentile"), "headcount": k.get("headcount"),
+        "horizons": horizons,
+        "response_curves": curves if _describes_live_model(curves, record) else None,
+    }
+
+
 def _current_audit(record: dict) -> dict | None:
     """The lever audit, only if it describes the live model: same version, or a
     deterministic retrain of it (same training data, same champions). The
     Docker build retrains under a new version string, which is the second case."""
     from ..models.lever_audit import load_audit
     audit = load_audit()
-    if not audit:
-        return None
-    same = audit.get("model_version") == record["version"] or (
-        audit.get("data_fingerprint") == record.get("data_fingerprint")
-        and audit.get("champions") == {str(k): v for k, v in (record.get("champions") or {}).items()})
-    return audit if same else None
+    return audit if _describes_live_model(audit, record) else None
 
 
 def interventions_for(employee_id: str) -> list[dict]:
