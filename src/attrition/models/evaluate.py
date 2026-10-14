@@ -29,6 +29,9 @@ def discrimination(y: np.ndarray, p: np.ndarray) -> dict[str, float]:
     out["recall_at_10"] = float(_recall_at_k(y, p, 0.10))
     out["precision_at_10"] = float(_precision_at_k(y, p, 0.10))
     out["recall_at_20"] = float(_recall_at_k(y, p, 0.20))
+    # the watchlist's own operating point (High + Critical = top 15%)
+    out["recall_at_15"] = float(_recall_at_k(y, p, 0.15))
+    out["precision_at_15"] = float(_precision_at_k(y, p, 0.15))
     return out
 
 
@@ -69,8 +72,53 @@ def calibration_bins(y: np.ndarray, p: np.ndarray, n_bins: int = 10) -> list[dic
             for r in grouped.itertuples()]
 
 
-def fairness_slices(df: pd.DataFrame, y_col: str, p_col: str,
-                    by: list[str], min_n: int = 150) -> list[dict]:
+def bootstrap_ci(y: np.ndarray, p: np.ndarray, groups: np.ndarray, metric=average_precision_score,
+                 n_boot: int = 200, seed: int = 17, alpha: float = 0.05) -> tuple[float, float]:
+    """Confidence interval resampling *employees*, not rows.
+
+    One person contributes many weekly rows, so a row bootstrap treats
+    correlated rows as independent evidence and reports intervals that are far
+    too narrow.
+    """
+    y, p, groups = np.asarray(y).astype(int), np.asarray(p, float), np.asarray(groups)
+    uniq, inv = np.unique(groups, return_inverse=True)
+    members = [np.flatnonzero(inv == g) for g in range(len(uniq))]
+    rng = np.random.default_rng(seed)
+    stats = []
+    for _ in range(n_boot):
+        pick = rng.integers(0, len(uniq), len(uniq))
+        idx = np.concatenate([members[g] for g in pick])
+        if y[idx].min() == y[idx].max():
+            continue
+        stats.append(metric(y[idx], p[idx]))
+    if not stats:
+        return float("nan"), float("nan")
+    lo, hi = np.quantile(stats, [alpha / 2, 1 - alpha / 2])
+    return float(lo), float(hi)
+
+
+def operating_threshold(p: np.ndarray, percentile: float) -> float:
+    """Score above which a row falls in the flagged top (100 - percentile)%."""
+    return float(np.percentile(np.asarray(p, float), percentile))
+
+
+def fairness_slices(df: pd.DataFrame, y_col: str, p_col: str, by: list[str],
+                    flag_percentile: float = 85.0, min_n: int = 150,
+                    min_events: int = 15) -> list[dict]:
+    """Group-level checks at the threshold the product actually uses.
+
+    calibration_ratio  mean predicted / observed rate. Below ~0.8 the model
+                       under-states this group's risk, so its people get
+                       flagged too late; above ~1.25 it over-states it.
+    flag_rate          share flagged at the watchlist cut (top 15% overall).
+    recall             share of this group's leavers that the cut catches.
+                       Large gaps here are the fairness problem that matters
+                       for a retention tool: one site's leavers get a
+                       conversation, another's do not.
+    """
+    if df.empty:
+        return []
+    thr = operating_threshold(df[p_col], flag_percentile)
     rows = []
     for col in by:
         if col not in df.columns:
@@ -78,22 +126,104 @@ def fairness_slices(df: pd.DataFrame, y_col: str, p_col: str,
         for value, grp in df.groupby(col):
             if len(grp) < min_n:
                 continue
-            m = discrimination(grp[y_col].to_numpy(), grp[p_col].to_numpy())
+            y = grp[y_col].to_numpy().astype(int)
+            p = grp[p_col].to_numpy(float)
+            flagged = p >= thr
+            events = int(y.sum())
+            base = float(y.mean())
             rows.append({
-                "attribute": col, "group": str(value), "n": m["n"],
-                "base_rate": round(m["base_rate"], 4),
-                "mean_score": round(float(grp[p_col].mean()), 4),
-                "pr_auc": round(m.get("pr_auc", float("nan")), 4),
-                "flag_rate_at_50": round(float((grp[p_col] >= 0.5).mean()), 4),
+                "attribute": col, "group": str(value), "n": int(len(grp)), "events": events,
+                "base_rate": round(base, 4),
+                "mean_score": round(float(p.mean()), 4),
+                "calibration_ratio": round(float(p.mean() / base), 3) if events >= min_events else None,
+                "flag_rate": round(float(flagged.mean()), 4),
+                "recall": round(float(flagged[y == 1].mean()), 3) if events >= min_events else None,
+                "pr_auc": round(float(average_precision_score(y, p)), 4)
+                if events >= min_events and events < len(y) else None,
             })
-    if rows:
-        frame = pd.DataFrame(rows)
-        # selection-rate parity vs the best-off group, per attribute
-        for attr, grp in frame.groupby("attribute"):
-            ref = grp["flag_rate_at_50"].max() or 1e-9
-            frame.loc[grp.index, "selection_ratio"] = (grp["flag_rate_at_50"] / ref).round(3)
-        rows = frame.to_dict("records")
-    return rows
+    if not rows:
+        return rows
+    frame = pd.DataFrame(rows)
+    for _, grp in frame.groupby("attribute"):
+        best = grp["recall"].max()
+        frame.loc[grp.index, "recall_ratio"] = (grp["recall"] / best).round(3) if best else None
+    out = []
+    for r in frame.to_dict("records"):
+        r = {k: (None if isinstance(v, float) and np.isnan(v) else v) for k, v in r.items()}
+        # Recall differs between groups whenever their risk differs, so only a
+        # material gap with enough events to trust is raised as an issue.
+        issues = []
+        cr, rr = r.get("calibration_ratio"), r.get("recall_ratio")
+        solid = (r.get("events") or 0) >= 50
+        if solid and cr is not None and cr < 0.75:
+            issues.append("under-predicted")
+        if solid and cr is not None and cr > 1.33:
+            issues.append("over-predicted")
+        if solid and rr is not None and rr < 0.5:
+            issues.append("leavers missed more often")
+        r["issues"] = issues
+        out.append(r)
+    return out
+
+
+def concordance_index(time: np.ndarray, event: np.ndarray, risk: np.ndarray,
+                      max_n: int = 4000, seed: int = 5) -> float:
+    """Harrell's C: of the pairs where we know who left first, how often did the
+    model give the earlier leaver the higher risk. 0.5 is chance."""
+    time, event, risk = (np.asarray(a, float) for a in (time, event, risk))
+    if len(time) > max_n:
+        idx = np.random.default_rng(seed).choice(len(time), max_n, replace=False)
+        time, event, risk = time[idx], event[idx], risk[idx]
+    num = den = 0.0
+    for i in np.flatnonzero(event == 1):
+        later = time > time[i]
+        if not later.any():
+            continue
+        den += later.sum()
+        num += (risk[i] > risk[later]).sum() + 0.5 * (risk[i] == risk[later]).sum()
+    return float(num / den) if den else float("nan")
+
+
+def lead_time_curve(scored: pd.DataFrame, notice: pd.Series, p_col: str, weeks: int = 12,
+                    flag_percentile: float = 85.0, window_start: pd.Timestamp | None = None) -> dict:
+    """How far ahead does the watchlist see a resignation coming?
+
+    `scored` holds weekly snapshots (EmployeeID, SnapshotDate, p_col) for
+    everyone active that week. Each week is ranked separately, exactly as the
+    weekly scoring run would rank it. For every resignation, look back k weeks
+    and check whether the person was in that week's flagged top 15%.
+
+    Random flagging catches 15% at every lead time, so the curve's height above
+    that line is the model's real early warning.
+    """
+    s = scored[["EmployeeID", "SnapshotDate", p_col]].copy()
+    s["pct"] = s.groupby("SnapshotDate")[p_col].rank(pct=True) * 100
+    s["flag"] = s["pct"] >= flag_percentile
+    lookup = s.set_index(["EmployeeID", "SnapshotDate"])["flag"]
+    start = window_start if window_start is not None else s["SnapshotDate"].min()
+    end = s["SnapshotDate"].max()
+    notice = notice.dropna()
+    leavers = notice[(notice >= start + pd.Timedelta(weeks=weeks)) & (notice <= end)]
+    snaps_by_emp = {e: g["SnapshotDate"] for e, g in s[s["EmployeeID"].isin(leavers.index)]
+                    .groupby("EmployeeID")}
+    curve = []
+    for k in range(1, weeks + 1):
+        hits = []
+        for emp, nd in leavers.items():
+            snaps = snaps_by_emp.get(emp)
+            if snaps is None:
+                continue
+            target = nd - pd.Timedelta(weeks=k)
+            prior = snaps[(snaps <= target) & (snaps > target - pd.Timedelta(days=7))]
+            if prior.empty:
+                continue
+            hits.append(bool(lookup.get((emp, prior.max()), False)))
+        curve.append({"weeks_before": k, "caught": round(float(np.mean(hits)), 3) if hits else None,
+                      "n": len(hits)})
+    return {"curve": curve, "leavers": int(len(leavers)),
+            "random_baseline": round(1 - flag_percentile / 100, 3),
+            "flag_share": round(1 - flag_percentile / 100, 3),
+            "window": [str(pd.Timestamp(start).date()), str(pd.Timestamp(end).date())]}
 
 
 def psi(baseline: np.ndarray, current: np.ndarray, bins: int = 10) -> float:

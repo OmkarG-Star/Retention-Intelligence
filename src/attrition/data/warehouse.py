@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS employee_weekly (
     PRIMARY KEY (EmployeeID, SnapshotDate)
 );
 CREATE TABLE IF NOT EXISTS attrition_outcomes (
-    EmployeeID TEXT PRIMARY KEY, ExitDate TEXT, ExitType TEXT, ExitReason TEXT,
+    EmployeeID TEXT PRIMARY KEY, NoticeDate TEXT, ExitDate TEXT, ExitType TEXT, ExitReason TEXT,
     TenureDaysAtExit INTEGER
 );
 CREATE TABLE IF NOT EXISTS employee_events (
@@ -109,6 +109,10 @@ def connect(db: Path) -> Iterator[sqlite3.Connection]:
 def init_warehouse() -> None:
     with connect(paths.warehouse) as c:
         c.executescript(WAREHOUSE_SCHEMA)
+        # columns added after the first release; CREATE IF NOT EXISTS won't add them
+        cols = {r[1] for r in c.execute("PRAGMA table_info(attrition_outcomes)")}
+        if "NoticeDate" not in cols:
+            c.execute("ALTER TABLE attrition_outcomes ADD COLUMN NoticeDate TEXT")
 
 
 def init_app_db() -> None:

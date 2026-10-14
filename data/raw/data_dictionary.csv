@@ -22,7 +22,8 @@ GrievanceFlag,employee_weekly,Grievance raised that week,Acute dissatisfaction e
 ProjectPhase,employee_weekly,Mobilisation/Peak/Finishing/Demobilisation,Project lifecycle risk
 DemobilisationPressure,employee_weekly,0-1 closeout intensity,Contract-staff exit driver
 HeadcountAtSite,employee_weekly,Active headcount at the site that week,Crew thinning context
-ExitDate,attrition_outcomes,Last working day,Label construction
+NoticeDate,attrition_outcomes,Date the exit was decided (resignation handed in),"Prediction target: risk models predict this date, not the last working day"
+ExitDate,attrition_outcomes,Last working day,Headcount and attrition reporting
 ExitType,attrition_outcomes,Resignation/Absconding/Termination/End of Contract,Outcome segmentation
 TenureDaysAtExit,attrition_outcomes,Tenure at exit,Early-attrition cohorts
 EventType,employee_events,Joined/Onboarding/Training/Promotion/Grievance/Exit,Timeline and audit trail

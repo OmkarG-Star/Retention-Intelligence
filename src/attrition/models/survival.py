@@ -17,7 +17,6 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
-from ..config import N_JOBS
 
 INTERVAL_DAYS = 7
 N_INTERVALS = 26  # ~6 months ahead
@@ -90,7 +89,7 @@ class DiscreteTimeSurvival:
 
         expanded = d.iloc[idx]
         X = self._design(expanded, ks, fit=True)
-        self.model = LogisticRegression(max_iter=600, C=0.7, solver="lbfgs", n_jobs=N_JOBS)
+        self.model = LogisticRegression(max_iter=600, C=0.7, solver="lbfgs")
         self.model.fit(X, ys)
         self.baseline_ = self.survival_curve(d.head(2000)).mean(axis=0)
         return self

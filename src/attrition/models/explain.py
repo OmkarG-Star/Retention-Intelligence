@@ -87,6 +87,83 @@ ACTION_PLAYBOOK = {
 }
 
 
+# Planted driver -> (feature pattern, representative feature, expected sign of
+# the value/SHAP relationship, or 0 for categoricals where sign is undefined).
+# Mirrors the hazard in data/generate.py, so the explainer can be checked
+# against the mechanism that actually produced the exits.
+PLANTED_DRIVERS: list[tuple[str, str, str, int]] = [
+    ("Onboarding gap", r"^OnboardingCompletionPct|^onboarding_gap", "onboarding_gap", +1),
+    ("Low engagement", r"^EngagementScore|^engagement_", "EngagementScore_mean_4w", -1),
+    ("Overtime pressure", r"^OvertimeHours7D|^overtime_excess", "OvertimeHours7D_mean_4w", +1),
+    ("Absence", r"^AbsenceDays7D|^absence_burst", "AbsenceDays7D_mean_4w", +1),
+    ("Salary credited late", r"^SalaryCreditDelayDays|^pay_delay", "SalaryCreditDelayDays_cur", +1),
+    ("Pay below benchmark", r"^SalaryVsRoleBenchmark|^pay_below_benchmark", "SalaryVsRoleBenchmark", -1),
+    ("Project demobilisation", r"^DemobilisationPressure|^ProjectPhase$", "DemobilisationPressure_cur", +1),
+    ("Hiring channel", r"^RecruitmentSource$|^RealisticJobPreview$", "", 0),
+    ("Contract type", r"^EmploymentType$", "", 0),
+    ("Manager churn", r"^ManagerChangesToDate", "ManagerChangesToDate", +1),
+    ("Grievances", r"^Grievance", "GrievancesToDate", +1),
+    ("Promotion stagnation", r"^MonthsSincePromotion|^stagnation", "MonthsSincePromotion", +1),
+    ("Commute burden", r"^DistanceFromSiteKm|^commute_burden|^AccommodationProvided", "commute_burden", +1),
+    ("Night shifts", r"^NightShiftRatio", "NightShiftRatio_mean_8w", +1),
+    ("Training (protective)", r"^TrainingCountToDate|^training_recency", "TrainingCountToDate", -1),
+    ("Prior experience (protective)", r"^PriorExperienceYears", "PriorExperienceYears", -1),
+]
+# Features the simulator never lets influence the outcome. A sound explainer
+# should give them almost nothing.
+NOISE_CONTROLS: list[tuple[str, str]] = [
+    ("Age (pure noise)", r"^Age$"),
+    ("Calendar appraisal window (pure noise)", r"^is_appraisal_window$"),
+]
+
+
+def shap_recovery(contrib: np.ndarray, feature_names: list[str], frame: pd.DataFrame) -> dict:
+    """Score each planted driver on how much SHAP attributes to it and whether
+    the direction matches the mechanism that generated the data."""
+    names = np.asarray(feature_names)
+    abs_total = np.abs(contrib).mean(axis=0).sum() or 1e-12
+
+    def family(pattern: str) -> np.ndarray:
+        return np.array([bool(re.match(pattern, n)) for n in names])
+
+    rows = []
+    for label, pattern, rep, sign in PLANTED_DRIVERS:
+        mask = family(pattern)
+        if not mask.any():
+            continue
+        fam = contrib[:, mask].sum(axis=1)
+        share = float(np.abs(fam).mean() / abs_total)
+        corr = None
+        if sign and rep in frame.columns:
+            v = pd.to_numeric(frame[rep], errors="coerce")
+            if v.nunique() > 2:
+                corr = float(pd.Series(fam).corr(v.reset_index(drop=True), method="spearman"))
+        if share < 0.01:
+            verdict = "weak"
+        elif sign and corr is not None and np.sign(corr) != sign:
+            verdict = "wrong direction"
+        else:
+            verdict = "recovered"
+        rows.append({"driver": label, "share": round(share, 4),
+                     "expected": {1: "raises risk", -1: "lowers risk", 0: "varies by level"}[sign],
+                     "direction_corr": None if corr is None else round(corr, 3), "verdict": verdict})
+    rows.sort(key=lambda r: -r["share"])
+    for i, r in enumerate(rows, 1):
+        r["rank"] = i
+    noise = []
+    for label, pattern in NOISE_CONTROLS:
+        mask = family(pattern)
+        if mask.any():
+            share = float(np.abs(contrib[:, mask].sum(axis=1)).mean() / abs_total)
+            noise.append({"feature": label, "share": round(share, 4),
+                          "verdict": "ignored" if share < 0.01 else "leaking signal"})
+    planted_share = float(sum(r["share"] for r in rows))
+    return {"drivers": rows, "noise_controls": noise,
+            "planted_share": round(planted_share, 3),
+            "recovered": int(sum(r["verdict"] == "recovered" for r in rows)),
+            "total": len(rows)}
+
+
 def pretty(feature: str) -> tuple[str, str]:
     for pattern, label, category in LEXICON:
         if re.match(pattern, feature):

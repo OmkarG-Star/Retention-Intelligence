@@ -67,8 +67,11 @@ def kpis() -> dict:
     outcomes = warehouse.query("SELECT * FROM attrition_outcomes")
     outcomes["ExitDate"] = pd.to_datetime(outcomes["ExitDate"])
     as_of = pd.to_datetime(run["as_of"])
-    last_90 = outcomes[outcomes["ExitDate"] >= as_of - pd.Timedelta(days=90)]
-    last_year = outcomes[outcomes["ExitDate"] >= as_of - pd.Timedelta(days=365)]
+    past = outcomes[outcomes["ExitDate"] <= as_of]      # people still serving notice have not left yet
+    last_90 = past[past["ExitDate"] > as_of - pd.Timedelta(days=90)]
+    last_year = past[past["ExitDate"] > as_of - pd.Timedelta(days=365)]
+    notice = pd.to_datetime(outcomes.get("NoticeDate", outcomes["ExitDate"]))
+    serving_notice = int(((notice <= as_of) & (outcomes["ExitDate"] > as_of)).sum())
     headcount = len(df)
     early = last_year[last_year["TenureDaysAtExit"] <= 30]
 
@@ -88,6 +91,7 @@ def kpis() -> dict:
         "mean_risk_90": float(df["risk_90"].mean()),
         "expected_exits_90d": float(df["risk_90"].sum()),
         "exits_last_90d": int(len(last_90)),
+        "serving_notice": serving_notice,
         "annualised_attrition": float(len(last_year) / max(headcount + len(last_year), 1)),
         "early_exit_share": float(len(early) / max(len(last_year), 1)),
         "new_joiners_90d": int((df["TenureDays"] <= 90).sum()),
@@ -202,7 +206,10 @@ def segments(by: str = "Site") -> list[dict]:
         "SELECT o.*, m.Site, m.Department, m.EmploymentType, m.RecruitmentSource, m.Position"
         " FROM attrition_outcomes o JOIN employee_master m ON m.EmployeeID = o.EmployeeID")
     outcomes["ExitDate"] = pd.to_datetime(outcomes["ExitDate"])
-    recent = outcomes[outcomes["ExitDate"] >= outcomes["ExitDate"].max() - pd.Timedelta(days=365)]
+    run = latest_run()
+    as_of = pd.to_datetime(run["as_of"]) if run else outcomes["ExitDate"].max()
+    recent = outcomes[(outcomes["ExitDate"] <= as_of) &
+                      (outcomes["ExitDate"] > as_of - pd.Timedelta(days=365))]
 
     rows = []
     for value, grp in df.groupby(by):

@@ -38,6 +38,15 @@ class Paths:
 # Prediction horizons in days. Every horizon gets its own calibrated classifier.
 HORIZONS: tuple[int, ...] = (7, 15, 30, 90, 180)
 
+# What the models predict: the employee's own decision to leave. Terminations and
+# contract ends are the employer's decision, so they censor the observation
+# instead of counting as an event. "Voluntary" accepts generic HRMS exports.
+VOLUNTARY_EXIT_TYPES: frozenset[str] = frozenset({"Resignation", "Absconding", "Voluntary"})
+
+# Operating point: the watchlist flags the top 15% (High + Critical bands), so
+# recall, fairness and lead-time are all measured at that same cut.
+FLAG_PERCENTILE: float = 85.0
+
 # Tenure buckets used by the early-attrition layer.
 TENURE_BANDS: tuple[tuple[str, int, int], ...] = (
     ("0-7 days", 0, 7),

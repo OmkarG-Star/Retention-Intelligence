@@ -409,6 +409,16 @@ def simulate(n_employees: int | None = None, seed: int | None = None,
                     notice_days = int(rng.integers(0, 10))
                 exit_dt = snap_date + pd.Timedelta(days=notice_days)
                 if exit_dt > cutoff:
+                    # Resigned before the cutoff, still serving notice after it. HR
+                    # already knows, so this is an observed decision, not a stayer.
+                    # No RNG draws here: the rest of the simulation stays identical.
+                    outcome_rows.append(dict(EmployeeID=emp, NoticeDate=snap_date.date(),
+                                             ExitDate=exit_dt.date(), ExitType="Resignation",
+                                             ExitReason="Serving notice",
+                                             TenureDaysAtExit=int((exit_dt - doj).days)))
+                    event_rows.append(dict(EmployeeID=emp, EventDate=snap_date.date(),
+                                           EventType="Resignation Submitted",
+                                           EventDetail=f"{notice_days}-day notice, serving notice"))
                     break
                 if phase == "Demobilisation" and emp_type == "Fixed Term Contract" and rng.random() < 0.6:
                     exit_type = "End of Contract"
@@ -426,7 +436,8 @@ def simulate(n_employees: int | None = None, seed: int | None = None,
                                            EventDetail=f"{notice_days}-day notice, reason: {exit_reason}"))
                 event_rows.append(dict(EmployeeID=emp, EventDate=exit_dt.date(), EventType="Exit",
                                        EventDetail=f"{exit_type} - {exit_reason}"))
-                outcome_rows.append(dict(EmployeeID=emp, ExitDate=exit_dt.date(), ExitType=exit_type,
+                outcome_rows.append(dict(EmployeeID=emp, NoticeDate=snap_date.date(),
+                                         ExitDate=exit_dt.date(), ExitType=exit_type,
                                          ExitReason=exit_reason,
                                          TenureDaysAtExit=int((exit_dt - doj).days)))
                 break
@@ -442,7 +453,8 @@ def simulate(n_employees: int | None = None, seed: int | None = None,
     weekly = weekly.drop(columns=["HeadcountAtSite"]).merge(site_hc, on=["Site", "SnapshotDate"], how="left")
     weekly = weekly.drop(columns=["Site"])
 
-    for df, col in ((weekly, "SnapshotDate"), (outcomes, "ExitDate"), (events, "EventDate")):
+    for df, col in ((weekly, "SnapshotDate"), (outcomes, "ExitDate"), (outcomes, "NoticeDate"),
+                    (events, "EventDate")):
         if not df.empty:
             df[col] = pd.to_datetime(df[col])
     master["DOJ"] = pd.to_datetime(master["DOJ"])
@@ -489,7 +501,9 @@ def data_dictionary() -> pd.DataFrame:
         ("ProjectPhase", "employee_weekly", "Mobilisation/Peak/Finishing/Demobilisation", "Project lifecycle risk"),
         ("DemobilisationPressure", "employee_weekly", "0-1 closeout intensity", "Contract-staff exit driver"),
         ("HeadcountAtSite", "employee_weekly", "Active headcount at the site that week", "Crew thinning context"),
-        ("ExitDate", "attrition_outcomes", "Last working day", "Label construction"),
+        ("NoticeDate", "attrition_outcomes", "Date the exit was decided (resignation handed in)",
+         "Prediction target: risk models predict this date, not the last working day"),
+        ("ExitDate", "attrition_outcomes", "Last working day", "Headcount and attrition reporting"),
         ("ExitType", "attrition_outcomes", "Resignation/Absconding/Termination/End of Contract", "Outcome segmentation"),
         ("TenureDaysAtExit", "attrition_outcomes", "Tenure at exit", "Early-attrition cohorts"),
         ("EventType", "employee_events", "Joined/Onboarding/Training/Promotion/Grievance/Exit", "Timeline and audit trail"),

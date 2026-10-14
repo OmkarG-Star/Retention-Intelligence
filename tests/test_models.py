@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from attrition.models.evaluate import calibration_bins, discrimination, psi
 from attrition.models.explain import pretty, recommended_actions, top_drivers
@@ -165,3 +166,120 @@ def test_psi_is_zero_for_identical_distributions_and_grows_when_they_shift():
     shifted = rng.normal(1.6, 1, 4000)
     assert psi(base, same) < 0.1
     assert psi(base, shifted) > psi(base, same)
+
+
+# ------------------------------------------------------------------ v2 methodology
+def test_horizon_split_leaves_an_embargo_between_windows():
+    from attrition.models.train import horizon_split
+
+    dates = pd.date_range("2023-01-07", "2026-09-05", freq="7D")
+    df = pd.DataFrame({"SnapshotDate": np.repeat(dates, 3), "EmployeeID": "E"})
+    for h in (7, 30, 90, 180):
+        sp = horizon_split(df, h, dates.max())
+        tr, va, te = sp["train"], sp["valid"], sp["test"]
+        assert len(tr) and len(va) and len(te), f"{h}d: every window must have rows"
+        # a training label (snapshot + h) must end before validation begins, etc.
+        assert tr["SnapshotDate"].max() + pd.Timedelta(days=h) <= va["SnapshotDate"].min()
+        assert va["SnapshotDate"].max() + pd.Timedelta(days=h) <= te["SnapshotDate"].min()
+        assert te["SnapshotDate"].max() + pd.Timedelta(days=h) <= dates.max(), (
+            "every test label must be fully observed before the data cutoff")
+
+
+def test_horizon_probabilities_never_decrease_with_the_horizon():
+    from attrition.models.horizon import monotone_horizons
+
+    raw = {7: np.array([0.02, 0.10]), 30: np.array([0.05, 0.08]), 90: np.array([0.04, 0.30])}
+    fixed = monotone_horizons(raw)
+    stacked = np.column_stack([fixed[h] for h in sorted(fixed)])
+    assert (np.diff(stacked, axis=1) >= 0).all()
+    np.testing.assert_allclose(fixed[90], [0.05, 0.30])     # only the inconsistent value moves
+
+
+def test_retention_curve_matches_the_headline_risks():
+    from attrition.scoring.score import curve_from_horizons
+
+    probs = {7: np.array([0.01]), 30: np.array([0.05]), 90: np.array([0.20]), 180: np.array([0.35])}
+    curves, area = curve_from_horizons(probs)
+    by_day = {p["day"]: p["survival"] for p in curves[0]}
+    assert by_day[0] == 1.0
+    for h, p in probs.items():
+        assert by_day[h] == pytest.approx(1 - p[0], abs=1e-4)
+    assert 0 < area[0] <= 180
+
+
+def test_cluster_bootstrap_interval_brackets_the_estimate():
+    from sklearn.metrics import average_precision_score
+    from attrition.models.evaluate import bootstrap_ci
+
+    rng = np.random.default_rng(1)
+    groups = np.repeat(np.arange(400), 5)
+    y = (rng.random(2000) < 0.08).astype(int)
+    p = np.clip(y * 0.4 + rng.random(2000) * 0.6, 0, 1)
+    lo, hi = bootstrap_ci(y, p, groups, n_boot=150)
+    est = average_precision_score(y, p)
+    assert lo < est < hi and 0 <= lo < hi <= 1
+
+
+def test_concordance_is_one_for_a_perfect_ranking_and_half_for_noise():
+    from attrition.models.evaluate import concordance_index
+
+    t = np.arange(1, 301, dtype=float)
+    e = np.ones(300)
+    assert concordance_index(t, e, -t) == pytest.approx(1.0)
+    noise = np.random.default_rng(3).random(300)
+    assert abs(concordance_index(t, e, noise) - 0.5) < 0.08
+
+
+def test_fairness_flags_a_group_the_model_under_predicts():
+    from attrition.models.evaluate import fairness_slices
+
+    rng = np.random.default_rng(8)
+    n = 4000
+    site = np.where(rng.random(n) < 0.5, "A", "B")
+    y = (rng.random(n) < np.where(site == "A", 0.05, 0.10)).astype(int)
+    p = np.full(n, 0.05) + rng.random(n) * 0.01          # model treats B like A
+    rows = fairness_slices(pd.DataFrame({"Site": site, "y": y, "p": p}), "y", "p", ["Site"])
+    b = next(r for r in rows if r["group"] == "B")
+    assert "under-predicted" in b["issues"]
+    a = next(r for r in rows if r["group"] == "A")
+    assert "under-predicted" not in a["issues"]
+
+
+def test_lead_time_curve_beats_random_for_an_informative_score():
+    from attrition.models.evaluate import lead_time_curve
+
+    weeks = pd.date_range("2026-01-03", periods=30, freq="7D")
+    rng = np.random.default_rng(4)
+    rows, notice = [], {}
+    for i in range(300):
+        emp = f"E{i}"
+        leaves = i < 40
+        nd = weeks[rng.integers(16, 30)] if leaves else None
+        for w in weeks:
+            if nd is not None and w > nd:
+                break
+            score = rng.random() + (0.8 if leaves and (nd - w).days <= 56 else 0.0)
+            rows.append({"EmployeeID": emp, "SnapshotDate": w, "p": score})
+        if leaves:
+            notice[emp] = nd
+    out = lead_time_curve(pd.DataFrame(rows), pd.Series(notice), "p", weeks=8)
+    caught = {c["weeks_before"]: c["caught"] for c in out["curve"]}
+    assert out["random_baseline"] == pytest.approx(0.15)
+    assert caught[2] > 0.5, "a score that rises before resignation must beat 15% random flagging"
+
+
+def test_shap_recovery_scores_planted_drivers_and_noise():
+    from attrition.models.explain import shap_recovery
+
+    rng = np.random.default_rng(2)
+    n = 500
+    frame = pd.DataFrame({"onboarding_gap": rng.random(n) * 60, "Age": rng.integers(20, 60, n),
+                          "EngagementScore_mean_4w": rng.normal(7, 1, n)})
+    contrib = np.column_stack([frame["onboarding_gap"] / 30,
+                               rng.normal(0, 0.001, n),
+                               -(frame["EngagementScore_mean_4w"] - 7) * 0.5])
+    out = shap_recovery(contrib, list(frame.columns), frame)
+    verdicts = {d["driver"]: d["verdict"] for d in out["drivers"]}
+    assert verdicts["Onboarding gap"] == "recovered"
+    assert verdicts["Low engagement"] == "recovered"
+    assert out["noise_controls"][0]["verdict"] == "ignored"

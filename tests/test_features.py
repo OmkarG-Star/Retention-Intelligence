@@ -46,12 +46,13 @@ def test_exit_date_and_labels_are_excluded_from_the_feature_matrix(synthetic_pan
     numeric, categorical = feature_columns(labelled)
     used = set(numeric) | set(categorical)
 
-    banned = {"ExitDate", "ExitType", "days_to_exit", "duration_days", "event_observed"}
+    banned = {"ExitDate", "ExitType", "NoticeDate", "voluntary", "days_to_notice",
+              "duration_days", "event_observed"}
     banned |= {f"label_{h}" for h in HORIZONS} | {f"eligible_{h}" for h in HORIZONS}
     assert not (used & banned), f"leaking columns reached the model: {sorted(used & banned)}"
 
 
-def test_rows_after_the_exit_date_are_dropped(synthetic_panel):
+def test_rows_after_the_decision_are_dropped(synthetic_panel):
     weekly, master, outcomes = synthetic_panel
     extra = weekly[weekly["EmployeeID"] == "E9002"].tail(1).copy()
     extra["SnapshotDate"] = extra["SnapshotDate"] + pd.Timedelta(days=60)
@@ -59,8 +60,8 @@ def test_rows_after_the_exit_date_are_dropped(synthetic_panel):
 
     labelled = attach_labels(build_features(weekly, master), outcomes)
     exit_date = pd.to_datetime(outcomes.loc[0, "ExitDate"])
-    after = labelled[(labelled["EmployeeID"] == "E9002") & (labelled["SnapshotDate"] >= exit_date)]
-    assert after.empty, "snapshots dated on or after the exit are not observations of an employee"
+    after = labelled[(labelled["EmployeeID"] == "E9002") & (labelled["SnapshotDate"] > exit_date)]
+    assert after.empty, "snapshots after the decision are not observations of someone at risk"
 
 
 @pytest.mark.parametrize("horizon", HORIZONS)
@@ -68,24 +69,48 @@ def test_label_is_one_exactly_inside_the_horizon(synthetic_panel, horizon):
     weekly, master, outcomes = synthetic_panel
     labelled = attach_labels(build_features(weekly, master), outcomes)
     leaver = labelled[labelled["EmployeeID"] == "E9002"]
-    inside = leaver["days_to_exit"] <= horizon
+    inside = leaver["days_to_notice"] <= horizon
     assert (leaver.loc[inside, f"label_{horizon}"] == 1).all()
     assert (leaver.loc[~inside, f"label_{horizon}"] == 0).all()
 
 
-def test_censored_rows_are_marked_ineligible(synthetic_panel):
-    """A stayer observed for only 20 days cannot answer "did they leave within 90?"."""
+def test_rows_without_a_full_window_are_ineligible_whatever_the_label(synthetic_panel):
+    """Keeping observed positives from a partly observed window while dropping
+    its negatives inflates the event rate near the cutoff. Both must go."""
     weekly, master, outcomes = synthetic_panel
     labelled = attach_labels(build_features(weekly, master), outcomes)
     cutoff = labelled["SnapshotDate"].max()
-
     for h in HORIZONS:
-        recent = labelled[(cutoff - labelled["SnapshotDate"]).dt.days < h]
-        stayers = recent[recent[f"label_{h}"] == 0]
-        assert (stayers[f"eligible_{h}"] == 0).all(), (
-            f"rows without a full {h}-day observation window must not be trained as negatives")
-        positives = labelled[labelled[f"label_{h}"] == 1]
-        assert (positives[f"eligible_{h}"] == 1).all(), "observed exits are always eligible"
+        short = (cutoff - labelled["SnapshotDate"]).dt.days < h
+        assert (labelled.loc[short, f"eligible_{h}"] == 0).all(), (
+            f"rows without a full {h}-day window must not be used for the {h}-day model")
+        assert (labelled.loc[~short, f"eligible_{h}"] == 1).all()
+
+
+def test_notice_date_is_the_event_not_the_last_working_day(synthetic_panel):
+    weekly, master, outcomes = synthetic_panel
+    outcomes = outcomes.assign(
+        NoticeDate=pd.to_datetime(outcomes["ExitDate"]) - pd.Timedelta(days=45),
+        ExitType="Resignation")
+    labelled = attach_labels(build_features(weekly, master), outcomes)
+    leaver = labelled[labelled["EmployeeID"] == "E9002"]
+    notice = outcomes.loc[0, "NoticeDate"]
+    assert (leaver["SnapshotDate"] <= notice).all(), "rows after the decision are not at risk"
+    np.testing.assert_array_equal(leaver["days_to_notice"],
+                                  (notice - leaver["SnapshotDate"]).dt.days)
+
+
+def test_involuntary_exit_censors_instead_of_counting_as_an_event(synthetic_panel):
+    weekly, master, outcomes = synthetic_panel
+    outcomes = outcomes.assign(ExitType="Termination")
+    labelled = attach_labels(build_features(weekly, master), outcomes)
+    leaver = labelled[labelled["EmployeeID"] == "E9002"]
+    assert leaver[[f"label_{h}" for h in HORIZONS]].to_numpy().sum() == 0
+    assert leaver["event_observed"].eq(0).all()
+    for h in HORIZONS:
+        inside = leaver["days_to_notice"] <= h
+        assert (leaver.loc[inside, f"eligible_{h}"] == 0).all(), (
+            "a window cut short by a termination cannot say whether they would have resigned")
 
 
 def test_stayer_has_no_exit_signal(synthetic_panel):

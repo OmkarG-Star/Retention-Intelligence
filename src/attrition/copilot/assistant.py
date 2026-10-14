@@ -78,10 +78,14 @@ def retrieve(question: str, intent: str) -> dict[str, Any]:
         return {"model": {"version": current.get("version"),
                           "algorithm": current.get("algorithm"),
                           "trained_at": current.get("trained_at"),
+                          "target": current.get("target"),
                           "metrics": {h: {k: v for k, v in m.items()
-                                          if k in ("pr_auc", "roc_auc", "brier", "recall_at_10",
-                                                   "lift_at_10", "base_rate", "evaluated_on")}
+                                          if k in ("pr_auc", "pr_auc_ci", "roc_auc", "brier",
+                                                   "recall_at_15", "base_rate", "champion",
+                                                   "evaluated_on")}
                                       for h, m in (current.get("metrics") or {}).items()},
+                          "lead_time": ((current.get("validation") or {}).get("lead_time") or {})
+                          .get("curve", [])[:8],
                           "drift": (current.get("drift") or [])[:5]}}
     if intent == "intervention":
         return {"interventions": service.intervention_effectiveness(),
@@ -189,11 +193,18 @@ def template_answer(question: str, intent: str, facts: dict) -> str:
 
     if intent == "model":
         m = facts["model"]
-        lines = [f"Model {m['version']} ({m['algorithm']}), trained {m['trained_at']}."]
+        lines = [f"Model {m['version']}, trained {m['trained_at']}. It predicts the decision "
+                 f"to resign, scored on a later window it never saw."]
         for h, metrics in (m["metrics"] or {}).items():
-            lines.append(f"  · {h}-day: PR-AUC {metrics.get('pr_auc')}, ROC-AUC "
-                         f"{metrics.get('roc_auc')}, recall in top decile "
-                         f"{metrics.get('recall_at_10')}, base rate {metrics.get('base_rate')}")
+            ci = metrics.get("pr_auc_ci") or [None, None]
+            lines.append(f"  · {h}-day ({metrics.get('champion')}): PR-AUC {metrics.get('pr_auc')} "
+                         f"(95% CI {ci[0]}-{ci[1]}), the watchlist's top 15% catches "
+                         f"{_pct(metrics.get('recall_at_15') or 0)} of resignations, "
+                         f"base rate {_pct(metrics.get('base_rate') or 0)}")
+        four = next((c for c in m.get("lead_time") or [] if c["weeks_before"] == 4), None)
+        if four and four.get("caught") is not None:
+            lines.append(f"Four weeks before resigning, {_pct(four['caught'])} of leavers were "
+                         f"already on the watchlist (random flagging: 15%).")
         shifted = [d for d in m["drift"] if d.get("status") == "shifted"]
         lines.append(f"{len(shifted)} features have drifted past the PSI 0.25 threshold."
                      if shifted else "No feature has drifted past the PSI 0.25 threshold.")

@@ -22,12 +22,31 @@ from ..config import HORIZONS, priority_band, risk_band
 from ..data import warehouse
 from ..features.build import load_features
 from ..models import explain
-from ..models.train import load_bundle
+from ..models.horizon import monotone_horizons
+from ..models.train import BAND_HORIZON, load_bundle
+
+def curve_from_horizons(probs: dict[int, np.ndarray]) -> tuple[list[list[dict]], np.ndarray]:
+    """Probability of still not having resigned at each horizon, straight from
+    the horizon models, so the curve, the KPI tiles and the band never disagree.
+
+    Expected days is the area under that curve up to the longest horizon (a
+    restricted mean), linear between the modelled points.
+    """
+    hs = sorted(probs)
+    n = len(next(iter(probs.values())))
+    days = np.array([0] + hs, dtype=float)
+    surv = np.column_stack([np.ones(n)] + [1.0 - probs[h] for h in hs])
+    area = ((surv[:, 1:] + surv[:, :-1]) / 2 * np.diff(days)).sum(axis=1)
+    curves = [[{"day": int(d), "survival": round(float(v), 4)} for d, v in zip(days, row)]
+               for row in surv]
+    return curves, area
 
 
 def latest_snapshots(df: pd.DataFrame | None = None) -> pd.DataFrame:
     df = load_features() if df is None else df
-    active = df[df["ExitDate"].isna()] if "ExitDate" in df else df
+    # active = no exit decided yet; people serving notice are already known to HR
+    key = "NoticeDate" if "NoticeDate" in df else "ExitDate"
+    active = df[df[key].isna()] if key in df else df
     idx = active.groupby("EmployeeID")["SnapshotDate"].idxmax()
     return active.loc[idx].reset_index(drop=True)
 
@@ -53,22 +72,21 @@ def score_population(version: str | None = None, top_drivers: int = 8,
     run_id = f"run-{as_of.date()}-{uuid.uuid4().hex[:6]}"
 
     out = pd.DataFrame({"EmployeeID": snap["EmployeeID"], "as_of": str(as_of.date())})
+    probs = monotone_horizons({h: m.predict_proba(snap) for h, m in bundle["horizons"].items()})
     for h in HORIZONS:
-        model = bundle["horizons"].get(h)
-        out[f"risk_{h}"] = model.predict_proba(snap) if model else np.nan
+        out[f"risk_{h}"] = probs.get(h, np.full(len(snap), np.nan))
 
-    # ---- survival ----
-    survival = bundle["survival"]
-    curves = survival.curve_points(snap)
-    expected = survival.expected_days(snap)
+    # ---- retention curve, consistent with the horizon numbers ----
+    curves, expected = curve_from_horizons(probs)
 
     # ---- anomaly ----
     detector = bundle["anomaly"]
     out["anomaly_score"] = detector.score(snap)
     out["anomaly_flag"] = (out["anomaly_score"] >= 72).astype(int)
 
-    # ---- explanations from the 30-day model ----
-    driver_model = bundle["horizons"].get(30) or bundle["horizons"][sorted(bundle["horizons"])[0]]
+    # ---- explanations from the model that sets the band ----
+    driver_model = (bundle["horizons"].get(BAND_HORIZON)
+                    or bundle["horizons"][sorted(bundle["horizons"])[-1]])
     contrib, base = driver_model.contributions(snap)
     names = driver_model.features
     drivers_json = []
@@ -128,10 +146,10 @@ def backfill_history(n_runs: int = 12, step_weeks: int = 2, version: str | None 
     end = df["SnapshotDate"].max()
     run_ids = []
     dates = [end - pd.Timedelta(weeks=step_weeks * i) for i in range(n_runs, 0, -1)]
-    driver_model = bundle["horizons"].get(30)
+    key = "NoticeDate" if "NoticeDate" in df else "ExitDate"
     for as_of in dates:
         hist = df[df["SnapshotDate"] <= as_of]
-        alive = hist[(hist["ExitDate"].isna()) | (hist["ExitDate"] > as_of)]
+        alive = hist[(hist[key].isna()) | (hist[key] > as_of)]
         if alive.empty:
             continue
         idx = alive.groupby("EmployeeID")["SnapshotDate"].idxmax()
@@ -142,9 +160,9 @@ def backfill_history(n_runs: int = 12, step_weeks: int = 2, version: str | None 
         run_id = f"run-{as_of.date()}-{uuid.uuid4().hex[:6]}"
         rows = pd.DataFrame({"run_id": run_id, "EmployeeID": snap["EmployeeID"].to_numpy(),
                              "as_of": str(as_of.date()), "model_version": bundle["version"]})
+        probs = monotone_horizons({h: m.predict_proba(snap) for h, m in bundle["horizons"].items()})
         for h in HORIZONS:
-            m = bundle["horizons"].get(h)
-            rows[f"risk_{h}"] = m.predict_proba(snap) if m else np.nan
+            rows[f"risk_{h}"] = probs.get(h, np.full(len(snap), np.nan))
         rows["anomaly_score"] = bundle["anomaly"].score(snap)
         rows["anomaly_flag"] = (rows["anomaly_score"] >= 72).astype(int)
         prev = previous_risk(as_of)
