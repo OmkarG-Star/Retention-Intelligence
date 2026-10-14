@@ -10,11 +10,15 @@ Resignation early warning for a construction and EPC workforce: who is likely to
 
 ![Overview: a one-sentence briefing, key numbers, and every employee as one square sorted by risk](docs/screenshots/overview.png)
 
+**What-if simulator.** Move a lever, see how the model expects this person's risk to respond:
+
+![What-if simulator: levers for workload, pay, growth and wellbeing, with 90-day risk before and after and what moved](docs/screenshots/whatif.png)
+
 | Watchlist with quick look | Employee record |
 |---|---|
 | ![Sortable watchlist with a side panel showing risk by horizon, the reasons, and next steps](docs/screenshots/watchlist.png) | ![Employee record: 90-day risk, six-month retention curve, and drivers grouped by area](docs/screenshots/employee.png) |
-| **Model health** | **Dark theme** |
-| ![Model health: how many weeks of warning the list gives, against a random list](docs/screenshots/model-health.png) | ![Overview in the dark theme](docs/screenshots/overview-dark.png) |
+| **Model health: rolling backtest** | **Model health: lever audit** |
+| ![Rolling-origin backtest: PR-AUC against a random list for four non-overlapping test windows](docs/screenshots/backtest.png) | ![Lever audit: share of what-if moves that push risk in the expected direction](docs/screenshots/lever-audit.png) |
 
 ## Results
 
@@ -22,34 +26,39 @@ Measured on held-out windows the model never saw, with an h-day gap between trai
 
 | Horizon | Model | Base rate | PR-AUC [95% CI] | Resignations caught by the top 15% |
 |---|---|---|---|---|
-| 7 days | Logistic regression | 1.8% | 0.116 [0.090–0.146] | 59% |
-| 30 days | Blend | 4.1% | 0.211 [0.178–0.256] | 57% |
-| 90 days | Blend | 8.5% | 0.322 [0.271–0.378] | 50% |
-| 180 days | Blend | 15.2% | 0.471 [0.411–0.525] | 47% |
+| 7 days | Blend | 1.8% | 0.118 [0.093–0.148] | 60% |
+| 30 days | Blend | 4.1% | 0.220 [0.188–0.267] | 57% |
+| 90 days | Blend | 8.5% | 0.328 [0.279–0.384] | 51% |
+| 180 days | Blend | 15.2% | 0.467 [0.406–0.519] | 47% |
 
-- **Lead time.** Four weeks before resigning, 49% of leavers were already on the call list (top 15%); twelve weeks before, 42%. A random list catches 15%.
-- **Right reasons.** The demo data comes from a simulator with known causes. SHAP recovers 11 of 16 planted causes in the right direction and gives two pure-noise inputs under 0.5% of attribution.
-- **Known weak spot.** The model under-predicts sites hit by a sudden salary-delay shock (Ahmedabad Water Works at 0.59× of actual in the test period). Model health flags it, and the drift monitor shows why.
+- **Lead time.** Four weeks before resigning, 48% of leavers were already on the call list (top 15%); twelve weeks before, 42%. A random list catches 15%.
+- **Stable over time.** Replayed at four earlier cut-offs with non-overlapping test windows, the 90-day model ranked 3.2× to 4.9× better than random every time (PR-AUC 0.21 to 0.35).
+- **Points the right way.** Holding known directions fixed (more overtime never lowers risk, a raise never raises it) cut wrong-way what-if answers from up to 12% to under 1%, at no measurable cost in accuracy. The previous 180-day model said a late salary *lowers* risk for 94% of people.
+- **Right reasons.** The demo data comes from a simulator with known causes. SHAP recovers 12 of 16 planted causes in the right direction and gives two pure-noise inputs under 0.5% of attribution.
+- **Known weak spot.** The model under-predicts sites hit by a sudden salary-delay shock (Ahmedabad Water Works at 0.60× of actual in the test period). Model health flags it, and the drift monitor shows why.
 
-The full method, the v1 bugs and their measured impact, and the experiments that were rejected are in **[docs/MODEL_STUDY.md](docs/MODEL_STUDY.md)**.
+The full method, every version's bugs and their measured impact, and the experiments that were rejected are in **[docs/MODEL_STUDY.md](docs/MODEL_STUDY.md)**.
 
 ## How it works
 
 ```
 data/raw CSVs ─► SQLite warehouse ─► leakage-safe weekly features (106 numeric + 8 categorical)
    ─► labels per horizon: the resignation decision, terminations censored, full windows only
-   ─► per horizon: embargoed split ─► gradient boosting / logistic / blend ─► best on validation
-   ─► isotonic calibration ─► refit on recent data
+   ─► per horizon: embargoed split ─► gradient boosting / logistic / blend, known directions enforced
+   ─► blend unless one model clearly wins on validation ─► isotonic calibration ─► refit on recent data
    ─► weekly scoring: monotone horizon risks, bands, priority, SHAP by area, anomaly score
-   ─► FastAPI ─► dashboard
+   ─► FastAPI ─► dashboard, plus a what-if simulator that re-projects a person's own history
 ```
 
 | Piece | Where | What it does |
 |---|---|---|
 | Simulator | `src/attrition/data/generate.py` | Weekly panel for 3,200 employees from an explicit hazard with known causes |
 | Features | `src/attrition/features/build.py` | Levels, rolling windows, trends and HR composites; labels with censoring |
-| Models | `src/attrition/models/horizon.py` | Three candidates per horizon, calibration, exact log-odds SHAP for each |
-| Training | `src/attrition/models/train.py` | Embargoed splits, champion selection, intervals, lead time, SHAP check, refit |
+| Models | `src/attrition/models/horizon.py` | Three candidates per horizon, monotone LightGBM, sign-bounded logistic, calibration, exact log-odds SHAP |
+| Training | `src/attrition/models/train.py` | Embargoed splits, champion rule, intervals, lead time, SHAP check, refit |
+| Backtest | `src/attrition/models/backtest.py` | The whole method replayed at four earlier cut-offs |
+| Lever audit | `src/attrition/models/lever_audit.py` | Checks every what-if lever moves the deployed models the expected way |
+| What-if | `src/attrition/scoring/whatif.py` | Projects a person's weekly history forward with and without levers |
 | Evaluation | `src/attrition/models/evaluate.py` | Cluster bootstrap, fairness at the call-list cut, C-index, lead time, drift |
 | Survival | `src/attrition/models/survival.py` | Independent discrete-time hazard model, kept as a cross-check |
 | Anomalies | `src/attrition/models/anomaly.py` | Isolation Forest on week-on-week change, separate from risk |
@@ -63,8 +72,9 @@ data/raw CSVs ─► SQLite warehouse ─► leakage-safe weekly features (106 n
 - **Overview**: this week in one sentence, everyone as one square, who to call first, and how far to trust the list.
 - **Watchlist**: sort any column, filter by band, site, department or text. Click a row (or press Enter) for a quick look; `j` and `k` move through people, `Esc` closes.
 - **Employee**: risk at five horizons, a six-month retention curve built from the same numbers, the reasons grouped by area, weekly behaviour, history and logged actions.
-- **Model health**: lead time, accuracy with intervals, the three candidate models, calibration, the SHAP check, fairness by group, drift.
-- `Ctrl K` finds any person or page. Light and dark themes follow your system setting until you choose one.
+- **What-if** (on every employee page, or "What-if" in the quick look): drag overtime, night shifts, pay, promotion, training and more; the risk at every horizon and the areas that moved update as you go. "Suggested plan" fills the levers from the person's own risk drivers.
+- **Model health**: lead time, accuracy with intervals, the rolling backtest, the lever audit, the three candidate models, calibration, the SHAP check, fairness by group, drift.
+- `Ctrl K` finds any person or page.
 
 ## Run it
 
@@ -74,6 +84,13 @@ Python 3.10 or later.
 pip install -r requirements.txt
 PYTHONPATH=src python -m attrition.cli pipeline   # data, features, training, scoring (about 3 min)
 PYTHONPATH=src python -m attrition.cli serve      # http://127.0.0.1:8000
+```
+
+Optional checks, written to `docs/` and shown on the Model health page:
+
+```bash
+PYTHONPATH=src python -m attrition.cli backtest       # rolling-origin backtest (about 3 min)
+PYTHONPATH=src python -m attrition.cli audit-levers   # what-if direction audit (about 9 min)
 ```
 
 Or `make pipeline && make serve`, or `scripts/setup.sh` then `scripts/run.sh` (`.bat` versions for Windows).
@@ -91,10 +108,10 @@ The image builds the data and trains the models during the build, so the contain
 **Tests**
 
 ```bash
-PYTHONPATH=src python -m pytest -q    # 54 tests; API tests need the pipeline to have run
+PYTHONPATH=src python -m pytest -q    # 81 tests; API tests need the pipeline to have run
 ```
 
-The tests pin the properties that matter most: features never use the future, labels respect censoring, every split has its embargo, horizon risks never decrease with the horizon, the curve matches the headline numbers, protected routes refuse anonymous access, and viewers cannot log actions.
+The tests pin the properties that matter most: features never use the future, labels respect censoring, every split has its embargo, horizon risks never decrease with the horizon, the curve matches the headline numbers, sign bounds hold even against the data, a what-if lever moves its whole feature family together, cutting overtime never raises a high-risk person's 90-day risk, protected routes refuse anonymous access, and viewers cannot log actions.
 
 ## Using real HR data
 
@@ -109,6 +126,7 @@ This is decision support for retention conversations. Do not use it to terminate
 - Synthetic data: the results show the method works when the causes are known, not how it performs on a real workforce.
 - Rare site-level shocks are under-learnt (see Results).
 - The three candidate models are statistically tied on this data; on real data the winner will differ.
+- What-if answers are model expectations with everything else held fixed, not promises. The known directions are domain assumptions; review them with HR on real data and rerun `audit-levers` after each retrain.
 
 ## Licence and author
 

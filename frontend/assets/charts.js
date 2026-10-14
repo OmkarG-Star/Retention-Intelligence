@@ -4,8 +4,8 @@
 
    Rules every chart here follows:
    - one y-axis per chart (two scales -> two charts);
-   - colours come from the stylesheet tokens, read at draw time, so light and
-     dark each get their own validated steps;
+   - colours come from the stylesheet tokens, read at draw time, so the
+     palette lives in one place;
    - text is set in ink tokens, never in the series colour;
    - every mark answers hover: elements carry data-tip-h (trusted HTML built
      here with esc()) and App shows it in the shared tooltip, near the pointer. */

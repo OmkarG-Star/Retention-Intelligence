@@ -265,7 +265,8 @@ const Views = (() => {
         ${(d.interventions || []).length ? `<div><h3>Already logged</h3>${loggedList(d.interventions)}</div>` : ''}
       </div>
       <div class="drawer-foot">
-        <a class="btn" href="#/employee/${encodeURIComponent(p.EmployeeID)}">${I('user')} Open full record</a>
+        <a class="btn" href="#/employee/${encodeURIComponent(p.EmployeeID)}">${I('user')} Full record</a>
+        <a class="btn" href="#/employee/${encodeURIComponent(p.EmployeeID)}" data-goto-whatif>${I('sliders')} What-if</a>
         ${canAct ? `<button class="btn btn-primary" data-log-action="${esc(p.EmployeeID)}">${I('plus')} Log action</button>` : ''}
       </div>`;
   }
@@ -324,6 +325,8 @@ const Views = (() => {
           <span class="lbl">chance of resigning in the next 90 days. Higher than ${pctile != null ? Math.floor(pctile) : '—'}% of the workforce${d.peer_median_risk_90 != null ? `; the ${esc(p.Department)} median is ${pct(d.peer_median_risk_90)}` : ''}.</span>
         </div>
       </section>
+
+      <section class="panel whatif" id="whatif" aria-label="What-if simulator"></section>
 
       <div class="grid g-side">
         <section class="panel">
@@ -555,7 +558,7 @@ const Views = (() => {
       <div class="kv" style="--n:4">
         <div><span>Prediction target</span><b style="font-size:15px">Resignation decision</b><small>terminations and contract ends excluded</small></div>
         <div><span>Data up to</span><b>${esc(longDate((c.window || {}).data_cutoff))}</b><small>weekly snapshots</small></div>
-        <div><span>Models in use</span><b style="font-size:15px">${[...new Set(Object.values(c.champions || {}))].map(k => esc(MODEL_NAMES[k] || k)).join(', ')}</b><small>best of three per horizon</small></div>
+        <div><span>Models in use</span><b style="font-size:15px">${[...new Set(Object.values(c.champions || {}))].map(k => esc(MODEL_NAMES[k] || k)).join(', ')}</b><small>blend unless one model clearly wins</small></div>
         <div><span>Drifted inputs</span><b>${num(shifted.length)}</b><small>of ${num(c.n_features)} features, PSI above 0.25</small></div>
       </div>
 
@@ -583,10 +586,13 @@ const Views = (() => {
         </tbody></table></div>
       </section>
 
+      ${backtestPanel(d.backtest)}
+      ${leverPanel(d.lever_audit)}
+
       <div class="grid g-side">
         <section class="panel">
-          ${head('Three models compete, the best one serves', 'Chosen on the validation window, never on test. Hover for detail.', '',
-            'Each horizon trains gradient boosting, logistic regression and a blend of the two. The one ranking best on validation becomes the live model; the test interval shows how it then held up.')}
+          ${head('Three models compete, one serves', 'Chosen on the validation window, never on test. Hover for detail.', '',
+            'Each horizon trains gradient boosting, logistic regression and a blend of the two. The blend serves unless a single model beats it on validation by more than 0.01 PR-AUC: when candidates are tied, picking the top validation score mostly picks noise, and the rolling backtest showed the blend holding up best.')}
           ${Chart.slot(w => Chart.forest(metrics, { width: w }))}
           <div class="legend">
             <span><i class="box" style="background:${Chart.colors.cat1}"></i>Gradient boosting</span>
@@ -677,6 +683,60 @@ const Views = (() => {
     </div>`;
   }
 
+  /* backtest: the same method replayed at earlier cut-offs */
+  function backtestPanel(bt) {
+    if (!bt || !bt.horizons || !Object.keys(bt.horizons).length) return '';
+    const hs = Object.keys(bt.horizons).sort((a, b) => a - b);
+    const maxPr = Math.max(...hs.flatMap(h => bt.horizons[h].origins.map(o => o.champion_scores.pr_auc)), 0.01);
+    const sum = h => bt.horizons[h].summary;
+    const lede = hs.map(h => `${h}-day model ${num(sum(h).lift_min, 1)}× to ${num(Math.max(...bt.horizons[h].origins.map(o => o.lift)), 1)}× better than random`).join('; ');
+    return `
+      <section class="panel flush" id="backtest">
+        ${head('Does it hold up over time?', `The whole method replayed at ${num(bt.horizons[hs[0]].origins.length)} cut-offs, ${bt.step_months} months apart, each scored on a later window it never saw. ${esc(lede)}.`, '',
+          'One test window gives one number, and one number can be lucky. Each row retrains every candidate from scratch with only the data available at that date. The test windows do not overlap.')}
+        <div class="table-wrap"><table><thead><tr>
+          <th>Horizon</th><th>Test window</th><th class="num opt">Trained on</th><th class="num">Resignations</th><th class="num opt">Base rate</th>
+          <th>PR-AUC against random</th><th class="num">Lift</th><th class="num">Recall at 15%</th><th class="opt">Model used</th>
+        </tr></thead><tbody>
+        ${hs.map(h => bt.horizons[h].origins.map((o, i) => `<tr class="${i === 0 ? 'grp-first' : ''}">
+          <td>${i === 0 ? `<b>${h} days</b>` : ''}</td>
+          <td><span class="tnum">${esc(o.test[0])} to ${esc(o.test[1])}</span>${i === 0 ? ' <span class="pill accent">latest</span>' : ''}</td>
+          <td class="num opt">${num(o.train_rows)} rows</td>
+          <td class="num">${num(o.decisions)}</td><td class="num opt">${pct(o.base_rate, 1)}</td>
+          <td><div class="bt-bar" data-tip-h="${esc(`<b>${o.test[0]} to ${o.test[1]}</b>` + Object.entries(o.candidates).map(([k, c]) => `<div class='t-row'><span>${MODEL_NAMES[k] || k}</span><b>${c.pr_auc.toFixed(3)}</b></div>`).join(''))}">
+            <span class="track"><i class="rand" style="left:${(o.base_rate / maxPr) * 100}%"></i><i class="fill" style="width:${(o.champion_scores.pr_auc / maxPr) * 100}%"></i></span>
+            <b>${num(o.champion_scores.pr_auc, 3)}</b></div></td>
+          <td class="num">${num(o.lift, 1)}×</td>
+          <td class="num">${pct(o.champion_scores.recall_at_15, 0)}</td>
+          <td class="opt">${esc(MODEL_NAMES[o.champion] || o.champion)}</td></tr>`).join('')).join('')}
+        </tbody></table></div>
+        <div class="t-foot"><span><i class="bt-key"></i> PR-AUC of the model the rule chose</span><span><i class="bt-key rand"></i> what a random list scores (the base rate)</span>
+          <span class="spacer"></span><span>Hover a bar for every candidate. The oldest window trained on the least data.</span></div>
+      </section>`;
+  }
+
+  /* lever audit: do the what-if levers push risk the way they should? */
+  function leverPanel(la) {
+    if (!la || !la.horizons) return '';
+    const h = la.horizons['90'] || la.horizons[Object.keys(la.horizons).pop()];
+    if (!h) return '';
+    const worst = Math.max(...Object.values(la.horizons).map(x => x.wrong_share));
+    return `
+      <section class="panel" id="lever-audit">
+        ${head('Do the what-if levers point the right way?', `${num(la.people)} people were projected forward with each lever moved. Across all five horizons, ${pct(worst, 1)} of moves at most went the wrong way.`, '',
+          'Moves smaller than 0.01 in log-odds count as no reaction. Measured on the raw model score, which calibration can only flatten, never reverse.')}
+        <div class="lv-audit">${h.moves.map(m => `
+          <div class="la-row" data-tip-h="${esc(`<b>${m.move}</b><div class='t-row'><span>Expected direction</span><b>${pct(m.expected_share, 0)}</b></div><div class='t-row'><span>No reaction</span><b>${pct(m.no_reaction_share, 0)}</b></div><div class='t-row'><span>Wrong direction</span><b>${pct(m.wrong_share, 0)}</b></div><div class='t-row'><span>Median effect (log-odds)</span><b>${m.median_logodds.toFixed(3)}</b></div>`)}">
+            <span class="nm">${esc(m.move)}</span>
+            <span class="stack-bar"><i class="ok" style="width:${m.expected_share * 100}%"></i><i class="none" style="width:${m.no_reaction_share * 100}%"></i><i class="bad" style="width:${m.wrong_share * 100}%"></i></span>
+            <b class="${m.wrong_share > 0.05 ? 'warn-t' : ''}">${pct(m.expected_share, 0)}</b></div>`).join('')}
+        </div>
+        <div class="legend" style="margin-top:12px"><span><i class="box" style="background:var(--good-mark)"></i>Expected direction</span>
+          <span><i class="box" style="background:var(--line-2)"></i>No reaction</span><span><i class="box" style="background:var(--bad)"></i>Wrong direction</span>
+          <span>90-day model, the one that sets bands and explanations</span></div>
+      </section>`;
+  }
+
   function verdict(v, text) {
     const map = { recovered: ['ok', 'check', 'recovered'], weak: ['weak', 'info', 'weak'], 'wrong direction': ['bad', 'alert', 'wrong direction'] };
     const [cls, icon, label] = map[v] || map.weak;
@@ -714,6 +774,8 @@ const Views = (() => {
       ['Drivers', 'The factors that pushed a person\'s score up (ember) or down (blue).'],
       ['Lead time', 'How many weeks before a resignation the person was already on the call list.'],
       ['PR-AUC', 'A ranking score for rare events. Random ranking scores the base rate; higher is better.'],
+      ['What-if', 'Moves a lever (overtime, pay, promotion...) for one person and shows how the model expects their risk to respond. An expectation, not a promise.'],
+      ['Backtest', 'The whole method replayed at earlier dates, each checked on a later period it never saw.'],
       ['Drift', 'Whether today\'s data still looks like the data the model learned from.']
     ];
     return `
@@ -726,7 +788,7 @@ const Views = (() => {
       </section>
       <div class="steps3">
         <div class="step3"><span class="n">Step 1</span><h3>Spot</h3><p>Open the watchlist. Start with the Critical band and work down.</p></div>
-        <div class="step3"><span class="n">Step 2</span><h3>Understand</h3><p>Click a person for a quick look at what is driving their score and what to try.</p></div>
+        <div class="step3"><span class="n">Step 2</span><h3>Understand and plan</h3><p>Click a person to see what is driving their score, then open What-if to test a change before you make it.</p></div>
         <div class="step3"><span class="n">Step 3</span><h3>Act and record</h3><p>Talk to them, then log the action. Record what happened later under Actions.</p></div>
       </div>
       <section class="panel">

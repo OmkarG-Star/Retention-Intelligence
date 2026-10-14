@@ -67,21 +67,6 @@ const App = (() => {
     t._timer = setTimeout(() => { t.hidden = true; }, 3200);
   }
 
-  /* ----------------------------------------------------------------- theme */
-  const isDark = () => {
-    const a = document.documentElement.getAttribute('data-theme');
-    return a ? a === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-  };
-  function setTheme(mode, persist = true) {
-    if (mode) document.documentElement.setAttribute('data-theme', mode);
-    if (persist && mode) store.set('ri-theme', mode);
-    const dark = isDark(), btn = el('theme');
-    btn.innerHTML = I(dark ? 'sun' : 'moon');
-    btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
-    btn.title = dark ? 'Switch to light' : 'Switch to dark';
-    Chart.syncPalette();
-  }
-
   /* ------------------------------------------------------------------ gate */
   function showGate() {
     el('gate').hidden = false; el('app').hidden = true;
@@ -103,7 +88,7 @@ const App = (() => {
 
   async function boot() {
     Icons.hydrate();
-    setTheme(document.documentElement.getAttribute('data-theme'), false);
+    Chart.syncPalette();
     if (store.get('ri-rail') === 'collapsed') el('app').classList.add('collapsed');
     try {
       user = await api('/api/auth/me');
@@ -189,7 +174,7 @@ const App = (() => {
     const hash = location.hash.replace(/^#/, '') || '/';
     const empMatch = hash.match(/^\/employee\/(.+)$/);
     const def = ROUTES.find(r => r.path === hash) || ROUTES[0];
-    hideTip(); closeDrawer();
+    hideTip(); closeDrawer(); WhatIf.unmount();
 
     if (empMatch) {
       setChrome({ path: '/watchlist', title: 'Employee', sub: 'Risk, reasons, history and actions' });
@@ -260,12 +245,18 @@ const App = (() => {
     render(Views.segments(await api('/api/segments?by=' + encodeURIComponent(by)), by));
   }
 
+  let wantWhatIf = false;
+  document.addEventListener('click', e => { if (e.target.closest('[data-goto-whatif]')) wantWhatIf = true; }, true);
   async function showEmployee(id) {
     loading();
     try {
       const d = await api('/api/employees/' + encodeURIComponent(id));
       render(Views.employee(d, canAct()));
       view()._employee = id;
+      const wi = el('whatif');
+      if (wi && d.scored) WhatIf.mount(wi, d.profile.EmployeeID, d.actions || [], d.profile.risk_90);
+      else if (wi) wi.remove();
+      if (wi && wantWhatIf) { wantWhatIf = false; requestAnimationFrame(() => wi.scrollIntoView({ behavior: 'smooth', block: 'start' })); return; }
     } catch (e) {
       view().innerHTML = `<div class="panel"><div class="empty-state"><span class="e-ic">${I('search', 20)}</span>
         <b>No employee called ${esc(id)}</b><p>Check the ID, or search for them by role or site.</p>
@@ -577,10 +568,6 @@ const App = (() => {
       }
     }).catch(() => {});
 
-    el('theme').addEventListener('click', () => { setTheme(isDark() ? 'light' : 'dark'); route(); });
-    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-      if (!document.documentElement.getAttribute('data-theme')) { setTheme(null, false); if (!el('app').hidden) route(); }
-    });
     el('logout').addEventListener('click', async () => {
       try { await api('/api/auth/logout', { method: 'POST' }); } catch (e) { }
       user = null; csrf = null; location.hash = '/'; showGate(); toast('Signed out');

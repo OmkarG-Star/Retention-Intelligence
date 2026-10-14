@@ -1,25 +1,37 @@
-# Model study: how the attrition model is built, what was wrong with v1, and how far v2 can be trusted
+# Model study: how the attrition model is built, what was wrong with each version, and how far the current one can be trusted
 
-Model version studied: `v20261014.052213`. Every number below comes from that
-version's entry in `models/registry.json`, produced by `python -m attrition.cli pipeline`.
+Model version studied: `v20261014.070616` (v3). Every number below comes from that
+version's entry in `models/registry.json` (`python -m attrition.cli pipeline`), from
+`docs/backtest.json` (`... backtest`) or from `docs/lever_audit.json` (`... audit-levers`).
 
 ## 1. Summary
 
-| | v1 (as shipped) | v2 (this version) |
-|---|---|---|
-| Target | Last working day | **Resignation decision** (NoticeDate) |
-| Label eligibility | Positives kept from partly observed windows | Only fully observed windows |
-| Splits | One shared split, no gap | **Per-horizon split with an h-day embargo** |
-| 180-day test set | None (reported on validation) | Fully labelled test window |
-| Model | LightGBM that early-stopped at **1 to 2 trees** | Champion of three candidates per horizon |
-| Uncertainty | None | 95% intervals, employee-level bootstrap |
-| Baseline | None | Every candidate compared on the same test |
-| Explanation check | None | SHAP compared against the simulator's planted causes |
-| Business metric | None | Lead time: how early leavers reach the call list |
+| | v1 | v2 | v3 (this version) |
+|---|---|---|---|
+| Target | Last working day | **Resignation decision** (NoticeDate) | same |
+| Label eligibility | Positives kept from partly observed windows | Only fully observed windows | same |
+| Splits | One shared split, no gap | **Per-horizon split with an h-day embargo** | same |
+| Model | LightGBM that early-stopped at **1 to 2 trees** | Best of three candidates on validation | **Blend unless one candidate clearly wins** |
+| Known directions | None | None | **Monotone LightGBM + sign-bounded logistic** |
+| Uncertainty | None | 95% intervals, employee-level bootstrap | + **4-window rolling-origin backtest** |
+| Explanation check | None | SHAP against planted causes (11/16) | 12/16 |
+| Lever check | None | None | **What-if moves audited for direction** |
+| Business metric | None | Lead time | Lead time + what-if simulator |
 
-On the same target and the same held-out windows, v2 roughly doubles short-horizon
-PR-AUC (section 6). The headline v1 figures (90-day PR-AUC 0.480, 180-day 0.789)
-were mostly measurement error: 0.480 falls to 0.227 once the label bug is fixed.
+Three findings drive v3:
+
+1. **v2 gave some wrong-direction answers.** Its 180-day model said a 7-day salary delay
+   *lowers* resignation risk for 94% of people, and that a 10% raise *raises* it for 44%.
+   Its logistic component said site accommodation raises risk for 93%. Ranking
+   metrics cannot see this; a what-if tool or an HR reader would. Holding known
+   directions fixed removes it (wrong-way moves under 1% at every horizon) at
+   no measurable cost in accuracy (section 8).
+2. **"Best on validation" mostly picked noise.** The candidates are statistically
+   tied, and in the rolling backtest the top-validation rule chose a single model 3
+   times out of 8, each time scoring below the blend on test (section 9).
+3. **v1's headline figures were mostly measurement error.** 90-day PR-AUC 0.480
+   falls to 0.227 once the label bug is fixed; v2 and v3 roughly double v1 at short
+   horizons on identical windows (section 6.3).
 
 ## 2. Data
 
@@ -57,13 +69,17 @@ raw CSVs ─► SQLite warehouse ─► feature table (person × week)
                      labels per horizon (7 / 15 / 30 / 90 / 180 days)
                                      │
           ┌──────────────── per horizon ────────────────┐
-          │ embargoed split ─► 3 candidates ─► pick on   │
-          │ validation ─► test with CIs ─► refit on      │
-          │ recent data ─► calibrate on last window      │
+          │ embargoed split ─► 3 candidates (known       │
+          │ directions enforced) ─► blend unless one     │
+          │ clearly wins on validation ─► test with CIs  │
+          │ ─► refit on recent data ─► calibrate         │
           └──────────────────────────────────────────────┘
                                      │
        weekly scoring ─► monotone horizons ─► bands, priority,
        retention curve, SHAP by area, anomaly score ─► API ─► UI
+                                     │
+       what-if: the person's weekly history projected forward with and
+       without levers, rebuilt by the same feature code, scored by the same models
 ```
 
 ### 3.1 Features (`features/build.py`): 106 numeric + 8 categorical
@@ -137,11 +153,22 @@ tree plus isotonic calibration.
 
 | Candidate | Setup |
 |---|---|
-| `lgbm` | 15 leaves, at least 400 rows per leaf, feature fraction 0.5, L2 10, 63 bins, **no class weighting** (calibration handles the base rate), early stopping on validation |
-| `logistic` | L2 logistic regression (C = 0.1), median-imputed standardised numerics, one-hot categoricals |
+| `lgbm` | 15 leaves, at least 400 rows per leaf, feature fraction 0.5, L2 10, 63 bins, **no class weighting** (calibration handles the base rate), early stopping on validation, **monotone constraints** on 30 known-direction feature families |
+| `logistic` | L2 logistic regression (C = 0.1), median-imputed standardised numerics, one-hot categoricals, **coefficient signs bounded** for the same families (`SignConstrainedLogistic`, L-BFGS-B) |
 | `blend` | mean of the two in log-odds space, reusing the fitted candidates |
 
-The champion is the best **validation** PR-AUC. Test is never used to choose.
+**Champion rule.** The blend serves unless a single candidate beats it on
+validation PR-AUC by more than 0.01. Test is never used to choose. (v2 took the
+top validation score outright; section 9 shows why that was changed.)
+
+**Known directions** (`MONOTONE_UP` / `MONOTONE_DOWN` in `horizon.py`). Levels and
+rolling means of a stressor (overtime, absence, pay delay, night shifts, distance,
+months since promotion, grievances, manager changes...) may only raise risk;
+protective factors (engagement, training, accommodation, pay against benchmark,
+prior experience...) may only lower it. Trends, deltas, ratios and volatilities
+stay free, because a series moving either way is not one-directional evidence.
+The directions come from domain knowledge, and on this data they match the
+simulator's planted hazard.
 
 **Calibration.** Isotonic regression on the window after training. Isotonic output
 is a step function, and ties on a step threw away about 0.015 PR-AUC. A 1e-6
@@ -161,31 +188,33 @@ a separate survival model and could differ by 12 points for the same person.
 
 | Horizon | Champion | Resignations | Base rate | PR-AUC [95% CI] | ROC-AUC | Brier | Recall at top 15% | Precision at top 15% |
 |---|---|---|---|---|---|---|---|---|
-| 7 days | logistic | 416 | 1.8% | 0.116 [0.090–0.146] | 0.820 | 0.0166 | 59% | 7% |
-| 15 days | logistic | 582 | 2.6% | 0.155 [0.122–0.203] | 0.817 | 0.0238 | 59% | 10% |
-| 30 days | blend | 913 | 4.1% | 0.211 [0.178–0.256] | 0.808 | 0.0358 | 57% | 16% |
-| 90 days | blend | 1,872 | 8.5% | 0.322 [0.271–0.378] | 0.792 | 0.0675 | 50% | 28% |
-| 180 days | blend | 3,263 | 15.2% | 0.471 [0.411–0.525] | 0.773 | 0.1052 | 47% | 47% |
+| 7 days | blend | 416 | 1.8% | 0.118 [0.093–0.148] | 0.822 | 0.0166 | 60% | 7% |
+| 15 days | blend | 582 | 2.6% | 0.158 [0.127–0.202] | 0.818 | 0.0239 | 59% | 10% |
+| 30 days | blend | 913 | 4.1% | 0.220 [0.188–0.267] | 0.808 | 0.0354 | 57% | 16% |
+| 90 days | blend | 1,872 | 8.5% | 0.328 [0.279–0.384] | 0.791 | 0.0673 | 51% | 29% |
+| 180 days | blend | 3,263 | 15.2% | 0.467 [0.406–0.519] | 0.773 | 0.1057 | 47% | 47% |
 
 Intervals resample **employees**, not rows. Each person contributes about 15 test
 rows, so a row-level bootstrap would report intervals far too narrow.
 
-**Same target, same windows, v1 model against v2 champion (PR-AUC):**
+**Same target, same windows, PR-AUC by version:**
 
-| Horizon | v1 model | v2 champion | Gain |
+| Horizon | v1 model | v2 champion | v3 champion |
 |---|---|---|---|
-| 7 days | 0.058 | 0.116 | 2.0× |
-| 15 days | 0.088 | 0.155 | 1.8× |
-| 30 days | 0.126 | 0.211 | 1.7× |
-| 90 days | 0.243 | 0.322 | 1.3× |
-| 180 days | 0.389 | 0.471 | 1.2× |
+| 7 days | 0.058 | 0.116 | 0.118 |
+| 15 days | 0.088 | 0.155 | 0.158 |
+| 30 days | 0.126 | 0.211 | 0.220 |
+| 90 days | 0.243 | 0.322 | 0.328 |
+| 180 days | 0.389 | 0.471 | 0.467 |
+
+v2 to v3 is not an accuracy upgrade; every change is far inside the intervals.
+It is a correctness upgrade (section 8) that happens to cost nothing.
 
 **What the candidate comparison says.** The three candidates sit inside each
-other's intervals at every horizon (for example, 90 days: boosting 0.303,
-logistic 0.323, blend 0.322). On this data, regularised boosting does not beat a
-linear model, which is what a logistic data-generating process predicts. The
-champion/challenger setup is there so that real HR data, which will not be
-logistic, picks its own winner.
+other's intervals at every horizon (90 days: boosting 0.309, logistic 0.327, blend
+0.329). On this data, regularised boosting does not beat a linear model, which is
+what a logistic data-generating process predicts. On real HR data, which will not
+be logistic, the champion/challenger setup still lets a clear winner take over.
 
 ## 7. Validation beyond accuracy
 
@@ -197,7 +226,7 @@ that week's top 15% *k* weeks before resigning.
 
 | Weeks before resignation | 1 | 2 | 4 | 8 | 12 |
 |---|---|---|---|---|---|
-| Already on the call list | 55% | 56% | 49% | 42% | 42% |
+| Already on the call list | 56% | 58% | 48% | 42% | 42% |
 | Random list of same size | 15% | 15% | 15% | 15% | 15% |
 
 ### 7.2 Does SHAP explain for the right reasons?
@@ -205,15 +234,14 @@ that week's top 15% *k* weeks before resigning.
 On 6,000 held-out rows, explanations from the 90-day model were compared with
 the simulator's planted causes:
 
-- **11 of 16 planted causes recovered** with at least 1% of total attribution and
-  the right direction (for example, engagement −0.98 Spearman with its own
-  attribution, training −0.99, overtime +0.97).
-- **5 weak**: grievances, salary delays, commute and prior experience point the
-  right way but carry under 1% of attribution, because they are small or rare in
-  this data. Night shifts carries 0.3% with no usable direction (correlation 0.00):
-  the model has effectively not learnt it.
-- **Noise controls ignored**: Age (never used by the simulator) gets 0.4% of
-  attribution; the calendar appraisal window gets 0.1%.
+- **12 of 16 planted causes recovered** with at least 1% of total attribution and
+  the right direction (v2: 11). Engagement carries the most (11%), then hiring
+  channel, contract type and overtime. Grievances moved from weak to recovered.
+- **4 weak**: commute, prior experience, salary delays and night shifts point the
+  right way (the sign bounds now guarantee that) but carry under 1% of attribution,
+  because they are small or rare in this data.
+- **Noise controls ignored**: Age (never used by the simulator) gets 0.5% of
+  attribution; the calendar appraisal window gets 0.3%.
 
 On screen, SHAP values are summed per area (Engagement, Workload, Pay...). SHAP
 is additive in log-odds, so the area total is exact, and three correlated
@@ -221,13 +249,13 @@ engagement measures no longer appear as three separate, smaller reasons.
 
 ### 7.3 Calibration (90 days, deciles)
 
-Predicted against observed: 1.2%→1.3%, 2.1%→1.7%, 4.9%→3.7%, 7.5%→10.1%,
-14.3%→15.7%, 32.1%→33.7%. The deciles track the diagonal closely; the 7th and 8th
-deciles read slightly low.
+Predicted against observed: 1.3%→1.4%, 2.2%→1.8%, 2.9%→3.0%, 4.3%→4.3%,
+5.8%→7.8%, 7.8%→10.1%, 13.3%→15.0%, 32.9%→34.0%. The deciles track the diagonal
+closely; the 7th and 8th read low by about 2 points, as in v2.
 
 ### 7.4 Timing: C-index
 
-Harrell's C on the held-out window: horizon model **0.781**, discrete-time
+Harrell's C on the held-out window: horizon model **0.780**, discrete-time
 survival model **0.755**. The survival model is kept as an independent check,
 and the UI uses the horizon models.
 
@@ -240,12 +268,12 @@ calibration ratio leaves 0.75–1.33 or recall falls below half the best group's
 
 | Group | Predicted ÷ actual | Recall at cut | Flag |
 |---|---|---|---|
-| Ahmedabad Water Works | 0.59 | 68% | under-predicted |
-| Mumbai HO | 0.72 | 33% | under-predicted, leavers missed |
-| Procurement | 0.52 | 16% | under-predicted, leavers missed |
-| HR & Admin | 0.64 | 43% | under-predicted |
-| 2+ years tenure | 0.72 | 22% | under-predicted, leavers missed |
-| Nagpur Expressway Pkg-4 | 1.41 | 45% | over-predicted |
+| Ahmedabad Water Works | 0.60 | 70% | under-predicted |
+| Mumbai HO | 0.71 | 31% | under-predicted, leavers missed |
+| Procurement | 0.50 | 16% | under-predicted, leavers missed |
+| HR & Admin | 0.63 | 43% | under-predicted |
+| 2+ years tenure | 0.68 | 20% | under-predicted, leavers missed |
+| Nagpur Expressway Pkg-4 | 1.43 | 45% | over-predicted |
 
 **Cause, for the two sites.** Both hit salary-delay shocks inside the test window
 (mean delay rose from about 0.5 days to 1.1 days at Ahmedabad and 2.4 days at
@@ -253,14 +281,150 @@ Mumbai HO), and their resignation rates jumped. Training contained few shocks, s
 the model under-weights pay delay, which is also why SHAP rates it "weak". The
 drift monitor shows salary-delay features at PSI 0.32–0.38.
 
-## 8. Experiments tried and rejected
+## 8. Known directions: the v3 correctness fix
+
+### 8.1 How it was found
+
+The what-if simulator (section 10) changes one lever for a real person and asks
+the model again. Testing it exposed answers no ranking metric would catch, so
+every deployed model is now audited the same way (`models/lever_audit.py`): 200
+active employees are projected 8 weeks forward with each lever moved in a
+direction the simulator's ground truth fixes, and the raw log-odds before and
+after are compared. Moves under 0.01 log-odds count as "no reaction". Raw scores
+are used because isotonic calibration can only flatten an ordering, never reverse it.
+
+### 8.2 Controlled comparison
+
+Same splits, same features, each component trained with and without directions.
+Test PR-AUC with 95% interval; "wrong way" is the share of the 2,325 lever moves
+that pushed risk against the known direction.
+
+| Horizon | Model | Test PR-AUC | Wrong way |
+|---|---|---|---|
+| 90 days | LightGBM, free / monotone | 0.303 / 0.309 | 4.0% / 0.0% |
+| | Logistic, free / sign-bounded | 0.323 / 0.327 | 11.1% / 0.0% |
+| | **Blend as shipped in v2 / v3** | **0.322 / 0.329** [0.277–0.384] | **1.4% / 0.0%** |
+| 30 days | Blend v2 / v3 | 0.211 / 0.220 [0.192–0.266] | 0.3% / 0.0% |
+| 7 days | Blend v2 / v3 | 0.117 / 0.118 [0.089–0.147] | 1.3% / 0.6% |
+| 180 days | Blend v2 / v3 | 0.471 / 0.467 [0.411–0.518] | **12.4% / 0.2%** |
+
+The worst v2 errors, by lever:
+
+| Model (v2) | Lever move | Share of people moved the wrong way |
+|---|---|---|
+| 180-day blend | Salary credited 7 days late | **94%** (said it lowers risk) |
+| 180-day blend | 10% raise | 44% (said it raises risk) |
+| 90-day logistic | Night shifts down 20 points | 74% |
+| 90-day logistic (before the accommodation lever was fixed) | Site accommodation | 93% |
+| 7-day LightGBM | Site accommodation | 39% |
+
+### 8.3 Why the models learnt the wrong sign
+
+- **Accommodation** is offered mostly at remote sites (remoteness above 0.3),
+  which have higher attrition for other reasons. In the simulator accommodation
+  lowers risk only by shortening the commute. The logistic model read
+  "accommodated" as "remote", which is confounding, not cause.
+- **Salary delay** hits a whole site for a few weeks, two to five times in three
+  years. With so few shocks, the 180-day model tied delays to whatever else those
+  sites were doing over six months.
+- **Correlated inputs.** Overtime enters through about fifteen features. A
+  linear model can give the level a negative weight and the 13-week mean a
+  positive one; their net for a real change is then unpredictable.
+
+### 8.4 What remains
+
+Deployed model, all lever moves: 0.8% wrong-way at 7 days, 0.7% at 15 days and
+0.0% at 30, 90 and 180 days (`docs/lever_audit.json`). Almost all of it is one
+lever: at 7 and 15 days, cutting overtime by 10 hours raises the score for 8 to 9%
+of people (6.5% for the evaluation fit at 7 days). All of that push comes
+from one deliberately free feature, this week's overtime divided by its 13-week
+mean: eight weeks after a cut, the 13-week mean still remembers the old hours,
+so the ratio reads as a sharp fall, which in the training data resembles someone
+winding down before leaving. For everyone else the level effect wins. Forcing
+trends to one direction was not done, because a trajectory is genuinely
+two-sided evidence. The 30-, 90- and 180-day models, which drive the bands and
+the what-if headline, show no such effect. The Model health page shows the audit
+for the live 90-day model, and the simulator lists every horizon.
+
+Two lever definitions were also corrected while auditing, so that a lever
+changes the inputs the way the data records the real event:
+
+- **Accommodation** also sets the commute distance to what accommodated staff
+  have in the data (12% of the home distance, 0.5 to 25 km).
+- **A raise** no longer overwrites `LastHikePct`. Writing "10%" there read a 10%
+  raise after last year's 14% as a step down.
+
+## 9. Rolling-origin backtest
+
+One test window gives one number. `models/backtest.py` replays the whole method
+(embargoed split, three candidates, champion rule) with the cutoff moved back 4
+months at a time. The four test windows do not overlap and each retrains from
+scratch on only the data available then.
+
+| Horizon | Test windows | PR-AUC, mean (min to max) | Lift over random | Recall at top 15% |
+|---|---|---|---|---|
+| 30 days | Apr 2025 to Aug 2026 | 0.198 (0.135 to 0.233) | 4.9× to 7.1× | 55% to 60% |
+| 90 days | Feb 2025 to Jun 2026 | 0.300 (0.212 to 0.352) | 3.2× to 4.9× | 44% to 56% |
+
+The oldest window is the weakest at both horizons. It trained on the least data
+(56,000 rows against 109,000 for the latest at 90 days), so performance should
+keep improving as history accumulates.
+
+**The champion rule.** Within each window, "top validation score" and "blend
+unless a clear winner" were both applied to the same fitted candidates:
+
+| Horizon | Top validation score (v2 rule) | Blend unless clear winner (v3 rule) |
+|---|---|---|
+| 30 days, v2 models | mean 0.189 | 0.196 |
+| 90 days, v2 models | mean 0.296 | 0.298 |
+| 30 days, v3 models | mean 0.192 | 0.198 |
+| 90 days, v3 models | mean 0.297 | 0.300 |
+
+The gains are small and the rule was chosen after seeing the first backtest, so
+this is weak evidence on its own. It is kept because it rests on a general
+principle (when candidates are tied, an average of two different model families
+has lower variance than either), and because it held on the v3 models, which the
+rule was not chosen on.
+
+## 10. What-if simulator
+
+`scoring/whatif.py`, served at `POST /api/employees/{id}/whatif` and shown on
+every employee page.
+
+```
+history (real weeks) ─┬─ + N future weeks, unchanged ─► features ─► "if this week repeats"
+                      └─ + N future weeks, levers on ─► features ─► "with the plan"
+```
+
+- **Levers:** overtime, night shifts, absence, salary delay, raise, promotion,
+  training, engagement, site accommodation.
+- **Coherent changes.** A lever edits the raw weekly rows and every feature is
+  rebuilt by the training code, so overtime's level, 4/8/13-week means, maximum,
+  trend and excess-over-30 all move together. Changing one model input would
+  describe a person who does not exist.
+- **Fair comparison.** Both projections age the person by the same N weeks
+  (4, 8 or 13), so the gap is the levers alone, not tenure moving on.
+- **Speed.** The longest look-back is 13 weeks, so only the last 26 real weeks
+  are rebuilt (a test checks the result matches the full history). A call takes
+  about 0.25 s.
+- **Today vs "if this week repeats".** These differ, because repeating this
+  week flattens any recent trend, and the model reads trends. The page says so
+  rather than hiding it.
+
+It shows what the model expects, not a causal promise. On the demo data the
+directions are verified against known causes; on real data they are domain
+assumptions that should be reviewed with HR.
+
+## 11. Experiments tried and rejected
 
 | Idea | Result | Decision |
 |---|---|---|
 | Site "contagion" features (resignations at the same site in the previous 8 weeks, strictly before the snapshot) | 90-day PR-AUC +0.003, well inside the interval; Ahmedabad calibration unchanged (0.59) | Rejected: complexity without evidence |
 | Re-tuning v1's LightGBM hyperparameters during the methodology fix | Reverted so the v1→v2 comparison isolates the method changes | The regularised setup was adopted only after its own experiment |
+| Forcing a direction on trend, delta and ratio features too | Would hide genuinely two-sided evidence (a sudden drop in overtime can mean winding down) | Rejected: residual 7-day effect documented instead (section 8.4) |
+| Champion by top validation score (v2) | Chose a single model 3 of 8 times in the backtest, each time below the blend on test | Replaced by "blend unless a clear winner" |
 
-## 9. Limitations
+## 12. Limitations
 
 - **Synthetic data.** The results show the method works when the causes are
   known; they are not evidence of performance on a real workforce.
@@ -269,17 +433,24 @@ drift monitor shows salary-delay features at PSI 0.32–0.38.
   upward until retraining.
 - **Row-level metrics.** PR-AUC and calibration are over person-weeks. The lead-time
   curve is the person-level view.
-- **Champion selection is close.** The candidates are statistically tied here, so
-  which one wins can flip between runs without consequence.
+- **Champion selection is close.** The candidates are statistically tied here;
+  the blend serves by rule, not because it is clearly better.
+- **Known directions are assumptions.** They match the simulator by
+  construction. On real data, review the list in `horizon.py` with HR before
+  trusting what-if answers, and rerun `audit-levers` after every retrain.
+- **What-if holds everything else fixed.** Real changes ripple (less overtime may
+  lift engagement), so the simulator understates combined effects and cannot
+  promise an outcome for one person.
 - **Build time.** Training takes about 3 minutes on one CPU thread (Render's build).
 
-## 10. Next steps, in order of value
+## 13. Next steps, in order of value
 
-1. Monotone constraints on pay delay, overtime and engagement in LightGBM, so
-   rare shocks push in the known direction.
-2. Rolling-origin backtests (several test windows) for stabler intervals.
-3. Hyperparameter search on the validation window (Optuna), recorded in the registry.
-4. MLflow tracking and a CI gate that fails if test PR-AUC drops outside the
-   previous interval.
+1. Hyperparameter search on the validation window (Optuna), recorded in the registry.
+2. MLflow tracking and a CI gate that fails if test PR-AUC drops outside the
+   previous interval or the lever audit finds wrong-way moves above 1%.
+3. Site-shock features (weeks since the last site-wide pay delay) so rare
+   shocks are learnt faster than the drift monitor can flag them.
+4. Uplift data: once enough retention actions are logged with outcomes, estimate
+   which actions actually work instead of relying on model directions.
 5. Real HRMS export: map the columns in `data_dictionary.csv`, drop in
    `data/raw`, and rerun the pipeline. NoticeDate falls back to ExitDate if absent.
