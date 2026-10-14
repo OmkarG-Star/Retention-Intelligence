@@ -4,111 +4,88 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Retention Intelligence</title>
-<meta name="description" content="Attrition early warning for EPC workforces">
-<meta name="theme-color" content="#1E2761">
+<meta name="description" content="Resignation early warning for EPC workforces">
+<meta name="theme-color" content="#F3F4F1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1113" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Retention Intelligence: attrition early warning">
-<meta property="og:description" content="See who might leave before they hand in notice. Explainable 7, 30 and 90-day attrition risk. Live demo on synthetic data: tap Viewer to sign in.">
+<meta property="og:title" content="Retention Intelligence: resignation early warning">
+<meta property="og:description" content="See who is likely to resign weeks before they hand in notice, and why. Live demo on synthetic data: choose Viewer to sign in.">
 <meta property="og:image" content="https://retention-intelligence-b3zd.onrender.com/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://retention-intelligence-b3zd.onrender.com/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231E2761'/><path d='M8 22 L14 12 L19 18 L24 9' stroke='%23E0A526' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%2315181A'/><rect x='8' y='17' width='4' height='7' rx='1' fill='%23fff'/><rect x='14' y='13' width='4' height='11' rx='1' fill='%23fff'/><rect x='20' y='8' width='4' height='16' rx='1' fill='%23D2652C'/></svg>">
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/styles.css">
 <script>
-  /* Applied before the body renders so the page never flashes the other ground. */
-  try {
-    var t = localStorage.getItem('ri-theme');
-    if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  } catch (e) { }
+  /* Apply a saved theme before first paint so the page never flashes the other one. */
+  try { var t = localStorage.getItem('ri-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) { }
 </script>
 </head>
 <body>
 
 <!-- sign in -->
 <div id="gate" class="gate" hidden>
-  <div class="gate-bg" aria-hidden="true"><span></span><span></span><span></span></div>
-  <div class="gate-card">
-    <aside class="gate-story">
-      <div class="brand">
-        <svg viewBox="0 0 32 32" width="36" height="36" aria-hidden="true">
-          <rect width="32" height="32" rx="8" fill="#1E2761"></rect>
-          <path class="brand-line" d="M8 22 L14 12 L19 18 L24 9" stroke="#E0A526" stroke-width="2.6" fill="none"
-                stroke-linecap="round" stroke-linejoin="round" pathLength="1"></path>
-        </svg>
-        <span>Retention<br>Intelligence</span>
-      </div>
-      <h2>See who might leave <em>before</em> they hand in notice.</h2>
-      <ul class="gate-points">
-        <li><span class="gp-ic"><i data-icon="trendUp"></i></span>
-          <div><b>Early warning</b><p>7, 30 and 90-day leaving risk for every employee, refreshed each run.</p></div></li>
-        <li><span class="gp-ic"><i data-icon="target"></i></span>
-          <div><b>Clear reasons</b><p>The factors pushing each score up or down, in plain words.</p></div></li>
-        <li><span class="gp-ic"><i data-icon="actions"></i></span>
-          <div><b>Act and track</b><p>Log a conversation, then see whether the person stayed.</p></div></li>
-      </ul>
-      <svg class="gate-chart" viewBox="0 0 320 90" aria-hidden="true">
-        <path class="gc-area" d="M0 78 L40 70 L80 72 L120 58 L160 62 L200 44 L240 48 L280 26 L320 18 L320 90 L0 90Z"></path>
-        <path class="gc-line" d="M0 78 L40 70 L80 72 L120 58 L160 62 L200 44 L240 48 L280 26 L320 18" pathLength="1"></path>
-        <circle class="gc-dot" cx="280" cy="26" r="4"></circle>
-      </svg>
-      <p class="fine"><i data-icon="lock" data-size="14"></i> Demo runs on synthetic data. No real employee records.</p>
-    </aside>
+  <section class="gate-story">
+    <div class="brand"><span class="brand-mark" aria-hidden="true"><span><i style="height:5px"></i><i style="height:8px"></i><i style="height:12px"></i></span></span>Retention Intelligence</div>
+    <h2>Know who is likely to resign while there is still time to talk.</h2>
+    <p class="lede">Weekly resignation risk for every employee across your sites, the reasons behind each score in plain language, and a record of what you did about it.</p>
+    <div class="gate-strip" id="gate-strip" aria-hidden="true"></div>
+    <p class="gate-caption">Every square is one person, sorted by risk. Darker squares are more likely to resign in the next 90 days.</p>
+    <div class="gate-facts" id="gate-facts">
+      <div><b>5</b><span>horizons, from 7 to 180 days</span></div>
+      <div><b>Every</b><span>score explained, factor by factor</span></div>
+      <div><b>0</b><span>real employee records in this demo</span></div>
+    </div>
+  </section>
 
-    <div class="gate-panel">
+  <section class="gate-panel">
+    <div class="gate-panel-inner">
       <h1>Sign in</h1>
-      <p class="gate-sub">Pick a demo account below or use your own.</p>
+      <p class="gate-sub">Choose a demo account, or sign in with your own.</p>
+      <div class="gate-accounts">
+        <button class="acct" data-user="viewer" data-pass="Viewer@2026">
+          <span class="a-ic"><i data-icon="eye" data-size="16"></i></span>
+          <span><b>Viewer</b><small>Read only. Explore everything.</small></span><i data-icon="chevronRight" data-size="16"></i></button>
+        <button class="acct" data-user="hr.manager" data-pass="HrManager@2026">
+          <span class="a-ic"><i data-icon="actions" data-size="16"></i></span>
+          <span><b>HR manager</b><small>Can log retention actions.</small></span><i data-icon="chevronRight" data-size="16"></i></button>
+        <button class="acct" data-user="admin" data-pass="Admin@2026">
+          <span class="a-ic"><i data-icon="shield" data-size="16"></i></span>
+          <span><b>Admin</b><small>Full access, can re-score.</small></span><i data-icon="chevronRight" data-size="16"></i></button>
+      </div>
+      <div class="divider">or with a username</div>
       <form id="login-form" autocomplete="on">
         <label for="username">Username</label>
-        <div class="field"><i data-icon="user" data-size="16"></i>
-          <input id="username" name="username" autocomplete="username" required value="hr.manager"></div>
+        <input id="username" name="username" autocomplete="username" required>
         <label for="password">Password</label>
-        <div class="field"><i data-icon="lock" data-size="16"></i>
-          <input id="password" name="password" type="password" autocomplete="current-password" required
-                 value="HrManager@2026">
-          <button type="button" id="pw-toggle" class="field-btn" aria-label="Show password" title="Show password">
-            <i data-icon="eye" data-size="16"></i></button></div>
+        <div class="field">
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <button type="button" id="pw-toggle" class="field-btn" aria-label="Show password"><i data-icon="eye" data-size="16"></i></button>
+        </div>
         <p id="login-error" class="form-error" role="alert" hidden></p>
-        <button type="submit" class="btn btn-primary btn-block" id="login-btn">
-          <span>Sign in</span><i data-icon="arrowRight" data-size="16"></i></button>
+        <button type="submit" class="btn btn-primary btn-block" id="login-btn" style="margin-top:18px">Sign in</button>
       </form>
-      <div class="gate-accounts">
-        <p>Demo accounts, one click</p>
-        <button class="chip" data-user="admin" data-pass="Admin@2026">
-          <span class="chip-ic"><i data-icon="shield" data-size="16"></i></span>
-          <span><b>Admin</b><small>Full access, can re-score</small></span><i data-icon="chevronRight" data-size="16"></i></button>
-        <button class="chip" data-user="hr.manager" data-pass="HrManager@2026">
-          <span class="chip-ic"><i data-icon="actions" data-size="16"></i></span>
-          <span><b>HR manager</b><small>Can log retention actions</small></span><i data-icon="chevronRight" data-size="16"></i></button>
-        <button class="chip" data-user="viewer" data-pass="Viewer@2026">
-          <span class="chip-ic"><i data-icon="eye" data-size="16"></i></span>
-          <span><b>Viewer</b><small>Read only, explore everything</small></span><i data-icon="chevronRight" data-size="16"></i></button>
-      </div>
+      <p class="fine"><i data-icon="lock" data-size="14"></i>The demo runs on synthetic data.</p>
     </div>
-  </div>
+  </section>
 </div>
 
 <!-- app -->
 <div id="app" class="app" hidden>
   <nav class="rail" id="rail" aria-label="Sections">
     <div class="rail-mark">
-      <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
-        <rect width="32" height="32" rx="8" fill="#1E2761"></rect>
-        <path d="M8 22 L14 12 L19 18 L24 9" stroke="#E0A526" stroke-width="2.8" fill="none"
-              stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-      <span class="rail-name">Retention<br>Intelligence</span>
-      <button id="collapse" class="icon-btn rail-collapse" title="Collapse menu" aria-label="Collapse menu">
-        <i data-icon="chevronLeft" data-size="16"></i></button>
+      <span class="brand-mark" aria-hidden="true"><span><i style="height:5px"></i><i style="height:8px"></i><i style="height:12px"></i></span></span>
+      <span class="rail-name">Retention Intelligence</span>
+      <button id="collapse" class="icon-btn rail-collapse" title="Collapse menu" aria-label="Collapse menu"><i data-icon="chevronLeft" data-size="16"></i></button>
     </div>
     <div id="nav" class="nav"></div>
     <div class="rail-foot">
       <span class="avatar" id="avatar"></span>
       <div id="rail-user" class="rail-user"></div>
-      <button id="logout" class="icon-btn" title="Sign out" aria-label="Sign out"><i data-icon="logout"></i></button>
+      <button id="logout" class="icon-btn" title="Sign out" aria-label="Sign out"><i data-icon="logout" data-size="17"></i></button>
     </div>
   </nav>
   <div class="rail-scrim" id="rail-scrim"></div>
@@ -117,22 +94,20 @@
     <header class="topbar">
       <button id="menu" class="icon-btn only-mobile" aria-label="Open menu"><i data-icon="menu"></i></button>
       <div id="crumb" class="crumb"></div>
-      <button id="search-open" class="search-trigger" aria-label="Find an employee or page">
-        <i data-icon="search" data-size="16"></i><span>Find employee or page</span><kbd>Ctrl K</kbd></button>
+      <button id="search-open" class="search-trigger" aria-label="Find a person or page">
+        <i data-icon="search" data-size="15"></i><span>Find a person or page</span><kbd>Ctrl K</kbd></button>
       <div class="topbar-meta">
         <span id="meta-asof" class="meta"></span>
-        <button id="rescore" class="btn btn-sm" hidden title="Score everyone again with the live model">
-          <i data-icon="refresh" data-size="16"></i><span>Re-score</span></button>
-        <button id="help" class="icon-btn" title="Take the guided tour" aria-label="Take the guided tour">
-          <i data-icon="compass"></i></button>
-        <button id="theme" class="icon-btn" aria-pressed="false" title="Switch light / dark" aria-label="Switch light or dark theme">
-          <i data-icon="moon"></i></button>
+        <button id="rescore" class="btn btn-sm" hidden title="Score everyone again with the live model"><i data-icon="refresh" data-size="15"></i><span>Re-score</span></button>
+        <button id="help" class="icon-btn" title="Take the tour" aria-label="Take the tour"><i data-icon="help"></i></button>
+        <button id="theme" class="icon-btn" aria-pressed="false" title="Switch light or dark" aria-label="Switch light or dark theme"><i data-icon="moon"></i></button>
       </div>
     </header>
     <div id="view" class="view" tabindex="-1"></div>
   </main>
 </div>
 
+<div id="drawer-root"></div>
 <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <div id="tipbox" class="tipbox" role="tooltip" hidden></div>
 

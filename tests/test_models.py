@@ -283,3 +283,17 @@ def test_shap_recovery_scores_planted_drivers_and_noise():
     assert verdicts["Onboarding gap"] == "recovered"
     assert verdicts["Low engagement"] == "recovered"
     assert out["noise_controls"][0]["verdict"] == "ignored"
+
+
+def test_drivers_sum_correlated_features_into_one_area():
+    names = ["engagement_deficit", "EngagementScore_mean_4w", "EngagementScore_cur", "OvertimeHours7D_mean_4w"]
+    contrib = np.array([0.6, 0.4, 0.2, 0.3])
+    values = pd.Series({"engagement_deficit": 3.1, "EngagementScore_mean_4w": 4.0,
+                        "EngagementScore_cur": 3.5, "OvertimeHours7D_mean_4w": 44.0})
+    drivers = top_drivers(contrib, names, base_value=-3.0, values=values)
+    cats = [d["category"] for d in drivers]
+    assert cats.count("Sentiment") == 1, "one area, not three rows repeating the same story"
+    eng = next(d for d in drivers if d["category"] == "Sentiment")
+    assert eng["shap"] == pytest.approx(1.2), "area total is the exact sum of its SHAP values"
+    assert eng["feature"] == "engagement_deficit", "detail names the strongest single feature"
+    assert drivers[0]["category"] == "Sentiment"

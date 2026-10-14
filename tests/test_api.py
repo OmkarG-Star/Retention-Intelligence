@@ -160,3 +160,47 @@ def test_env_password_overrides_lock_privileged_demo_accounts(client, monkeypatc
         # restore the demo password so other tests keep working
         monkeypatch.setenv("ADMIN_PASSWORD", "Admin@2026")
         apply_password_overrides()
+
+
+def test_workforce_strip_lists_every_scored_employee_once(client):
+    _login(client)
+    wf = client.get("/api/workforce").json()
+    rows = wf["rows"]
+    assert wf["columns"][0] == "EmployeeID" and rows
+    ids = [r[0] for r in rows]
+    assert len(ids) == len(set(ids)), "one mark per person"
+    risk = [r[wf["columns"].index("risk_90")] for r in rows]
+    assert risk == sorted(risk, reverse=True), "strip is ordered by 90-day risk"
+    assert len(rows) == client.get("/api/overview").json()["kpis"]["headcount"]
+
+
+def test_overview_carries_an_honest_trust_summary(client):
+    _login(client)
+    trust = client.get("/api/overview").json()["trust"]
+    assert trust["band_horizon"] == 90
+    lo, hi = trust["pr_auc_ci"]
+    assert lo <= trust["pr_auc"] <= hi
+    assert trust["lead_time_4w"] > trust["random"], "the list must beat random flagging"
+
+
+def test_governance_exposes_champion_and_validation(client):
+    _login(client)
+    cur = client.get("/api/governance").json()["current"]
+    assert set(cur["champions"].values()) <= {"lgbm", "logistic", "blend"}
+    for h, m in cur["metrics"].items():
+        assert m["champion"] in m["candidates"]
+        assert m["candidates"][m["champion"]]["champion"] is True
+    val = cur["validation"]
+    assert {"lead_time", "shap_recovery", "survival"} <= set(val)
+    assert all(n["verdict"] == "ignored" for n in val["shap_recovery"]["noise_controls"])
+
+
+def test_horizon_risks_are_monotone_and_match_the_curve(client):
+    _login(client)
+    emp = client.get("/api/watchlist", params={"limit": 1}).json()[0]["EmployeeID"]
+    d = client.get(f"/api/employees/{emp}").json()
+    p = d["profile"]
+    risks = [p[f"risk_{h}"] for h in (7, 15, 30, 90, 180)]
+    assert risks == sorted(risks), "a longer horizon can never be less likely"
+    by_day = {pt["day"]: pt["survival"] for pt in d["survival_curve"]}
+    assert abs(by_day[90] - (1 - p["risk_90"])) < 1e-3, "curve and headline must agree"

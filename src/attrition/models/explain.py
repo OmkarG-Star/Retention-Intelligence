@@ -180,42 +180,55 @@ def _sigmoid(x: float) -> float:
     return float(1 / (1 + np.exp(-x)))
 
 
+# How each area reads on screen once its features are added together.
+CATEGORY_LABEL = {
+    "Workload": "Workload and overtime", "Attendance": "Attendance", "Sentiment": "Engagement",
+    "Onboarding": "Onboarding", "Pay": "Pay", "Career": "Career progress", "Performance": "Performance",
+    "Supervision": "Manager changes and grievances", "Project": "Project phase", "Tenure": "Tenure stage",
+    "Sourcing": "Hiring channel", "Contract": "Contract type", "Logistics": "Commute and site",
+    "Role": "Role and department", "Cycle": "Appraisal season", "Other": "Other factors",
+}
+
+
 def top_drivers(contrib_row: np.ndarray, feature_names: list[str], base_value: float,
                 values: pd.Series, top_n: int = 8) -> list[dict]:
-    """Convert one row of log-odds SHAP values into ranked probability impacts.
+    """Turn one row of log-odds SHAP values into ranked, plain-language drivers.
+
+    Correlated features split credit for one underlying fact (three engagement
+    measures each take a share of "this person is disengaged"). Shown one by
+    one they repeat the same story and each looks smaller than the fact is, so
+    contributions are summed per area first. SHAP values add exactly in
+    log-odds space, so the area total is exact, not an approximation.
 
     The impact is measured the way a person would ask it: how much lower would
-    this employee's risk be if that one factor sat at the population baseline?
+    this employee's risk be if that whole area sat at the population baseline?
+    `detail` names the single feature that moved most, with its value.
     """
     total = float(base_value + contrib_row.sum())
     p_full = _sigmoid(total)
-    order = np.argsort(-np.abs(contrib_row))[: top_n * 2]
+    groups: dict[str, list[int]] = {}
+    for i, name in enumerate(feature_names):
+        groups.setdefault(pretty(name)[1], []).append(i)
+
     drivers = []
-    for i in order:
-        c = float(contrib_row[i])
+    for category, idx in groups.items():
+        c = float(contrib_row[idx].sum())
         if abs(c) < 1e-4:
             continue
-        impact = p_full - _sigmoid(total - c)
-        label, category = pretty(feature_names[i])
-        raw = values.get(feature_names[i], None)
+        # strongest feature pushing the same way as the area as a whole
+        same = [i for i in idx if np.sign(contrib_row[i]) == np.sign(c)] or idx
+        top = max(same, key=lambda i: abs(contrib_row[i]))
+        raw = values.get(feature_names[top], None)
         if isinstance(raw, (int, float, np.floating, np.integer)) and not pd.isna(raw):
             raw = round(float(raw), 2)
         drivers.append({
-            "feature": feature_names[i], "label": label, "category": category,
-            "shap": round(c, 4), "impact_pct": round(impact * 100, 2),
+            "feature": feature_names[top], "label": CATEGORY_LABEL.get(category, category),
+            "category": category, "detail": pretty(feature_names[top])[0], "n_features": len(idx),
+            "shap": round(c, 4), "impact_pct": round((p_full - _sigmoid(total - c)) * 100, 2),
             "direction": "increases" if c > 0 else "reduces", "value": raw,
         })
     drivers.sort(key=lambda d: -abs(d["impact_pct"]))
-    # collapse duplicate labels, keeping the strongest of each
-    seen, merged = set(), []
-    for d in drivers:
-        if d["label"] in seen:
-            continue
-        seen.add(d["label"])
-        merged.append(d)
-        if len(merged) >= top_n:
-            break
-    return merged
+    return drivers[:top_n]
 
 
 def recommended_actions(drivers: list[dict], limit: int = 3) -> list[dict]:
@@ -227,7 +240,7 @@ def recommended_actions(drivers: list[dict], limit: int = 3) -> list[dict]:
         if not action:
             continue
         seen.add(d["category"])
-        out.append({"category": d["category"], "because": d["label"], "action": action})
+        out.append({"category": d["category"], "because": d.get("detail") or d["label"], "action": action})
         if len(out) >= limit:
             break
     return out

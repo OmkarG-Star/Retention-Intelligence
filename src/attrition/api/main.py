@@ -2,7 +2,8 @@
 
 Route map
   POST /api/auth/login              sign in, sets the session cookie
-  GET  /api/overview                headline numbers for the current run
+  GET  /api/overview                headline numbers, trend and model-trust summary
+  GET  /api/workforce               every active employee, compact, for the strip
   GET  /api/watchlist               ranked retention watchlist
   GET  /api/employees/{id}          full employee record with drivers and curves
   GET  /api/early-attrition         the 0-30 day layer and channel quality
@@ -85,11 +86,21 @@ def overview(user=Depends(current_user)):
     return _json({"kpis": service.kpis(), "trend": service.risk_trend(),
                   "movers": service.movers(12),
                   "top_priority": service.watchlist(limit=12),
-                  "segments": service.segments("Site")[:8]})
+                  "segments": service.segments("Site")[:8],
+                  "trust": service.trust_summary()})
+
+
+@app.get("/api/workforce")
+def workforce(user=Depends(current_user)):
+    """[EmployeeID, Position, Department, Site, risk_30, risk_90, percentile, band, priority]
+    per active employee, highest 90-day risk first."""
+    return _json({"columns": ["EmployeeID", "Position", "Department", "Site", "risk_30", "risk_90",
+                              "risk_percentile", "risk_band", "priority_band"],
+                  "rows": service.workforce()})
 
 
 @app.get("/api/watchlist")
-def get_watchlist(limit: int = Query(200, le=1000), band: str | None = None,
+def get_watchlist(limit: int = Query(200, le=5000), band: str | None = None,
                   site: str | None = None, department: str | None = None,
                   search: str | None = None, sort: str = "priority_score",
                   user=Depends(current_user)):
@@ -235,7 +246,9 @@ def export_watchlist(user=Depends(current_user)):
 @app.get("/api/health")
 def health():
     run = service.latest_run()
+    trust = service.trust_summary()     # aggregate model quality only, no personal data
     return {"status": "ok", "app": settings.app_name, "env": settings.env,
+            "lead_time_4w": trust.get("lead_time_4w"), "random_baseline": trust.get("random"),
             "scored_as_of": run["as_of"] if run else None,
             "model_version": run["model_version"] if run else None,
             "demo_accounts": public_demo_accounts()}

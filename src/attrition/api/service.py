@@ -197,6 +197,49 @@ def behaviour_series(employee_id: str, weeks: int = 26) -> list[dict]:
     return json.loads(df.sort_values("SnapshotDate").to_json(orient="records"))
 
 
+def workforce() -> list[dict]:
+    """Every active employee as one compact row, highest 90-day risk first.
+    Drives the workforce strip: one mark per person."""
+    df = scored()
+    if df.empty:
+        return []
+    df = df.sort_values("risk_90", ascending=False)
+    cols = ["EmployeeID", "Position", "Department", "Site", "risk_30", "risk_90",
+            "risk_percentile", "risk_band", "priority_band"]
+    out = df[cols].copy()
+    for c in ("risk_30", "risk_90"):
+        out[c] = out[c].round(4)
+    return json.loads(out.to_json(orient="values"))
+
+
+def trust_summary() -> dict:
+    """The handful of model-quality facts a manager needs beside the numbers:
+    how early it warns, how much of the list is real, and where it reads low."""
+    try:
+        record = registry.get()
+    except FileNotFoundError:
+        return {}
+    band_h = str(record.get("band_horizon", 90))
+    m = (record.get("metrics") or {}).get(band_h, {})
+    val = record.get("validation") or {}
+    curve = (val.get("lead_time") or {}).get("curve", [])
+    at = {c["weeks_before"]: c["caught"] for c in curve}
+    site_issues = [{"site": f["group"], "issues": f["issues"],
+                    "calibration_ratio": f.get("calibration_ratio"), "recall": f.get("recall")}
+                   for f in m.get("fairness", []) if f["attribute"] == "Site" and f.get("issues")]
+    return {
+        "band_horizon": int(band_h),
+        "champion": m.get("champion"),
+        "pr_auc": m.get("pr_auc"), "pr_auc_ci": m.get("pr_auc_ci"),
+        "recall_at_15": m.get("recall_at_15"), "precision_at_15": m.get("precision_at_15"),
+        "base_rate": m.get("base_rate"),
+        "lead_time_4w": at.get(4), "lead_time_8w": at.get(8), "lead_time_12w": at.get(12),
+        "random": (val.get("lead_time") or {}).get("random_baseline", 0.15),
+        "site_issues": site_issues,
+        "test_window": (m.get("windows") or {}).get("test"),
+    }
+
+
 # ------------------------------------------------------------------ segments
 def segments(by: str = "Site") -> list[dict]:
     df = scored()
