@@ -71,7 +71,7 @@ def synthetic_panel():
                 "GrievancesToDate": 0,
                 "SalaryCreditDelayDays": float(0 if i % 7 else 6),
                 "MonthlySalary": 38000.0,
-                "SalaryVsRoleBenchmark": -4.0,
+                "SalaryVsRoleBenchmark": -0.04,
                 "LastHikePct": 6.0,
                 "ProjectPhase": "Peak",
                 "DemobilisationPressure": 0.1,
@@ -83,7 +83,7 @@ def synthetic_panel():
         "DOJ": "2024-06-17", "Department": "Civil Execution", "Position": "Site Engineer",
         "Grade": 3, "Site": "Pune Metro", "SiteType": "Urban Infra", "ManagerID": "M01",
         "EmploymentType": "Permanent", "MonthlySalary": 38000.0,
-        "SalaryVsRoleBenchmark": -4.0, "AccommodationProvided": 0,
+        "SalaryVsRoleBenchmark": -0.04, "AccommodationProvided": 0,
         "BusinessCriticality": 3, "RealisticJobPreview": 1, "SiteRemoteness": 0.3,
     }
     master = pd.DataFrame([

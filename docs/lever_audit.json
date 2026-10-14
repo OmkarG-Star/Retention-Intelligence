@@ -1,0 +1,586 @@
+{
+ "model_version": "v20261014.070616",
+ "data_fingerprint": "0e520ca637c98ed9",
+ "champions": {
+  "7": "blend",
+  "15": "blend",
+  "30": "blend",
+  "90": "blend",
+  "180": "blend"
+ },
+ "people": 200,
+ "tolerance_logodds": 0.01,
+ "horizons": {
+  "7": {
+   "kind": "blend",
+   "wrong_share": 0.0077,
+   "moves": [
+    {
+     "move": "Overtime down 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 0.875,
+     "no_reaction_share": 0.035,
+     "wrong_share": 0.09,
+     "median_logodds": 0.165
+    },
+    {
+     "move": "Overtime up 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.249
+    },
+    {
+     "move": "Night shifts down 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.465,
+     "no_reaction_share": 0.535,
+     "wrong_share": 0.0,
+     "median_logodds": 0.004
+    },
+    {
+     "move": "Night shifts up 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.64,
+     "no_reaction_share": 0.36,
+     "wrong_share": 0.0,
+     "median_logodds": 0.016
+    },
+    {
+     "move": "Salary 7 days late",
+     "lever": "pay_delay",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.321
+    },
+    {
+     "move": "One more absent day a week",
+     "lever": "absence",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.295
+    },
+    {
+     "move": "Engagement up 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 0.86,
+     "no_reaction_share": 0.14,
+     "wrong_share": 0.0,
+     "median_logodds": 0.291
+    },
+    {
+     "move": "Engagement down 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.412
+    },
+    {
+     "move": "10% raise",
+     "lever": "raise",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.023
+    },
+    {
+     "move": "Promotion",
+     "lever": "promote",
+     "n": 200,
+     "expected_share": 0.9,
+     "no_reaction_share": 0.1,
+     "wrong_share": 0.0,
+     "median_logodds": 0.035
+    },
+    {
+     "move": "Two trainings",
+     "lever": "training",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.118
+    },
+    {
+     "move": "Site accommodation",
+     "lever": "accommodation",
+     "n": 125,
+     "expected_share": 0.76,
+     "no_reaction_share": 0.24,
+     "wrong_share": 0.0,
+     "median_logodds": 0.028
+    }
+   ]
+  },
+  "15": {
+   "kind": "blend",
+   "wrong_share": 0.0065,
+   "moves": [
+    {
+     "move": "Overtime down 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 0.915,
+     "no_reaction_share": 0.01,
+     "wrong_share": 0.075,
+     "median_logodds": 0.191
+    },
+    {
+     "move": "Overtime up 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.251
+    },
+    {
+     "move": "Night shifts down 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.295,
+     "no_reaction_share": 0.705,
+     "wrong_share": 0.0,
+     "median_logodds": 0.001
+    },
+    {
+     "move": "Night shifts up 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.45,
+     "no_reaction_share": 0.55,
+     "wrong_share": 0.0,
+     "median_logodds": 0.008
+    },
+    {
+     "move": "Salary 7 days late",
+     "lever": "pay_delay",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.382
+    },
+    {
+     "move": "One more absent day a week",
+     "lever": "absence",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.235
+    },
+    {
+     "move": "Engagement up 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 0.865,
+     "no_reaction_share": 0.135,
+     "wrong_share": 0.0,
+     "median_logodds": 0.307
+    },
+    {
+     "move": "Engagement down 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.443
+    },
+    {
+     "move": "10% raise",
+     "lever": "raise",
+     "n": 200,
+     "expected_share": 0.965,
+     "no_reaction_share": 0.035,
+     "wrong_share": 0.0,
+     "median_logodds": 0.025
+    },
+    {
+     "move": "Promotion",
+     "lever": "promote",
+     "n": 200,
+     "expected_share": 0.88,
+     "no_reaction_share": 0.12,
+     "wrong_share": 0.0,
+     "median_logodds": 0.037
+    },
+    {
+     "move": "Two trainings",
+     "lever": "training",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.127
+    },
+    {
+     "move": "Site accommodation",
+     "lever": "accommodation",
+     "n": 125,
+     "expected_share": 0.8,
+     "no_reaction_share": 0.2,
+     "wrong_share": 0.0,
+     "median_logodds": 0.043
+    }
+   ]
+  },
+  "30": {
+   "kind": "blend",
+   "wrong_share": 0.0,
+   "moves": [
+    {
+     "move": "Overtime down 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 0.995,
+     "no_reaction_share": 0.005,
+     "wrong_share": 0.0,
+     "median_logodds": 0.235
+    },
+    {
+     "move": "Overtime up 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.314
+    },
+    {
+     "move": "Night shifts down 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.415,
+     "no_reaction_share": 0.585,
+     "wrong_share": 0.0,
+     "median_logodds": 0.005
+    },
+    {
+     "move": "Night shifts up 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.715,
+     "no_reaction_share": 0.285,
+     "wrong_share": 0.0,
+     "median_logodds": 0.017
+    },
+    {
+     "move": "Salary 7 days late",
+     "lever": "pay_delay",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.469
+    },
+    {
+     "move": "One more absent day a week",
+     "lever": "absence",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.206
+    },
+    {
+     "move": "Engagement up 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 0.87,
+     "no_reaction_share": 0.13,
+     "wrong_share": 0.0,
+     "median_logodds": 0.28
+    },
+    {
+     "move": "Engagement down 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.458
+    },
+    {
+     "move": "10% raise",
+     "lever": "raise",
+     "n": 200,
+     "expected_share": 0.9,
+     "no_reaction_share": 0.1,
+     "wrong_share": 0.0,
+     "median_logodds": 0.029
+    },
+    {
+     "move": "Promotion",
+     "lever": "promote",
+     "n": 200,
+     "expected_share": 0.855,
+     "no_reaction_share": 0.145,
+     "wrong_share": 0.0,
+     "median_logodds": 0.035
+    },
+    {
+     "move": "Two trainings",
+     "lever": "training",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.14
+    },
+    {
+     "move": "Site accommodation",
+     "lever": "accommodation",
+     "n": 125,
+     "expected_share": 0.928,
+     "no_reaction_share": 0.072,
+     "wrong_share": 0.0,
+     "median_logodds": 0.048
+    }
+   ]
+  },
+  "90": {
+   "kind": "blend",
+   "wrong_share": 0.0,
+   "moves": [
+    {
+     "move": "Overtime down 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.224
+    },
+    {
+     "move": "Overtime up 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.421
+    },
+    {
+     "move": "Night shifts down 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.285,
+     "no_reaction_share": 0.715,
+     "wrong_share": 0.0,
+     "median_logodds": 0.004
+    },
+    {
+     "move": "Night shifts up 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.42,
+     "no_reaction_share": 0.58,
+     "wrong_share": 0.0,
+     "median_logodds": 0.004
+    },
+    {
+     "move": "Salary 7 days late",
+     "lever": "pay_delay",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.238
+    },
+    {
+     "move": "One more absent day a week",
+     "lever": "absence",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.209
+    },
+    {
+     "move": "Engagement up 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 0.87,
+     "no_reaction_share": 0.13,
+     "wrong_share": 0.0,
+     "median_logodds": 0.236
+    },
+    {
+     "move": "Engagement down 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.336
+    },
+    {
+     "move": "10% raise",
+     "lever": "raise",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.025
+    },
+    {
+     "move": "Promotion",
+     "lever": "promote",
+     "n": 200,
+     "expected_share": 0.82,
+     "no_reaction_share": 0.18,
+     "wrong_share": 0.0,
+     "median_logodds": 0.021
+    },
+    {
+     "move": "Two trainings",
+     "lever": "training",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.133
+    },
+    {
+     "move": "Site accommodation",
+     "lever": "accommodation",
+     "n": 125,
+     "expected_share": 0.92,
+     "no_reaction_share": 0.08,
+     "wrong_share": 0.0,
+     "median_logodds": 0.043
+    }
+   ]
+  },
+  "180": {
+   "kind": "blend",
+   "wrong_share": 0.0,
+   "moves": [
+    {
+     "move": "Overtime down 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.235
+    },
+    {
+     "move": "Overtime up 10 h/week",
+     "lever": "overtime",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.494
+    },
+    {
+     "move": "Night shifts down 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.0,
+     "no_reaction_share": 1.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.005
+    },
+    {
+     "move": "Night shifts up 20 points",
+     "lever": "night_shift",
+     "n": 200,
+     "expected_share": 0.02,
+     "no_reaction_share": 0.98,
+     "wrong_share": 0.0,
+     "median_logodds": 0.005
+    },
+    {
+     "move": "Salary 7 days late",
+     "lever": "pay_delay",
+     "n": 200,
+     "expected_share": 0.215,
+     "no_reaction_share": 0.785,
+     "wrong_share": 0.0,
+     "median_logodds": 0.006
+    },
+    {
+     "move": "One more absent day a week",
+     "lever": "absence",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.15
+    },
+    {
+     "move": "Engagement up 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 0.86,
+     "no_reaction_share": 0.14,
+     "wrong_share": 0.0,
+     "median_logodds": 0.279
+    },
+    {
+     "move": "Engagement down 2",
+     "lever": "engagement",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.294
+    },
+    {
+     "move": "10% raise",
+     "lever": "raise",
+     "n": 200,
+     "expected_share": 0.875,
+     "no_reaction_share": 0.125,
+     "wrong_share": 0.0,
+     "median_logodds": 0.025
+    },
+    {
+     "move": "Promotion",
+     "lever": "promote",
+     "n": 200,
+     "expected_share": 0.88,
+     "no_reaction_share": 0.12,
+     "wrong_share": 0.0,
+     "median_logodds": 0.031
+    },
+    {
+     "move": "Two trainings",
+     "lever": "training",
+     "n": 200,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.085
+    },
+    {
+     "move": "Site accommodation",
+     "lever": "accommodation",
+     "n": 125,
+     "expected_share": 1.0,
+     "no_reaction_share": 0.0,
+     "wrong_share": 0.0,
+     "median_logodds": 0.059
+    }
+   ]
+  }
+ },
+ "seconds": 474.1
+}

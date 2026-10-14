@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.isotonic import IsotonicRegression
 from sklearn.metrics import average_precision_score
 
@@ -48,10 +49,105 @@ LGB_PARAMS = dict(
 )
 LOGISTIC_C = 0.1
 
+# Known directions, applied to both model families: LightGBM through monotone
+# constraints, logistic regression through sign bounds on its coefficients.
+# Levels and rolling means of a known stressor may only push risk up;
+# protective factors may only push it down. Trend, change and volatility
+# features stay free, because a rising or falling series is not one-directional
+# evidence. Measured effect (docs/MODEL_STUDY.md, section 8): test PR-AUC
+# unchanged within noise, while the share of what-if moves that push risk the
+# wrong way falls from 6-17% to under 1%. Without the bounds the logistic model
+# learnt "accommodation raises risk" for 93% of people, because accommodation is
+# offered mostly at remote, high-attrition sites (confounding, not cause).
+MONOTONE_UP = ("OvertimeHours7D", "SalaryCreditDelayDays", "AbsenceDays7D", "LateCount7D",
+               "NightShiftRatio", "overtime_excess", "engagement_deficit", "engagement_drop_8w",
+               "pay_delay_8w_max", "absence_burst", "pay_below_benchmark", "stagnation",
+               "onboarding_gap", "GrievancesToDate", "ManagerChangesToDate", "commute_burden",
+               "DistanceFromSiteKm", "MonthsSincePromotion", "DemobilisationPressure")
+MONOTONE_DOWN = ("EngagementScore", "TrainingCountToDate", "training_recency",
+                 "AccommodationProvided", "SalaryVsRoleBenchmark", "MonthlySalary", "salary_per_grade",
+                 "LastHikePct", "OnboardingCompletionPct", "PriorExperienceYears", "RealisticJobPreview")
+_FREE = ("_slope_", "_delta_", "_ratio_", "_std_")
+
+
+def monotone_direction(feature: str) -> int:
+    """+1, -1 or 0 for one feature name."""
+    if any(k in feature for k in _FREE):
+        return 0
+    if any(feature == k or feature.startswith(k + "_") for k in MONOTONE_UP):
+        return 1
+    if any(feature == k or feature.startswith(k + "_") for k in MONOTONE_DOWN):
+        return -1
+    return 0
+
+
+# Champion rule. The three candidates are statistically tied on this data, so
+# "highest validation PR-AUC" mostly picks noise: across the 8 rolling-origin
+# backtest windows (docs/backtest.json) it chose a single model 3 times, and the
+# blend scored higher on test in all 3. Averaging two different model families
+# is the low-variance choice when neither is clearly better, so the blend
+# serves unless a single model beats it on validation by more than the margin.
+BLEND_MARGIN = 0.01
+
+
+def pick_champion(candidates: dict, margin: float = BLEND_MARGIN) -> str:
+    best = max(candidates, key=lambda k: candidates[k].valid_pr_auc_)
+    if "blend" not in candidates or best == "blend":
+        return best
+    gap = candidates[best].valid_pr_auc_ - candidates["blend"].valid_pr_auc_
+    return best if gap > margin else "blend"
+
 
 def _logit(p: np.ndarray) -> np.ndarray:
     p = np.clip(p, 1e-9, 1 - 1e-9)
     return np.log(p / (1 - p))
+
+
+class SignConstrainedLogistic(ClassifierMixin, BaseEstimator):
+    """L2 logistic regression whose coefficients can be held to a sign.
+
+    Same objective as scikit-learn's lbfgs solver (C * log-loss + 0.5 * |w|^2,
+    intercept unpenalised), solved with L-BFGS-B so each weight can be bounded
+    at zero from one side: +1 means w >= 0, -1 means w <= 0, 0 leaves it free.
+    Exposes coef_, intercept_ and decision_function like the sklearn model, so
+    the exact linear SHAP values in `contributions` work unchanged.
+    """
+
+    def __init__(self, C: float = 1.0, signs=None, max_iter: int = 1000):
+        self.C, self.signs, self.max_iter = C, signs, max_iter
+
+    def fit(self, X, y):
+        from scipy.optimize import minimize
+        from scipy.special import expit
+        X = np.asarray(X, dtype=float)
+        y = np.asarray(y, dtype=float)
+        d = X.shape[1]
+        signs = np.zeros(d) if self.signs is None else np.asarray(self.signs, dtype=float)
+
+        def objective(theta):
+            w, b = theta[:d], theta[d]
+            z = X @ w + b
+            p = expit(z)
+            loss = np.sum(np.logaddexp(0.0, z) - y * z)
+            r = p - y
+            return self.C * loss + 0.5 * w @ w, np.r_[self.C * (X.T @ r) + w, self.C * r.sum()]
+
+        bounds = [(0, None) if s > 0 else (None, 0) if s < 0 else (None, None) for s in signs]
+        res = minimize(objective, np.zeros(d + 1), jac=True, method="L-BFGS-B",
+                       bounds=bounds + [(None, None)], options={"maxiter": self.max_iter})
+        self.coef_ = res.x[:d][None, :]
+        self.intercept_ = np.array([res.x[d]])
+        self.classes_ = np.array([0, 1])
+        self.n_iter_ = int(res.nit)
+        self.n_at_bound_ = int(np.sum((signs != 0) & (np.abs(res.x[:d]) < 1e-10)))
+        return self
+
+    def decision_function(self, X):
+        return np.asarray(X, dtype=float) @ self.coef_.ravel() + self.intercept_[0]
+
+    def predict_proba(self, X):
+        p = 1 / (1 + np.exp(-self.decision_function(X)))
+        return np.column_stack([1 - p, p])
 
 
 class HorizonModel:
@@ -98,7 +194,10 @@ class HorizonModel:
 
     # ---------- training ----------
     def _fit_lgb(self, Xtr, ytr, Xva, yva, n_estimators):
-        params = {**LGB_PARAMS, "n_jobs": N_JOBS, **self.params}
+        params = {**LGB_PARAMS, "n_jobs": N_JOBS,
+                  "monotone_constraints": [monotone_direction(f) for f in self.numeric]
+                  + [0] * len(self.categorical),
+                  "monotone_constraints_method": "advanced", **self.params}
         if n_estimators:
             params["n_estimators"] = int(n_estimators)
         self.lgb_model = lgb.LGBMClassifier(**params)
@@ -123,13 +222,17 @@ class HorizonModel:
             ("num", make_pipeline(SimpleImputer(strategy="median"), StandardScaler()), self.numeric),
             ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), self.categorical),
         ])
-        self.lr_pipe = Pipeline([("pre", pre), ("lr", LogisticRegression(
-            C=LOGISTIC_C, max_iter=500, solver="lbfgs"))])
         Z = self._lr_frame(Xtr)
-        self.lr_pipe.fit(Z, ytr)
-        # column ranges of each original feature in the transformed matrix
-        enc = self.lr_pipe.named_steps["pre"].named_transformers_["cat"]
+        Zt = np.asarray(pre.fit_transform(Z), dtype=float)
+        enc = pre.named_transformers_["cat"]
         widths = [1] * len(self.numeric) + [len(c) for c in enc.categories_]
+        if self.params.get("sign_constraints", True):
+            signs = [monotone_direction(f) for f in self.numeric] + [0] * sum(widths[len(self.numeric):])
+            lr = SignConstrainedLogistic(C=LOGISTIC_C, signs=signs).fit(Zt, ytr)
+        else:
+            lr = LogisticRegression(C=LOGISTIC_C, max_iter=500, solver="lbfgs").fit(Zt, ytr)
+        self.lr_pipe = Pipeline([("pre", pre), ("lr", lr)])
+        # column ranges of each original feature in the transformed matrix
         edges = np.cumsum([0] + widths)
         self.lr_slices_ = [slice(a, b) for a, b in zip(edges[:-1], edges[1:])]
         self.lr_background_ = np.asarray(self.lr_pipe.named_steps["pre"].transform(Z)).mean(axis=0)

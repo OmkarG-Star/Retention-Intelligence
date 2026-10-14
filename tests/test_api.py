@@ -204,3 +204,13 @@ def test_horizon_risks_are_monotone_and_match_the_curve(client):
     assert risks == sorted(risks), "a longer horizon can never be less likely"
     by_day = {pt["day"]: pt["survival"] for pt in d["survival_curve"]}
     assert abs(by_day[90] - (1 - p["risk_90"])) < 1e-3, "curve and headline must agree"
+
+
+def test_trend_has_one_point_per_scoring_date(client):
+    """Re-scoring a week adds a second run for that date; the trend must not double it."""
+    _login(client)
+    trend = client.get("/api/overview").json()["trend"]
+    dates = [t["as_of"] for t in trend]
+    assert dates and len(dates) == len(set(dates))
+    runs = client.get("/api/governance").json()["runs"]
+    assert len({r["as_of"] for r in runs}) == len(runs)

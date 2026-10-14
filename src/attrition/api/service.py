@@ -16,6 +16,14 @@ import pandas as pd
 from ..config import HORIZONS, TENURE_BANDS
 from ..data import warehouse
 from ..models import registry
+from ..models.backtest import load_backtest
+
+
+# One row per scoring date: the most recent run. Re-scoring the same week (the
+# admin button, or a retrain) adds a second run for that date, which would
+# otherwise show up twice in every trend.
+LATEST_RUN_PER_DATE = ("SELECT * FROM prediction_runs r WHERE created_at = "
+                       "(SELECT MAX(created_at) FROM prediction_runs r2 WHERE r2.as_of = r.as_of)")
 
 
 def latest_run() -> dict | None:
@@ -56,6 +64,23 @@ def scored(run_id: str | None = None) -> pd.DataFrame:
 
 def clear_cache() -> None:
     _scored.cache_clear()
+    _bundle.cache_clear()
+
+
+@lru_cache(maxsize=2)
+def _bundle(version: str) -> dict:
+    from ..models.train import load_bundle
+    return load_bundle(version)
+
+
+def whatif(employee_id: str, changes: dict | None = None, weeks: int = 8) -> dict:
+    """Project one active employee forward with and without the given levers."""
+    from ..models import registry
+    from ..scoring.whatif import simulate
+    df = scored()
+    if df.empty or employee_id not in set(df["EmployeeID"]):
+        raise KeyError(employee_id)       # only active, scored people can be simulated
+    return simulate(_bundle(registry.current_version()), employee_id, changes, weeks)
 
 
 # ------------------------------------------------------------------ overview
@@ -101,7 +126,7 @@ def kpis() -> dict:
 
 def risk_trend() -> list[dict]:
     runs = warehouse.query(
-        "SELECT as_of, mean_risk_30, n_scored, n_critical FROM prediction_runs ORDER BY as_of")
+        f"SELECT as_of, mean_risk_30, n_scored, n_critical FROM ({LATEST_RUN_PER_DATE}) ORDER BY as_of")
     exits = warehouse.query("SELECT ExitDate FROM attrition_outcomes")
     exits["ExitDate"] = pd.to_datetime(exits["ExitDate"])
     out = []
@@ -354,8 +379,24 @@ def governance() -> dict:
         "versions": registry.list_versions(),
         "metrics": json.loads(metrics.to_json(orient="records")),
         "runs": json.loads(warehouse.query(
-            "SELECT * FROM prediction_runs ORDER BY as_of DESC LIMIT 20").to_json(orient="records")),
+            f"{LATEST_RUN_PER_DATE} ORDER BY as_of DESC LIMIT 20").to_json(orient="records")),
+        "backtest": load_backtest(),
+        "lever_audit": _current_audit(record),
     }
+
+
+def _current_audit(record: dict) -> dict | None:
+    """The lever audit, only if it describes the live model: same version, or a
+    deterministic retrain of it (same training data, same champions). The
+    Docker build retrains under a new version string, which is the second case."""
+    from ..models.lever_audit import load_audit
+    audit = load_audit()
+    if not audit:
+        return None
+    same = audit.get("model_version") == record["version"] or (
+        audit.get("data_fingerprint") == record.get("data_fingerprint")
+        and audit.get("champions") == {str(k): v for k, v in (record.get("champions") or {}).items()})
+    return audit if same else None
 
 
 def interventions_for(employee_id: str) -> list[dict]:

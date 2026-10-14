@@ -63,6 +63,16 @@ def cmd_backfill(args):
     backfill_history(n_runs=args.runs)
 
 
+def cmd_backtest(args):
+    from .models.backtest import run_backtest
+    run_backtest(n_origins=args.origins)
+
+
+def cmd_audit_levers(args):
+    from .models.lever_audit import run_audit
+    run_audit(n=args.people)
+
+
 def cmd_seed_users(args):
     from .api.security import seed_users
     for line in seed_users():
@@ -99,6 +109,10 @@ def main(argv=None):
                    help="regenerate the simulation even if data/raw is populated")
     p.set_defaults(func=cmd_generate)
     p = sub.add_parser("backfill"); p.add_argument("--runs", type=int, default=12); p.set_defaults(func=cmd_backfill)
+    p = sub.add_parser("backtest", help="rolling-origin backtest, writes docs/backtest.json")
+    p.add_argument("--origins", type=int, default=4); p.set_defaults(func=cmd_backtest)
+    p = sub.add_parser("audit-levers", help="check what-if levers move risk the expected way, writes docs/lever_audit.json")
+    p.add_argument("--people", type=int, default=200); p.set_defaults(func=cmd_audit_levers)
     p = sub.add_parser("pipeline")
     p.add_argument("--runs", type=int, default=12)
     p.add_argument("--force", action="store_true",

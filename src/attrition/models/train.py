@@ -39,7 +39,7 @@ from ..data import warehouse
 from ..features.build import feature_columns, load_features, prepare_outcomes
 from . import evaluate, explain, registry
 from .anomaly import AnomalyDetector
-from .horizon import KINDS, HorizonModel
+from .horizon import KINDS, HorizonModel, pick_champion
 from .survival import INTERVAL_DAYS, DiscreteTimeSurvival
 
 FAIRNESS_ATTRS = ["Site", "Department", "EmploymentType", "RecruitmentSource", "TenureBand"]
@@ -121,7 +121,7 @@ def train_all(verbose: bool = True) -> dict:
                                                              candidates["logistic"], va, y)
                 else:
                     candidates[kind] = HorizonModel(h, numeric, categorical, kind=kind).fit(tr, va, y)
-        champion = max(candidates, key=lambda k: candidates[k].valid_pr_auc_)
+        champion = pick_champion(candidates)
         model = candidates[champion]
         eval_models[h], splits[h] = model, sp
 

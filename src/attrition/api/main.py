@@ -6,6 +6,7 @@ Route map
   GET  /api/workforce               every active employee, compact, for the strip
   GET  /api/watchlist               ranked retention watchlist
   GET  /api/employees/{id}          full employee record with drivers and curves
+  POST /api/employees/{id}/whatif   project risk with and without changes to workload, pay...
   GET  /api/early-attrition         the 0-30 day layer and channel quality
   GET  /api/segments?by=Site        segment risk table
   GET  /api/anomalies               abrupt behavioural changes
@@ -125,6 +126,23 @@ def employee(employee_id: str, user=Depends(current_user)):
         return _json(service.employee_detail(employee_id))
     except KeyError:
         raise HTTPException(status.HTTP_404_NOT_FOUND, f"No employee {employee_id}")
+
+
+@app.post("/api/employees/{employee_id}/whatif")
+def employee_whatif(employee_id: str, payload: dict = Body(default={}), user=Depends(current_user)):
+    """Read-only projection: nothing is stored, so every role may use it."""
+    changes = payload.get("changes") or {}
+    if not isinstance(changes, dict):
+        raise HTTPException(422, "changes must be an object of lever: value")
+    try:
+        changes = {str(k): float(v) for k, v in changes.items()}
+        weeks = int(payload.get("weeks", 8))
+    except (TypeError, ValueError):
+        raise HTTPException(422, "lever values must be numbers")
+    try:
+        return _json(service.whatif(employee_id, changes, weeks))
+    except KeyError:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, f"No active employee {employee_id}")
 
 
 @app.get("/api/segments")

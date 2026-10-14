@@ -55,7 +55,7 @@ def previous_risk(as_of: pd.Timestamp) -> pd.Series:
     """Risk from the most recent earlier run, for velocity."""
     prev = warehouse.query(
         "SELECT EmployeeID, risk_30 FROM predictions WHERE run_id = ("
-        "  SELECT run_id FROM prediction_runs WHERE as_of < ? ORDER BY as_of DESC LIMIT 1)",
+        "  SELECT run_id FROM prediction_runs WHERE as_of < ? ORDER BY as_of DESC, created_at DESC LIMIT 1)",
         (str(as_of.date()),))
     if prev.empty:
         return pd.Series(dtype=float)
